@@ -1,0 +1,67 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment files
+.env
+.env.*
+
+# Local system files
+.DS_Store
+Thumbs.db
+
+# Data and generated artifacts
+data/raw/*
+data/processed/*
+data/evaluation/*
+models/embeddings/*
+models/similarity_models/*
+results/evaluation_results/*
+results/figures/*
+results/wandb_exports/*
+
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/evaluation/.gitkeep
+!models/embeddings/.gitkeep
+!models/similarity_models/.gitkeep
+!results/evaluation_results/.gitkeep
+!results/figures/.gitkeep
+!results/wandb_exports/.gitkeep
+
+# Logs and exports
+*.log
+wandb/
+
+# ------------------------------------------------------------------
+# Local junk / large artifacts that must NOT be pushed to GitHub
+# ------------------------------------------------------------------
+
+# Large local data dumps
+papers_keybert.b64
+papers_keybert.tar.gz
+work_ids.txt
+
+# Scratch recommendation exports at repo root
+recommendations_*.csv
+openreview_batch_data.csv
+
+# Stray misplaced output paths (the real ones live under results/)
+experiments_smalleralpha_sweep.csv
+experiments_smalleralpha_sweep.json
+
+# Office docs and Word temp-lock files
+*.docx
+~$*

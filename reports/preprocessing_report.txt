@@ -1,0 +1,58 @@
+============================================================
+PREPROCESSING QUALITY REPORT
+Generated: 2026-06-09 13:39:02
+============================================================
+
+--- Row Counts ---
+Rows before cleaning : 49,998
+Rows after cleaning  : 49,992
+Total rows removed   : 6
+Retention rate       : 99.99%
+
+--- Duplicate Removal ---
+Duplicate arxiv_id removed : 0
+Duplicate title removed    : 6
+
+--- Missing Critical Fields Removed ---
+  title: 0
+  abstract: 0
+  authors: 0
+  category: 0
+
+--- Invalid Category Removal ---
+Rows removed (not in target categories): 0
+
+--- Short Abstract Removal ---
+Minimum abstract threshold: 50 characters
+Rows removed              : 0
+
+--- Citation Metric Integrity ---
+Papers with citations > 0 : 29,160 (58.33%)
+Papers with citations = 0 : 20,832
+Papers with references > 0: 39,852 (79.72%)
+Papers with references = 0: 10,140
+Note: New papers are naturally expected to have 0 metrics; rows are not dropped.
+
+--- Target Category Distribution (Cleaned Dataset) ---
+  cs.AI: 22,876 (45.76%)
+  cs.CL: 7,071 (14.14%)
+  cs.CV: 7,840 (15.68%)
+  cs.LG: 12,205 (24.41%)
+
+--- Publication Year Distribution (Cleaned Dataset) ---
+  2021: 8,333 (16.67%)
+  2022: 8,332 (16.67%)
+  2023: 8,331 (16.66%)
+  2024: 8,333 (16.67%)
+  2025: 8,333 (16.67%)
+  2026: 8,330 (16.66%)
+
+--- Abstract Character Length Distribution ---
+  Min     : 69
+  Max     : 2,926
+  Mean    : 1295.2
+  Median  : 1294.0
+
+============================================================
+END OF REPORT
+============================================================

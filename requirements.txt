@@ -1,0 +1,41 @@
+# ============================================================
+# requirements.txt
+# Academic Paper Recommendation System
+# Python 3.13
+# ============================================================
+
+# ---- Data Collection & Parsing ----
+requests==2.32.3          # HTTP requests to arXiv and Semantic Scholar APIs
+lxml==5.2.2               # High-performance, secure XML parsing for arXiv Atom feeds
+
+# ---- Data Processing & Quality ----
+pandas==2.2.2             # Data cleaning, CSV handling, quality checks
+numpy==1.26.4             # Numerical operations
+ftfy==6.3.1               # Fixes text encoding issues in paper titles and abstracts
+
+# ---- Embeddings & Models ----
+transformers==4.41.2          # SPECTER2 and SciBERT models
+torch==2.3.1                  # PyTorch backend for transformer models
+sentence-transformers==3.0.1  # Used by KeyBERT for keyword extraction
+adapters==3.0.0               # SPECTER2 adapter modules (proximity / adhoc_query)
+keybert==0.7.0                # KeyBERT keyword extraction
+
+# ---- Similarity & Evaluation ----
+scikit-learn==1.5.0       # Cosine similarity, PCA/t-SNE, silhouette, metrics
+scipy==1.13.1             # Additional scientific computation
+rapidfuzz                 # Fast fuzzy title matching in the recommender
+
+# ---- Experiment Tracking ----
+wandb==0.17.3             # Weights & Biases experiment tracking
+
+# ---- Visualization ----
+matplotlib==3.9.0         # Static figures for the embedding-visualization script
+plotly==5.22.0            # Interactive charts in the Streamlit app
+
+# ---- Frontend ----
+streamlit==1.35.0         # Web application interface
+
+# ---- Utilities ----
+tqdm==4.66.4              # Progress bars for batching and API data retrieval
+python-dotenv==1.0.1      # Load environment variables (API keys) from .env
+openpyxl                  # Read Queries.xlsx in the evaluation scripts

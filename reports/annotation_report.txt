@@ -1,0 +1,76 @@
+============================================================
+ANNOTATION REPORT
+Generated: 2026-06-09 14:02:43
+============================================================
+
+--- Domain Label Distribution ---
+  Artificial Intelligence             22,876  (45.76%)
+  Computer Vision                      7,840  (15.68%)
+  Machine Learning                    12,205  (24.41%)
+  Natural Language Processing          7,071  (14.14%)
+
+--- Tag Coverage ---
+  Papers with at least 1 tag : 25,593 (51.19%)
+  Papers with 0 tags         : 24,399 (48.81%)
+  Average tags per paper     : 0.75
+  Max tags on one paper      : 8
+
+--- Top 10 Tags Per Category ---
+
+  Artificial Intelligence (cs.AI):
+    large-language-models                    3,489  (15.3% of category papers)
+    reasoning                                3,172  (13.9% of category papers)
+    planning                                 1,509  (6.6% of category papers)
+    multi-agent                              1,336  (5.8% of category papers)
+    uncertainty                                860  (3.8% of category papers)
+    causal-inference                           660  (2.9% of category papers)
+    interpretability                           612  (2.7% of category papers)
+    bayesian-methods                           440  (1.9% of category papers)
+    knowledge-graphs                           408  (1.8% of category papers)
+    explainability                             319  (1.4% of category papers)
+
+  Machine Learning (cs.LG):
+    reinforcement-learning                   2,079  (17.0% of category papers)
+    optimization                             1,772  (14.5% of category papers)
+    deep-learning                            1,254  (10.3% of category papers)
+    neural-networks                          1,236  (10.1% of category papers)
+    gradient-methods                         1,154  (9.5% of category papers)
+    generalization                           1,124  (9.2% of category papers)
+    transformers                               838  (6.9% of category papers)
+    graph-neural-networks                      663  (5.4% of category papers)
+    federated-learning                         469  (3.8% of category papers)
+    representation-learning                    441  (3.6% of category papers)
+
+  Natural Language Processing (cs.CL):
+    language-models                            801  (11.3% of category papers)
+    gpt                                        794  (11.2% of category papers)
+    transformers                               635  (9.0% of category papers)
+    question-answering                         478  (6.8% of category papers)
+    multilingual                               419  (5.9% of category papers)
+    dialogue-systems                           412  (5.8% of category papers)
+    bert                                       388  (5.5% of category papers)
+    speech-processing                          361  (5.1% of category papers)
+    summarization                              281  (4.0% of category papers)
+    machine-translation                        261  (3.7% of category papers)
+
+  Computer Vision (cs.CV):
+    multimodal                                 898  (11.5% of category papers)
+    convolutional-networks                     636  (8.1% of category papers)
+    object-detection                           513  (6.5% of category papers)
+    self-supervised-learning                   397  (5.1% of category papers)
+    image-generation                           329  (4.2% of category papers)
+    semantic-segmentation                      307  (3.9% of category papers)
+    image-classification                       299  (3.8% of category papers)
+    diffusion-models                           268  (3.4% of category papers)
+    medical-imaging                            185  (2.4% of category papers)
+    visual-question-answering                  177  (2.3% of category papers)
+
+--- Zero-Tag Papers Per Category ---
+  Artificial Intelligence             13,387  (58.52%)
+  Machine Learning                    4,065  (33.31%)
+  Natural Language Processing         3,012  (42.60%)
+  Computer Vision                     3,935  (50.19%)
+
+============================================================
+END OF REPORT
+============================================================

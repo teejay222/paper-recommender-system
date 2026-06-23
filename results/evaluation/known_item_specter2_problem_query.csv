@@ -1,0 +1,480 @@
+arxiv_id,query,rank
+2112.07252,how to overcome low diagnostic accuracy in wearable physiological monitors without using brain waves,85
+2109.12755,models memorizing dataset patterns instead of learning the underlying generative rules,715
+2108.03645,static memory allocation in shared computing environments leads to severe cost inefficiencies,25
+2110.1491,summarizing the fragmented current literature on automated pandemic diagnostics,23
+2110.14706,preventing critical failures when autonomous systems encounter unexpected real-world objects,16
+2107.00395,traditional token embeddings completely ignore the visual and historical meaning of character shapes,52
+2110.09605,procedural audio techniques lack the acoustic realism of actual environmental recordings,45
+2106.05268,standard tensor operations are highly inefficient when mapped onto novel neuromorphic devices,153
+2105.10317,manually designing behavioral characteristics in divergence search is difficult and domain-dependent,19278
+2106.09435,most existing game theoretic algorithms only converge in strictly adversarial two-player settings,42
+2107.12979,connecting complex mathematical models of neuroscience with empirical experimental findings,943
+2110.11567,standard validation fails when domain experts disagree on the correct medical diagnosis,724
+2112.04169,algorithmic bias in sequential assignment leads to heavily disadvantaged subpopulations,1247
+2111.04472,lack of a unified structural definition for situational information in human-computer interaction,1
+2111.07631,limitations of current game AI models,47
+2107.13669,modality imbalance and noise in sentiment analysis,4
+2107.01142,siloed design of communication and control in CAVs,46
+2106.13052,complex dynamic scenarios in autonomous navigation,45
+2109.05125,lack of image-caption data for multilingual retrieval,43
+2105.07405,sensitivity to uncertain model parameters in cooperative games,50
+2206.13658,explaining why geographic events occur in knowledge graphs,2
+2212.10565,interpreting black-box models in medical diagnosis,39
+2209.02066,establishing user trust in language grounding systems,1
+2206.119,lack of unified symbolic and score-based explanations,1
+2212.01683,analyzing sequences in robot-assisted surgery,3
+2210.09753,adapting robot behavior to emotional states in children,1
+2210.14723,high dependency on large datasets for neural TTS,141
+2210.08356,improving accuracy of DNNs in safety-critical domains,1
+2211.16468,high computational cost of front-door criterion identification,9
+2207.13192,perceptibility of adversarial noise in audio,7
+2206.1194,sample inefficiency in multi-goal reinforcement learning,1436
+2209.03785,high inter-subject variability in BCI systems,7
+2207.14682,lack of robustness in audio forgery detection,8
+2209.02886,lack of shared knowledge in distributed robotic systems,9
+2212.09328,scaling reinforcement learning in large state spaces,1764
+2206.14244,difficulty in modeling dynamics with visual input,6
+2211.04343,high computational cost of quantum circuit search,26
+2211.05182,lack of objective metrics for peer counselor performance,2
+2208.09554,high human feedback requirement for robot training,2136
+2208.03454,sparsity and redundancy in tagging data,7428
+2401.10745,potential societal risks of advanced AI models,284
+2309.10426,inability of models to handle compound object structures,37
+2310.12931,difficulty of manually designing rewards for complex tasks,7
+2312.09799,redundant information in video encoding,45
+2312.08847,handling concept drift in process monitoring,13
+2311.1377,capturing and digitizing physical artistic performance,39
+2312.08571,limited diversity in current speech data augmentation,20
+2310.18316,need for efficient and interpretable AI models,9907
+2311.03362,difficulty of validating learned-enabled autonomous systems,36
+2310.12866,limited accuracy in predicting cancer treatment outcomes,23
+2309.05787,bridging perceptual and conceptual understanding in AI,384
+2312.07753,oversmoothing in attention-based tabular models,4
+2311.03567,bias against people of color in automated systems,1
+2311.16204,high cost of executing portfolio updates,3
+2311.02847,lack of generalizability in robotic object manipulation,101
+2309.17288,inability of agent frameworks to adapt to new tasks,363
+2311.13725,concerns regarding AI plagiarism and artist rights,2
+2310.10863,collisions and occlusions in dense environments,230
+2310.05751,risks associated with widespread AI implementation,52
+2312.14625,false data attacks in automated transportation,2
+2412.05586,inability of LLMs to perform logical arithmetic reasoning,41
+2411.01789,lack of automated test oracles for libraries,45
+2412.17338,lack of interpretability in standard neural models,6110
+2410.10924,poor reliability of existing MI metrics on real-world data,146
+2412.0948,absence of universal optimal parameters in AI,2598
+2412.17288,high cost of labeling for robot task learning,4595
+2412.16425,benchmarking challenges in medical image analysis,2477
+2412.12198,understanding parallel versus serial search mechanisms,1
+2410.18861,difficulty of watermarking models without secrecy,40
+2410.15048,rigid predefined roles in agent frameworks,275
+2412.16925,difficulty in measuring nuanced social media engagement,219
+2410.08911,lack of standardized tools for runtime behavior analysis,1
+2412.19834,vulnerability of watermarks to adversarial fine-tuning,1
+2412.17616,distinguishing macro and micro expressions in real-time,5
+2412.05587,inefficient coding for complex geospatial datasets,1
+2501.01435,security challenges of autonomous model-based applications,37
+2410.18475,heterogeneity in metabolic graph data,38
+2412.06312,limitations of standard languages for modeling planning tasks,234
+2411.10464,identifying lack of attention during remote classes,15
+2412.16788,overlooking data attributes in graph anomaly detection,1
+2511.21448,lack of diverse email datasets for security testing,2
+2512.0553,susceptibility of models to misleading cues,11638
+2511.01018,preventing severe asthma exacerbations in children,1
+2511.11252,lack of physically grounded benchmarks for UAVs,4
+2511.15002,improving robustness of reinforcement learning in radio networks,41
+2512.09319,latency and energy limits in industrial IoT,285
+2511.05625,displacing human effort in the learning process,1523
+2511.04144,bypassing deep learning with instant AI support,7698
+2511.13365,privacy leakage from smashed data in split inference,1
+2512.1472,lack of realistic testbeds for social media agents,1
+2512.07009,high computational cost of farm video processing,1
+2511.08206,lack of standardized evaluation for structured EHR data,12
+2511.19457,performance bottlenecks in edge-based neural network execution,7
+2512.23889,AI models misrepresenting public climate views,1
+2512.04359,policy exploration collapse in RL-based reasoning,1951
+2510.26384,high cost of comprehensive AI benchmark evaluation,407
+2512.14181,lack of guidance for designing quantum circuit encoders,81
+2511.17592,difficulty reproducing LLM-guided optimization research,679
+2511.16582,lack of structure in AI consciousness debates,1
+2511.15141,noisy and irrelevant user history in RAG systems,101
+2605.26754,model failure to ignore poisoned retrieval evidence,572
+2605.28098,bias magnification in multi-agent environments,1
+2605.21974,information loss during table-to-graph conversion,521
+2605.07896,structural limitations of conversational AI interfaces,64
+2606.03161,lack of standardized trust layer for open agent networks,1
+2605.16043,difficulty of generalizing vision-based manipulation policies,42
+2605.26646,lack of unified RL optimization for agent workflows,24
+2605.10804,identifying student mental health risks with AI,8
+2606.05792,difficulty of generating valid formal specifications from natural language,2
+2605.1177,unverified code execution in LLM agents,23
+2606.03252,poor generalization in drone path planning,18
+2605.27331,hallucination and lack of expertise in legal AI,9
+2605.19147,susceptibility of LLMs to triggered harmful content,267
+2605.3028,fragmented capabilities in specialized robot models,1154
+2605.29068,high query cost of reasoning-based safety models,2352
+2605.05951,instability in long-term imagined rollouts,123
+2605.09515,poor understanding of multi-head attention interactions,346
+2605.15543,difficulty generalizing game abstraction techniques,25
+2605.05402,assessing effectiveness of street-level interventions,28
+2605.30854,strategic failure modes in multi-agent RL,73
+2106.1359,instability and mode collapse in GANs,48
+2107.05747,lack of optimization theory for Hebbian networks,127
+2110.00804,bridging neural and symbolic reasoning,1465
+2106.05876,inconsistent evaluation of transport detection pipelines,1442
+2106.06842,poor performance in multi-task reinforcement learning,345
+2109.00882,information sharing in non-stationary environments,989
+2111.00185,opaque convergence conditions for policy gradients,1
+2111.02374,complex and ambiguous dataset licensing,35
+2110.03092,identifying different types of model failures,7351
+2110.12399,lack of interpretability in NAS predictors,5557
+2110.1108,lack of realistic datasets for mouse movement biometrics,1
+2109.06489,modeling long-term variable interdependencies,267
+2110.00695,lack of long-term predictive models for signal fading,2
+2111.02034,legal risks associated with training data collection,14
+2109.12073,inefficiency of representing power grids as simple vectors,8
+2110.02497,high environment step cost in reinforcement learning,225
+2106.03099,evaluating robustness against non-specific attacks,562
+2108.12805,limited coverage in standard adversarial training,17
+2111.07736,managing sub-linear model growth in sequential tasks,143
+2108.13093,vulnerability of RL policies to input perturbations,1
+2211.08282,unifying different self-supervised learning algorithms,10
+2211.04076,high memory usage of quadratic self-attention,9
+2208.06975,inability of standard GNNs to solve graph coloring,2
+2209.09344,inconsistent design choices in crowd simulation,5
+2207.0619,inability of neural models to exploit inference time,10885
+2211.05567,computational inefficiency of traditional numerical solvers,123
+2210.08349,performance degradation caused by drastic model updates,22
+2211.08583,poor generalization of deep learning models on new data,253
+2212.04717,sensitivity to errors in human behavioral models,3
+2211.08742,unfair treatment of vulnerable patient subgroups,20
+2206.11054,high-dimensional observation redundancy in MARL,18127
+2212.03513,difficulty choosing between different interpretability methods,516
+2207.08137,lack of optimality in simultaneous-game defense models,157
+2210.15755,sub-optimal error bounds in standard policy iteration,25
+2207.03075,lack of practical guides for medical federated learning,7
+2211.05946,handling uncertainty and peak loads in microgrids,126
+2211.15839,discrete-only limitations of neural planning models,2
+2206.07551,negative transfer caused by unknown class matching,8
+2206.09991,lack of objective functions for extreme value regression,338
+2212.13925,performance fluctuations in deep learning inference,42
+2311.06917,balancing system heterogeneity in cross-device FL,2650
+2311.06567,high cost of weak supervision for disentanglement,20
+2309.16928,sub-optimal intervention performance in standard CBMs,193
+2310.10692,lack of diverse and challenging programming benchmarks,25
+2310.15793,poor generalization in low-data training regimes,1281
+2311.1009,slow training speeds in CPU-based MARL environments,57
+2312.15122,scalability and safety issues in real-world driving data,50
+2310.05373,regret limits in classical bayesian optimization,84
+2312.15909,poor generalization due to limited training tasks,206
+2310.15154,understanding how language models represent sentiment,2
+2310.02605,managing large action spaces in power grid control,49
+2310.06117,difficulty in reasoning-intensive problem solving,487
+2310.17191,how language models associate entities with attributes,20
+2310.11678,solving RL tasks with temporal logic specifications,115
+2309.15293,violation of i.i.d. assumptions in embodied agents,88
+2310.03718,need for versatile safe policies without retraining,5
+2312.01472,lack of reproducibility in multi-agent reinforcement learning research,5
+2311.17565,biases introduced by multi-step off-policy updates,3
+2310.09222,high computational cost of Bayesian network structure discovery,3
+2312.05479,high computational cost of transformers on graphs,1
+2412.12456,integrating textual context into graph learning tasks,65
+2410.09964,identifying cell types from single-cell sequencing,1
+2410.23483,difficulty attacking black-box multi-model architectures,44
+2411.02142,lack of best practices for training protein models,2
+2411.00666,limitations of standard on-policy RL updates,8
+2412.08147,costly weight tuning for multitask finetuning,159
+2411.00074,difficulty mining complex patterns in evolving streams,3
+2411.14507,irreversible performance loss in block-based pruning,313
+2411.19285,high computational cost of implicit differentiation,218
+2412.11408,overfitting to domain-specific features in FL,141
+2410.22984,inability to capture higher-order spatial-temporal patterns,12
+2412.15373,linear limitations of traditional Granger causality,3
+2410.10365,over-reliance on positive samples in GCL,720
+2411.06765,dependence on expert knowledge for diagnostics,3379
+2412.09843,difficulty recovering causal mechanisms from data,2
+2411.15951,robustness issues in reward learning algorithms,530
+2412.0056,generalization limits sensitivity to subtle anomalies,12
+2411.02666,manual annotation costs for unstructured travel data,19
+2410.10481,privacy risks in uploading data for fine-tuning,468
+2412.07224,trainability loss in sequential reinforcement learning,2
+2511.10848,lack of comparison between TSFMs and domain-specific models,1531
+2511.13351,model degradation when learning new tasks,242
+2511.01819,performance drop due to environment domain shift,179
+2511.00532,lack of comparison between deep learning and classical models,6927
+2512.12688,treating prompting as a heuristic vs control,1
+2511.13612,bridging symbolic reasoning and physical reality,184
+2511.11593,lack of interpretability in black-box graph models,47
+2512.13186,mismatch between molecular graph and physical reality,740
+2511.03095,misspecification in anomaly detection methods,20
+2512.13741,lack of robust and lightweight jailbreak defense,194
+2512.2255,fragmentation of encoder-decoder forecasting design,55
+2512.16901,historical stereotypes embedded in training corpora,1
+2512.11145,dimensionality reduction challenges for high-dimensional ensembles,35
+2512.2042,excessive complexity in multi-task architecture design,1070
+2511.15432,lack of transparency in how tabular ICL models function,36
+2512.01457,inefficient fixed-budget sampling in LLMs,1496
+2512.09198,reducing postoperative complications in cardiac procedures,1
+2511.15067,inadequate prognostic accuracy of staging systems,107
+2511.06157,high computational cost of neural architecture search,806
+2511.11743,accuracy loss and instability in quantized networks,12
+2606.03238,understanding failure dynamics in fine-tuning,2703
+2605.29467,intractability of inference in deep architectures,1095
+2605.1294,performance lag of PCs versus Transformers,1380
+2605.12312,temporal correspondence issues in control tasks,43
+2606.0013,prohibitive storage costs for large models,1160
+2605.10189,catastrophic forgetting in protein model training,93
+2605.05524,lack of interpretability in causal representation learning,1090
+2605.18826,entanglement of information redistribution and relevance,615
+2605.13652,perplexity failing to capture solution quality,7323
+2605.13687,context length limitations in autoregressive models,782
+2605.00082,prohibitive inference cost of the Forward-Forward algorithm,1222
+2605.12058,trade-off between gradient variance and learning signal,1935
+2605.02278,inability of attention to maintain consistent feature relationships,2140
+2605.11347,difficulty of backpropagating through non-differentiable generators,91
+2605.16806,modality degradation in educational data fusion,25
+2605.04418,numerical instability during large-scale pre-training,2862
+2605.18864,reward hacking and anchoring in RL training,29
+2605.31558,limitations in length generalization for transformers,1359
+2605.18224,encoder mean becoming input-independent during training,121
+2605.02943,lack of standardized medical RL benchmarks,185
+2106.03518,dataset bias favoring adjacent clauses in emotion extraction,1
+2107.04132,challenges of high-fidelity 3D environment training,22581
+2112.05417,difficulty of maintaining story consistency during edits,2
+2108.07005,uncoordinated slots in non-autoregressive SLU models,1
+2105.1388,high computational cost of training large models from scratch,679
+2107.04007,difficulty getting machines to produce creative text,29
+2110.02834,poor entity representation in multi-relational graphs,37
+2105.11698,lack of logic control in automated question generation,1
+2111.13611,choosing the best documents for relation extraction,1
+2109.0685,incompleteness of existing OIE ground truth,8
+2106.01354,"reasoning systems producing only single, limited rationales",15
+2110.08144,independent slot extraction errors in OpenIE,1
+2106.07275,separating grounding from response generation in dialog,2
+2109.13089,manual effort required to track AI research progress,1136
+2110.12201,lack of specialized language models for Spanish legalese,1
+2106.01666,lack of user trust in recommendation chatbots,2
+2109.09825,scarcity of training data for zero pronouns,91
+2111.05721,tedious nature of analyzing legal case texts,9
+2110.08551,high inference speed and resource requirements of PLMs,18057
+2211.04476,systematic errors in pretrained NLP models,195
+2212.10189,models struggling with missing facts in knowledge bases,1
+2210.13236,lack of typological diversity in NLP probing studies,70
+2210.09338,models failing to reason across text and structured knowledge,489
+2206.11147,inefficient data access patterns in language models,3340
+2212.09278,incompatibility of conversational models with generative PLMs,4264
+2208.00638,high cost of sequence space optimization for text control,3
+2210.17517,lack of diverse benchmarks for mathematical AI tasks,1
+2208.09354,complexity of clinical note annotation and extraction,43
+2210.07519,assessing rationality in AI using cognitive benchmarks,1344
+2210.07382,improving multi-step reasoning in interactive text games,67
+2212.08105,sub-optimal classification performance for Chinese texts,146
+2210.0634,removing references to non-existent prior patient history,2
+2207.14393,high cost of collecting human-annotated dialogue data,221
+2210.07493,lack of emotional consistency in generated stories,57
+2210.15387,scarcity of annotated data for atypical speech,51
+2212.08635,lack of training data for specialized QA models,2005
+2210.05773,language barriers for non-native speakers in retail settings,355
+2211.1488,dependence on large amounts of annotated data,10617
+2210.13312,language models lacking understanding of mental states,22
+2312.09907,lack of datasets and models for German text simplification,2
+2311.09033,lack of large-scale linguistic acceptability datasets,1
+2310.16225,annotation errors and inconsistencies in standard NER data,3
+2310.04407,relying on heuristics for contrastive loss training,464
+2311.03963,distinguishing between literal and figurative meanings,29
+2310.06422,subtle manipulation in digital news media,20
+2309.11508,labor-intensive nature of grading textual exams,3
+2310.16763,instability and complexity of standard RLHF training,5561
+2310.14107,limited domain transfer of visual groundings,4
+2312.00584,ethical risks of using AI in legal systems,32
+2311.00262,poor transferability of dialogue policies to new cases,4
+2309.14379,manual labor bottleneck in qualitative research,31
+2310.18371,need for expert annotations for complex reasoning,56
+2312.16659,difficulty framing ideas and using metaphors,726
+2311.07022,lack of robust evaluation for video-language models,1
+2311.07925,high noise in EEG-to-speech data,82
+2311.04931,high cost of state-of-the-art LLM infrastructure,1394
+2312.01398,legal language being difficult for non-experts,560
+2309.13702,challenges in interactive storytelling evaluation,41
+2311.17892,lack of linguistic structure in black-box models,1757
+2412.03331,scarcity of parallel data for low-resource languages,1018
+2411.145,bias inherent in large language models,340
+2412.0937,WSD models requiring pre-identified spans,66
+2412.15277,overfitting during vision-language prompt tuning,38
+2412.11385,excessive use of specific words in LLM outputs,18
+2411.14497,high cost of collecting high-quality instruction data,134
+2412.17747,high latency of generating explicit reasoning steps,106
+2411.07845,lack of standardized ethical concern taxonomies,2
+2412.04342,lack of knowledge integration in machine translation,21
+2412.20072,LLM token limits when analyzing hybrid data,172
+2410.18336,focus on correctness rather than innovative problem solving in AI,705
+2410.13413,lack of supervision for open-ended reasoning tasks,12100
+2412.11556,poor attention to full context in causal language models,7881
+2410.23746,detectors failing against adversarial prompts and revisions,35
+2412.0843,bias and lack of personalization in AI mentoring,53
+2411.03769,lack of cultural diversity in existing image-captioning benchmarks,2
+2411.02461,difficulty balancing safety and honesty in AI,191
+2410.15956,English-centric biases in non-English model outputs,11
+2410.2389,slow and inaccurate machine translation in low-resource settings,26
+2411.00029,parameter-efficient fine-tuning methods distorting pre-trained features,1566
+2511.01359,NLI models only checking complete sentences rather than prefixes,53
+2511.01689,difficulty controlling AI assistant personality and values,1251
+2511.01305,standard RAG failing to resolve technical cross-references,13
+2511.1722,language models agreeing with incorrect user suggestions,60
+2601.09719,Pre-LN overhead and activation growth at depth,192
+2511.07458,existing metrics like ROUGE relying on surface-level overlap,354
+2511.08507,lack of large-scale datasets for sentence-level sign translation,6
+2512.02363,ensuring accuracy and safety in sensitive domain QA,68
+2511.17405,multiple-choice leakage in vision-language benchmarks,4
+2601.00797,lack of discursive depth in traditional social science surveys,43
+2511.14603,difficulty identifying high-risk patients after kidney injury,2
+2511.21737,inability to verify if LLM internal knowledge is robustly aligned,2
+2510.26543,redundant information in relational model operators,2
+2512.12168,poor performance of heuristic-based diffusion text decoding,2
+2512.07218,LLM failure to handle complex time-based constraints,646
+2512.09563,systems struggling with context-dependent rhetorical strategies,1943
+2602.2337,inference costs and window limitations of existing models,10694
+2512.03082,models favoring their own initially chosen evaluation options,728
+2601.0972,static data representation failing to capture changing information,126
+2512.1008,models mimicking human reasoning without semantic grounding,182
+2605.26893,models generating plausible but incorrect reasoning chains,462
+2605.29889,format-dependent performance in clinical decision tasks,383
+2605.19723,lack of systematic understanding of math performance in LLMs,220
+2605.09253,high-loss tokens persisting despite convergence,15
+2605.2524,lack of justification for choosing specific evaluation methodologies,575
+2606.08056,models failing to capture non-lexical pointing gestures,2
+2605.15102,loss of dependency in non-adjacent dialogue turns,4
+2605.04523,reliance on single-model outputs in RAG tasks,7579
+2605.22963,LLMs failing to explicitly link responses to source documents,520
+2605.07271,sudden accuracy collapse in pruned language models,1
+2605.10606,measuring stylistic information retention in LLM rewrites,4
+2605.09533,high cost and unclear benefits of domain adaptation strategies,247
+2605.28669,models lacking explicit semantic meaning representations,3452
+2605.01831,reward models failing to adapt to diverse user preferences,44
+2605.07234,high memory usage of key-value caches in long prompts,444
+2605.2073,high cost of inference with long demonstration sequences,13
+2605.28006,opaque inferential structures in language models,2345
+2605.23039,models learning unacceptable language without negative feedback,387
+2605.27091,unreliable uncertainty quantification in open-ended tasks,159
+2605.09536,accuracy degradation during fast parallel text generation,8
+2108.13344,lack of diverse labeled data for agricultural robotics,45
+2106.11054,lack of transparency in self-supervised models,453
+2107.07191,high cost of data labeling for medical diet management,24
+2111.1323,poor model performance across independent medical centers,858
+2111.04138,high computational cost of interpreting neural networks,3852
+2110.06443,difficulty disentangling style and content features,9219
+2111.12873,models failing to handle non-geometric transformations,1
+2112.12072,handling heterogeneous multimodal content in news,41
+2112.11242,high cost and labor-intensiveness of field scouting,4538
+2105.08655,data scarcity for aerial post-disaster image analysis,29
+2106.10731,difficulty identifying new categories in unlabeled datasets,25
+2108.08344,lack of standardized datasets for video question answering and action recognition,2
+2105.10686,difficulty distinguishing stone types in endoscopic video,1
+2111.15,lack of spatial flexibility in prototypical part networks,78
+2109.01594,fixed kernel operations limiting information flow in CNNs,333
+2110.1232,abstract encoding of web page structure in DOM trees,35
+2106.11236,effectiveness of location obfuscation for sensitive species,1
+2105.09596,semantic gaps and feature extraction in pyramid networks,147
+2107.02156,fragmented research field with specialized tracking models,11
+2107.02655,challenges in segmenting pediatric CT scans due to size heterogeneity,1
+2209.15458,lack of general-purpose representation learning for spatial shapes,1
+2209.04648,difficulty separating cracks from complex backgrounds,1
+2211.1063,confounding information in fetal ultrasound screenings,30
+2212.00935,loss of local detail in standard edge detection networks,1047
+2212.00352,scarcity of labeled datasets for underwater acoustic imaging,21
+2209.11693,modeling complex world dynamics for robotic control,1682
+2209.12746,trade-off between fidelity and editability in image inversion,1
+2212.08731,need for large-scale datasets with 3D annotations,919
+2208.00223,data scarcity for autonomous driving perception,468
+2212.10537,failure of models to identify multi-attribute objects,14759
+2206.07634,high cost of labeling for LiDAR datasets,19
+2207.00067,practicality of unsupervised domain adaptation assumptions,608
+2208.07021,high computational cost and low accuracy in frame prediction,1
+2209.12599,difficulty bridging modality gaps without fully paired datasets,1009
+2209.03466,vulnerability of generative models to intellectual property theft,31
+2208.00788,models failing to capture temporal information in deepfakes,18460
+2209.08891,models adopting stereotypes through unicode scripts,30
+2207.05957,domain shift between known and unknown classes,67
+2209.06629,poor performance of standard retrieval models for sketches,31
+2206.10177,limited spatio-temporal modeling in spiking networks,98
+2311.18775,difficulty generating coherent outputs across different media types,688
+2310.1467,models relying on shortcuts instead of visual understanding,5939
+2312.01367,gap between text and image modalities in recognition,159
+2312.02189,noisy artifacts and multi-faced geometry in 3D generation,39
+2312.04913,vulnerability of VLP models to adversarial examples,315
+2310.15098,high cost of pixel-wise annotation for medical imaging,78
+2309.11858,artifacts and instability in interior tomographic reconstruction,233
+2309.10783,inability of models to interpret multimodal relationships,3733
+2310.13103,low accuracy of CNN-based forgery detection models,729
+2311.03035,high inference latency in vision transformers,607
+2310.20695,lack of structural priors in vision pre-training,18
+2311.15876,error accumulation in multi-task medical workflows,329
+2312.14481,limited flexibility of category-based prompts in SAM,1714
+2312.04746,diagnostic data scarcity in pathology foundation models,616
+2310.1263,difficulty detecting cardiovascular conditions early,5
+2311.0924,lack of scalable methods for epidemic exposure modeling,132
+2310.04461,efficient planning of high-throughput dynamic experiments,1161
+2401.02433,secure multi-modal data fusion across clients,1
+2311.11014,manual annotation burden for lesion analysis,7
+2311.02782,domain-specific limitations of anomaly detection models,83
+2412.16859,probabilistic discrepancies between synthetic and real data,1622
+2410.20358,poor pose accuracy in occluded scenarios,32
+2412.05275,lack of fine-grained control in text-to-video models,12
+2412.08771,high computational cost of long visual sequences,870
+2411.04642,limited text recognition capability in standard VL models,11
+2411.18068,anatomical distortions in 2D pose generation,77
+2411.16721,high cost of existing VLM security defenses,882
+2412.03347,maintaining temporal motion consistency in video editing,79
+2412.18966,high cost of training video generation models from scratch,3
+2412.02142,lack of standardization in user-specific model adaptation,1498
+2412.09389,identity drift and quality decline in generated video,97
+2411.05307,ineffective integration of network-level noise in segmentation,2
+2410.2028,computational cost of spatio-temporal attention,657
+2411.01851,difficulty matching features across varying light and angle,1
+2412.10151,lack of passage relevance testing in VQA benchmarks,29
+2410.12761,safety methods reducing image quality or requiring retraining,517
+2412.13376,vulnerability of 3D models to viewpoint changes,1
+2412.18743,poor performance of disentangled models on novel attribute combinations,18
+2412.11381,SAM performance drop on non-natural technical datasets,17632
+2412.19867,high memory and compute cost of large generative models,6968
+2512.22536,identity drift and scene inconsistency in video synthesis,34
+2511.06406,performance decline when sensors fail in multi-modal systems,5366
+2510.23956,unintended global image changes during local edits,400
+2512.02743,failure to interpret nuanced hate speech in videos,6
+2511.07301,biased pseudo-labels in domain adaptation,1537
+2512.05941,difficulty with fine-grained localization in GUI agents,256
+2511.149,lack of consistent labels and rationale in medical AI,988
+2511.18152,over-smoothing and degradation-specific model limitations,49
+2511.10894,computational intensity of standard rainfall models,98
+2511.19367,lack of clinical interpretability in tumor staging models,259
+2512.08477,unnatural distortions from rigid image warping,557
+2512.06521,model failure due to varying environmental conditions,3221
+2511.17699,models failing to accurately count items in text or images,7
+2512.2302,inability to ground objects not in the training set,1144
+2512.11941,domain shift between seen and unseen action classes,85
+2511.22048,instability and artifacts in generative image restoration,185
+2511.19835,quadratic complexity of attention in long videos,116
+2512.08542,chromatic aberration in color channel generation,2
+2512.08243,difficulty in capturing both local and global image features,3929
+2512.21641,static models failing to interpret motion-based references,165
+2606.00094,inefficiency in learning low-dimensional data structures,31687
+2605.13586,"models failing to generate dense, complex object arrangements",63
+2605.20551,high computational cost of feature extraction in VPR,1817
+2605.24475,model failure when data views provide inconsistent information,686
+2606.08034,lack of visually grounded STEM benchmarks in non-English languages,4
+2605.22066,geometric ambiguity in sparse ultrasound data,8
+2606.0762,infeasibility of exhaustive fault testing in large transformers,1
+2605.22581,difficulty matching visual input to rasterized building floorplans,1
+2606.04365,missing per-lesion annotation in medical imaging models,70
+2605.12495,lack of stable supervision for complex multimodal generation,528
+2605.18349,high computational cost of attention in resource-constrained devices,201
+2605.14113,hallucination of post-hoc reasoning in medical language models,266
+2606.02178,difficulty of spotting forgeries that lack physical noise artifacts,35
+2605.20901,resolving future interactions from short video clips,20
+2605.22715,device dependency in IMU-based motion tracking,87
+2605.01024,performance drop in MLLMs when modalities are conflicting or missing,22
+2605.16076,high manual labor in agricultural diagnostic tasks,27
+2605.20624,high latency in holistic video restoration models,14
+2605.07019,loss of accuracy when shrinking text to fit visual token limits,9
+2605.16427,poor generalization of cardiac segmentation across clinical sites,35

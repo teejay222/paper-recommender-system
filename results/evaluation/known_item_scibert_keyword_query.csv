@@ -1,0 +1,480 @@
+arxiv_id,query,rank
+2112.07252,knowledge distillation sleep monitoring electrocardiogram,12117
+2109.12755,neural network reasoning evaluation algorithmic sequences,3565
+2108.03645,gpu scheduling dynamic hyperparameters,140
+2110.1491,review artificial intelligence infectious disease detection,18404
+2110.14706,mobile robot visual hazard dataset,119
+2107.00395,asian language character visual pre-training,12487
+2110.09605,audio generation walking foley deep learning,727
+2106.05268,hyperdimensional computing stochastic analog hardware,996
+2105.10317,quality diversity automated behavior space,29211
+2106.09435,general sum multi-agent equilibrium,13
+2107.12979,cortical error minimization bayesian brain,8422
+2110.11567,noisy label evaluation metrics,30543
+2112.04169,fair dynamic distribution non-profit algorithm,186
+2111.04472,situational awareness computing framework,933
+2111.07631,game AI survey techniques,1766
+2107.13669,multimodal sentiment fusion network,83
+2107.01142,CAV communication computation control co-design,13339
+2106.13052,autonomous driving intersection strategy,1672
+2109.05125,multimodal cross-lingual retrieval,5984
+2105.07405,robust team Markov games,166
+2206.13658,geographic event causality knowledge graph,11
+2212.10565,medical imaging XAI evaluation,26673
+2209.02066,human-robot interaction language grounding trust,4
+2206.119,model-agnostic symbolic explanation,2904
+2212.01683,surgical gesture recognition transformer,5232
+2210.09753,socially assistive robot automated planning,1438
+2210.14723,semi-supervised TTS low-resource,532
+2210.08356,DNN safety debugging tool,9648
+2211.16468,causal graph front-door adjustment algorithm,14902
+2207.13192,adversarial audio attacks,23300
+2206.1194,world value functions,5121
+2209.03785,brain-computer interface transfer learning,1934
+2207.14682,audio splicing detection,171
+2209.02886,multi-robot knowledge transfer,433
+2212.09328,quantum reinforcement learning,332
+2206.14244,visual model-based RL,13389
+2211.04343,quantum circuit optimization,1336
+2211.05182,peer counseling analysis,5470
+2208.09554,robot task learning integration,808
+2208.03454,tag-aware recommendation GCN,97
+2401.10745,large language model ethics,7895
+2309.10426,robot object affordance learning,247
+2310.12931,LLM reward function design,10584
+2312.09799,video coding JND prefiltering,43
+2312.08847,predictive process monitoring,184
+2311.1377,human movement interaction art,14
+2312.08571,speech data augmentation phase,6295
+2310.18316,vector symbolic architecture cognitive model,23
+2311.03362,autonomous vehicle safety verification,48
+2310.12866,ovarian cancer histology AI,1460
+2309.05787,neuro-symbolic interaction AI,3424
+2312.07753,tabular data transformer,44864
+2311.03567,race-aware AI systems,12732
+2311.16204,portfolio rebalancing optimization,4
+2311.02847,robot manipulation LLM,28329
+2309.17288,multi-agent AI systems,2645
+2311.13725,AI art sentiment analysis,2324
+2310.10863,multi-drone perception planning,15027
+2310.05751,US AI ethics framework,927
+2312.14625,traffic network security,403
+2412.05586,abstract reasoning LLM benchmark,7622
+2411.01789,automated test oracle generation,2073
+2412.17338,neural topic modeling interpretability,5018
+2410.10924,mutual information estimation benchmark,1157
+2412.0948,computational models of cognition,2043
+2412.17288,robot task planning few-shot,1902
+2412.16425,pathology cell detection,895
+2412.12198,visual search attention study,87
+2410.18861,open-source AI watermarking,2782
+2410.15048,multi-agent self-evolving systems,73
+2412.16925,sentiment analysis COVID-19 index,968
+2410.08911,LLM runtime benchmarking,3350
+2412.19834,watermarking generative models,43
+2412.17616,facial expression IoT integration,1359
+2412.05587,geospatial code generation LLM,2208
+2501.01435,AI model security risks,56
+2410.18475,gene-metabolite association prediction,790
+2412.06312,automated planning modeling,1805
+2411.10464,student disengagement detection,3
+2412.16788,graph anomaly detection,419
+2511.21448,email security dataset benchmarking,117
+2512.0553,multimodal reasoning models,8850
+2511.01018,pediatric asthma prediction,1204
+2511.11252,UAV mission planning benchmark,653
+2511.15002,O-RAN resource management RL,187
+2512.09319,edge manufacturing AI,3874
+2511.05625,AI in educational dialogue,499
+2511.04144,AI-powered coding assistant,9933
+2511.13365,split inference privacy,4194
+2512.1472,social media agent benchmark,3577
+2512.07009,video analytics optimization,28
+2511.08206,EHR benchmark LLM,40788
+2511.19457,edge DNN inference scheduling,7877
+2512.23889,LLM bias climate opinion,1951
+2512.04359,LLM reinforcement learning entropy,1070
+2510.26384,efficient LLM evaluation benchmark,32133
+2512.14181,quantum neural network visualization,15183
+2511.17592,LLM evolutionary computation,2695
+2511.16582,AI consciousness taxonomy,15171
+2511.15141,RAG recommender system,16272
+2605.26754,RAG poisoning defense,670
+2605.28098,multi-agent system fairness,7668
+2605.21974,knowledge graph table extraction,2429
+2605.07896,AI interface design alternatives,2279
+2606.03161,agent interconnection protocol,16
+2605.16043,robot manipulation imitation learning,693
+2605.26646,multi-agent reinforcement learning LLM,29453
+2605.10804,AI campus mental health,1170
+2606.05792,LLM formal specification synthesis,543
+2605.1177,AI agent security audit,1852
+2606.03252,drone world model navigation,914
+2605.27331,AI legal research agent,16
+2605.19147,LLM data poisoning defense,33082
+2605.3028,vision-language-action model,7567
+2605.29068,LLM safety guardrail,6726
+2605.05951,world model planning,9747
+2605.09515,transformer attention analysis,14576
+2605.15543,game theory abstraction,2839
+2605.05402,traffic safety AI analysis,1052
+2605.30854,agent strategic safety,277
+2106.1359,GAN diversity improvement,247
+2107.05747,Hebbian learning algorithms,1973
+2110.00804,program-guided AI,1125
+2106.05876,transport mode detection,837
+2106.06842,RL hypernetwork optimization,1910
+2109.00882,multi-agent reinforcement learning,193
+2111.00185,policy gradient convergence,67
+2111.02374,AI license compliance,12978
+2110.03092,neural network anomaly detection,9961
+2110.12399,interpretable neural architecture search,7854
+2110.1108,mouse dynamics authentication,249
+2109.06489,graph-based time series forecasting,10993
+2110.00695,rain fade forecasting,822
+2111.02034,data-centric AI legal compliance,408
+2109.12073,graph neural networks power systems,460
+2110.02497,pretraining reinforcement learning,986
+2106.03099,adversarial robustness certification,2767
+2108.12805,masked weight adversarial training,5143
+2111.07736,modular continual learning,15503
+2108.13093,adversarial training neural policy robustness,9093
+2211.08282,self-supervised learning equivariance,610
+2211.04076,linear transformer attention,36
+2208.06975,GNN graph coloring,1753
+2209.09344,reinforcement learning virtual crowds,15766
+2207.0619,beam search combinatorial optimization,2371
+2211.05567,deep learning for PDEs,23087
+2210.08349,model-based RL monotonic improvement,6003
+2211.08583,optimizer out-of-distribution generalization,1401
+2212.04717,reward inference alignment,33164
+2211.08742,healthcare AI fairness audit,18126
+2206.11054,multi-agent reinforcement learning attention,4269
+2212.03513,machine learning interpretability metrics,5503
+2207.08137,robust neural network training,28205
+2210.15755,approximate dynamic programming planning,7271
+2207.03075,medical federated learning benchmarks,4604
+2211.05946,microgrid energy management RL,73
+2211.15839,neural algorithmic reasoning,60
+2206.07551,open-set domain adaptation,47585
+2206.09991,imbalanced regression loss functions,4206
+2212.13925,inference time quality trade-off,1748
+2311.06917,federated learning client selection,24499
+2311.06567,self-supervised causal disentanglement,308
+2309.16928,concept bottleneck model intervention,23640
+2310.10692,AI generated programming puzzles,3874
+2310.15793,LLM few-shot generalization,16004
+2311.1009,hardware-accelerated multi-agent RL,19402
+2312.15122,large-scale autonomous driving RL,2095
+2310.05373,quantum bayesian optimization,22940
+2312.15909,offline meta-reinforcement learning,10477
+2310.15154,LLM sentiment analysis mechanism,3391
+2310.02605,power grid topology optimization RL,210
+2310.06117,step-back prompting reasoning,28
+2310.17191,LLM entity attribute binding,952
+2310.11678,non-Markovian reinforcement learning,606
+2309.15293,maximum diffusion reinforcement learning,9959
+2310.03718,safe reinforcement learning constraints,2454
+2312.01472,multi-agent reinforcement learning benchmark,10510
+2311.17565,goal-conditioned reinforcement learning,3128
+2310.09222,Bayesian network structure learning,950
+2312.05479,graph transformer sparsification,4821
+2412.12456,GNN LLM integration survey,12533
+2410.09964,scRNA-seq cell type classification,880
+2410.23483,multi-model system adversarial attack,447
+2411.02142,protein language model scaling laws,233
+2411.00666,PPO reinforcement learning variants,792
+2412.08147,multitask finetuning weight search,344
+2411.00074,streaming data pattern sampling,314
+2411.14507,transformer structured pruning,17377
+2411.19285,differentiable optimization layers,29166
+2412.11408,federated domain generalization,2555
+2410.22984,time series embedding,4518
+2412.15373,Granger causality KAN,392
+2410.10365,spectral graph contrastive learning,36517
+2411.06765,nuclear power fault diagnosis,368
+2412.09843,structural causal model learning,200
+2411.15951,inverse reinforcement learning analysis,45172
+2412.0056,controllable overfitting anomaly detection,5460
+2411.02666,LLM for transportation mobility,8566
+2410.10481,privacy-preserving LLM customization,1761
+2412.07224,Parseval regularization RL,27
+2511.10848,EEG time series foundation models,1136
+2511.13351,multimodal continual learning food,1730
+2511.01819,UWB jammer localization,5225
+2511.00532,PM2.5 forecasting models,7
+2512.12688,prompt engineering semantics,7118
+2511.13612,RL for physics reasoning,5348
+2511.11593,explainable GNN aggregation,3813
+2512.13186,polymer machine learning representation,74
+2511.03095,sparse anomaly detection kernels,10196
+2512.13741,LLM jailbreak detection,11599
+2512.2255,time-series forecasting framework,15544
+2512.16901,AI news bias analysis,468
+2512.11145,ensemble visualization autoencoder,883
+2512.2042,multi-task learning optimization,12988
+2511.15432,tabular ICL analysis,1577
+2512.01457,adaptive test-time compute,4650
+2512.09198,TAVR valve selection ML,1
+2511.15067,colorectal cancer prognosis AI,2120
+2511.06157,zero cost proxy NAS,2015
+2511.11743,quantized MoE routing,18106
+2606.03238,RLHF failure modes,13338
+2605.29467,closed-form variational inference,417
+2605.1294,probabilistic circuits expressivity,444
+2605.12312,delay-aware reinforcement learning,3606
+2606.0013,neural network tensor compression,1052
+2605.10189,protein preference alignment,5196
+2605.05524,scientific time series causal discovery,1146
+2605.18826,attention mechanism decomposition,19711
+2605.13652,low-rank pre-training evaluation,16879
+2605.13687,LLM reasoning context length,38577
+2605.00082,Forward-Forward algorithm optimization,3773
+2605.12058,GRPO policy optimization,20764
+2605.02278,time series imputation model,17864
+2605.11347,diffusion model reward alignment,71
+2605.16806,multimodal collaboration analytics,1506
+2605.04418,LLM manifold constraints,874
+2605.18864,RLVR exploration strategy,5391
+2605.31558,transformer attention head interpretability,16728
+2605.18224,VAE constant collapse analysis,15587
+2605.02943,medical AI reinforcement learning environment,5267
+2106.03518,emotion cause extraction graph model,3335
+2107.04132,Text World research survey,822
+2112.05417,counterfactual story rewriting,6768
+2108.07005,non-autoregressive SLU,10398
+2105.1388,knowledge distillation PLM pre-training,6082
+2107.04007,AI collaborative writing,31815
+2110.02834,relation prediction graph learning,15264
+2105.11698,difficulty-controllable question generation,3178
+2111.13611,document coverage prediction,7
+2109.0685,OpenIE evaluation benchmark,21855
+2106.01354,interpretable rule reasoning,24410
+2110.08144,multilingual open IE,3909
+2106.07275,document-grounded dialog,4908
+2109.13089,AI research leaderboard mining,2175
+2110.12201,Spanish legal NLP,62
+2106.01666,chatbot self-disclosure,4530
+2109.09825,anaphoric zero pronoun detection,27
+2111.05721,legal sentence classification,115
+2110.08551,language model compression,7693
+2211.04476,NLP slice detection,14346
+2212.10189,KBQA answerability,758
+2210.13236,multilingual model probing,767
+2210.09338,joint text and KG pretraining,11061
+2206.11147,NLP pre-training paradigm,4123
+2212.09278,conversational text-to-SQL,6145
+2208.00638,controllable text generation,4107
+2210.17517,mathematical reasoning benchmark,974
+2208.09354,medical event extraction,341
+2210.07519,LLM rational decision-making,2241
+2210.07382,neurosymbolic reasoning agents,87
+2212.08105,Chinese text classification embedding,41
+2210.0634,radiology report generation,8900
+2207.14393,zero-shot task-oriented dialog,465
+2210.07493,controllable story generation,3780
+2210.15387,dysarthric speech assessment,1552
+2212.08635,zero-shot open-domain QA,2798
+2210.05773,bilingual restaurant ordering system,17
+2211.1488,active learning for QA,25637
+2210.13312,LLM social intelligence theory of mind,4171
+2312.09907,German text simplification,305
+2311.09033,multilingual linguistic acceptability benchmark,17
+2310.16225,NER dataset quality improvement,12838
+2310.04407,policy gradient text retrieval,7606
+2311.03963,automatic metaphor detection,2909
+2310.06422,AI propaganda detection,10466
+2309.11508,LLM autograding examination,1904
+2310.16763,language model alignment SFT RLHF,17677
+2310.14107,visually grounded grammar induction,2809
+2312.00584,legal NLP ethics,48
+2311.00262,LLM dialogue policy planning,15748
+2309.14379,AI for qualitative analysis,3877
+2310.18371,complex question decomposition,14747
+2312.16659,AI-assisted writing,959
+2311.07022,video-language model evaluation,5306
+2311.07925,EEG speech signal analysis,144
+2311.04931,open source LLMs,1079
+2312.01398,contract fairness analysis,5417
+2309.13702,AI Game Master evaluation,52
+2311.17892,NLP neuro-symbolic models,1275
+2412.03331,low-resource sentence embeddings,818
+2411.145,LLM accuracy fairness trade-off,40847
+2412.0937,Word Sense Linking task,9225
+2412.15277,prompt learning regularization,11000
+2412.11385,LLM lexical overrepresentation,1411
+2411.14497,instruction tuning data optimization,3930
+2412.17747,LLM computation augmentation,33162
+2411.07845,NLP ethics research,159
+2412.04342,RAG for machine translation,13180
+2412.20072,hybrid document information extraction,487
+2410.18336,LLM mathematical creativity,2626
+2410.13413,LLM thought refinement,28822
+2412.11556,sentence embedding techniques,26984
+2410.23746,LLM text detection benchmark,3370
+2412.0843,AI career mentoring evaluation,128
+2411.03769,multilingual vision-language benchmark,629
+2411.02461,LLM trustworthiness alignment,1902
+2410.15956,multilingual LLM naturalness,155
+2410.2389,LLM for crisis machine translation,6612
+2411.00029,multi-modal model fine-tuning,9991
+2511.01359,factual consistency in LLMs,1033
+2511.01689,LLM persona character training,1045
+2511.01305,5G specification QA,4120
+2511.1722,LLM sycophancy benchmark,1161
+2601.09719,LLM normalization alternatives,4230
+2511.07458,reference-free log summarization evaluation,11
+2511.08507,Bangla Sign Language translation,177
+2512.02363,domain-specific QA systems,687
+2511.17405,open-form vision-language evaluation,4587
+2601.00797,sociological persona simulation,288
+2511.14603,AKI to CKD progression analysis,444
+2511.21737,latent alignment probing,17428
+2510.26543,linear relation decoding,987
+2512.12168,diffusion model inference,11329
+2512.07218,neuro-symbolic temporal reasoning,8226
+2512.09563,Chinese hate speech detection,73
+2602.2337,long-document topic segmentation,62
+2512.03082,mitigating choice-supportive bias,1156
+2601.0972,uncertainty-aware QA systems,1012
+2512.1008,LLM reasoning analysis,8696
+2605.26893,faithful chain-of-thought reasoning,135
+2605.29889,clinical triage LLM evaluation,124
+2605.19723,LLM mathematical reasoning survey,5038
+2605.09253,on-policy distillation efficiency,14398
+2605.2524,comparative preference evaluation,11904
+2606.08056,sign language spatial indexing,2
+2605.15102,long-range dialogue consistency,9701
+2605.04523,LLM ensemble generation,61
+2605.22963,hallucination detection GNN,4102
+2605.07271,LLM layer pruning,10278
+2605.10606,stylistic embedding analysis,142
+2605.09533,RAG vs fine-tuning,2809
+2605.28669,word sense induction,26
+2605.01831,reward model evaluation,9303
+2605.07234,KV cache compression,3089
+2605.2073,in-context task vectors,37131
+2605.28006,LLM reasoning interpretability,449
+2605.23039,statistical preemption linguistics,11444
+2605.27091,set-valued prediction QA,3310
+2605.09536,diffusion LLM acceleration,19474
+2108.13344,synthetic data for agriculture,19165
+2106.11054,self-supervised visual probing,726
+2107.07191,synthetic data food segmentation,241
+2111.1323,federated learning medical imaging,35480
+2111.04138,model explainability attribution,4241
+2110.06443,image domain translation,8830
+2111.12873,equivariant representation learning,6254
+2112.12072,multimodal summarization,7867
+2112.11242,plant disease detection,306
+2105.08655,UAV disaster damage assessment,218
+2106.10731,novel class discovery,16595
+2108.08344,video reasoning benchmark,20
+2105.10686,kidney stone classification,31186
+2111.15,interpretable image classification,15806
+2109.01594,neural network receptive field,1373
+2110.1232,webpage information extraction,1186
+2106.11236,camera trap privacy,15
+2105.09596,anchor-free object detection,91
+2107.02156,multi-task visual tracking,31723
+2107.02655,pediatric medical segmentation,18368
+2209.15458,polygon encoding embeddings,5478
+2209.04648,crack detection algorithms,1402
+2211.1063,ultrasound quality assessment,662
+2212.00935,mural edge detection,6112
+2212.00352,underwater sonar detection,6
+2209.11693,unsupervised 3D video prediction,915
+2209.12746,GAN image inversion,26968
+2212.08731,3D human pose estimation,9
+2208.00223,LiDAR data augmentation,1555
+2212.10537,CLIP compositionality,24331
+2206.07634,3D point cloud augmentation,4
+2207.00067,UDA semantic segmentation,36877
+2208.07021,visual frame prediction,1983
+2209.12599,cross-modal retrieval hashing,1281
+2209.03466,GAN model watermarking,314
+2208.00788,video deepfake detection,961
+2209.08891,text-to-image bias,147
+2207.05957,transductive open-set recognition,21458
+2209.06629,sketch-based image retrieval,3441
+2206.10177,attention in SNNs,12856
+2311.18775,multimodal generation,8261
+2310.1467,VQA bias mitigation,1189
+2312.01367,text-to-image face recognition,16110
+2312.02189,text-to-3D generation,3697
+2312.04913,vision-language adversarial attack,1095
+2310.15098,medical image annotation,21805
+2309.11858,linear computed tomography,26184
+2309.10783,multimodal video classification,131
+2310.13103,audio-visual deepfake detection,2654
+2311.03035,vision transformer pruning,36828
+2310.20695,human-centric masked modeling,3703
+2311.15876,radiotherapy planning LMM,2188
+2312.14481,surgical instrument segmentation,30196
+2312.04746,histopathology multimodal model,19482
+2310.1263,ECG vision transformers,22687
+2311.0924,epidemic risk assessment,1945
+2310.04461,active learning microscopy,2927
+2401.02433,federated diffusion models,12357
+2311.11014,contrastive lesion retrieval,84
+2311.02782,GPT-4V anomaly detection,4341
+2412.16859,domain adaptation segmentation,4171
+2410.20358,3D motion recovery,1563
+2412.05275,video motion transfer,517
+2412.08771,LLaVA token compression,2975
+2411.04642,text-aware vision-language,611
+2411.18068,multi-human scene generation,1322
+2411.16721,VLM jailbreak defense,18678
+2412.03347,DINO-based video editing,3920
+2412.18966,continual T2V pre-training,20906
+2412.02142,personalized MLLM survey,22908
+2412.09389,video generation consistency,4117
+2411.05307,semi-supervised semantic segmentation,8582
+2410.2028,video diffusion generation,1836
+2411.01851,image matching pipeline,7
+2412.10151,RAG VQA benchmark,7722
+2410.12761,diffusion safety guard,41062
+2412.13376,3D adversarial attack,1528
+2412.18743,object-centric compositional learning,10445
+2412.11381,SAM material segmentation,7006
+2412.19867,quantized diffusion models,40466
+2512.22536,coherent video generation,1572
+2511.06406,IVOD modality dropout,4037
+2510.23956,object-centric editing,2668
+2512.02743,hateful video detection,2748
+2511.07301,source-free object adaptation,19900
+2512.05941,GUI element grounding,10455
+2511.149,dermatological VLM,41643
+2511.18152,blind image restoration,32035
+2511.10894,rainfall nowcasting transformer,36
+2511.19367,lung cancer staging AI,6406
+2512.08477,drag-based image editing,5888
+2512.06521,camera trap classification,27789
+2511.17699,counting in LLMs,3794
+2512.2302,3D visual grounding,8662
+2512.11941,skeleton action recognition,2216
+2511.22048,image super-resolution diffusion,9189
+2511.19835,efficient video generation,38333
+2512.08542,quaternion GAN,3568
+2512.08243,breast ultrasound segmentation,4848
+2512.21641,temporal 3D grounding,77
+2606.00094,diffusion manifold learning,6412
+2605.13586,indoor scene synthesis,170
+2605.20551,visual place recognition,18659
+2605.24475,robust multi-view classification,10577
+2606.08034,STEM symbolic benchmark,6240
+2605.22066,4D cardiac reconstruction,313
+2606.0762,ViT fault injection,1403
+2605.22581,floorplan localization,1603
+2606.04365,kidney CT lesion analysis,1262
+2605.12495,multimodal reinforcement learning,4598
+2605.18349,crowd counting attention,10013
+2605.14113,clinical report generation,279
+2606.02178,AI forgery localization,790
+2605.20901,egocentric interaction anticipation,3635
+2605.22715,setup-agnostic motion capture,256
+2605.01024,multimodal emotion recognition,1594
+2605.16076,plant disease classification,472
+2605.20624,video inverse problem solver,12424
+2605.07019,visual text processing,10886
+2605.16427,echocardiography data augmentation,1501

@@ -1,0 +1,480 @@
+arxiv_id,query,rank
+2112.07252,Are there ways to train an effective cardiac sleep scoring model by transferring knowledge from brain wave models?,854
+2109.12755,"Can neural networks truly comprehend step-by-step algorithms, or do they just rely on surface level matching?",188
+2108.03645,What are some adaptive scheduling policies for efficiently managing multiple deep learning workloads on shared processors?,5
+2110.1491,What computer vision and predictive methods have been most effective for diagnosing coronavirus patients?,1564
+2110.14706,Are there any good benchmark datasets for finding unusual obstacles in robotic vision streams?,75
+2107.00395,How can we use the geometric shapes of written characters to improve text embeddings in non-alphabetic languages?,33066
+2110.09605,Can generative network architectures create convincing environmental sound effects like people walking on different surfaces?,32
+2106.05268,What is the role of algebraic high-dimensional spaces in designing next-generation AI hardware?,767
+2105.10317,How can we dynamically adapt the feature map boundaries during evolutionary optimization?,7972
+2106.09435,What is a computationally efficient way to find optimal cooperative strategies in games with more than two players?,38
+2107.12979,How does the mammalian brain update its internal models based on sensory mismatches?,2077
+2110.11567,How do you reliably assess a machine learning model if the test dataset has highly subjective or flawed labels?,13320
+2112.04169,How can organizations mathematically ensure fairness when assigning scarce resources to heterogeneous arriving populations?,245
+2111.04472,What are the different ways environmental attributes are categorized in pervasive computing environments?,96
+2111.07631,what are the main challenges and trends in human-computer gaming AI?,35
+2107.13669,how to model competition between modalities in sentiment analysis?,242
+2107.01142,how to design a framework for integrated control and communication in autonomous vehicles?,3249
+2106.13052,what are the current state-of-the-art strategies for autonomous driving at intersections?,4
+2109.05125,how to perform multimodal retrieval across multiple languages using limited data?,6694
+2105.07405,how to derive optimal strategies for multi-agent systems with uncertain parameters?,3
+2206.13658,how to represent causality of events in geographic knowledge graphs?,1
+2212.10565,how to effectively use explainable AI methods in medical image classification?,1882
+2209.02066,what are the factors affecting user trust in human-robot language grounding?,9
+2206.119,how to generate both symbolic and score-based explanations for machine learning models?,169
+2212.01683,can transformer models be used to predict gestures in robotic surgery?,1406
+2210.09753,how to use automated planning for social robots in pediatric healthcare?,32
+2210.14723,how to train a text-to-speech system with very limited labeled data?,216
+2210.08356,how to automatically identify and debug errors in deep neural networks?,4297
+2211.16468,what is the most efficient algorithm for front-door adjustment in causal graphs?,560
+2207.13192,how can I create adversarial attacks on music that sound natural to humans?,657
+2206.1194,how can agents learn to solve multiple different goals in an environment efficiently?,566
+2209.03785,how to adapt brain-computer interface models to new users with limited data?,4744
+2207.14682,what are the best methods to detect and localize edited audio segments?,782
+2209.02886,how can robots in a swarm share and transfer their learned skills?,337
+2212.09328,can quantum algorithms speed up reinforcement learning training?,68
+2206.14244,how can we decouple visual representation and dynamics in robotic reinforcement learning?,185
+2211.04343,how can we automate the design of optimal quantum circuits?,4099
+2211.05182,how to measure the effectiveness of counseling techniques in online support sessions?,1627
+2208.09554,how can robots combine human instructions and models to learn tasks quickly?,306
+2208.03454,how can graph neural networks be used for tag-based recommendation systems?,7041
+2401.10745,what are the ethical guidelines for governing highly advanced language models?,42
+2309.10426,how can robots learn to manipulate and stack complex groups of objects?,257
+2310.12931,can large language models generate effective reward functions for robotics?,589
+2312.09799,how can we use perceptual masking to reduce video bitrate without quality loss?,14
+2312.08847,how can we incorporate domain knowledge into neural networks for process prediction?,207
+2311.1377,how can we convert body gestures into digital calligraphy art?,6
+2312.08571,can modifying the phase spectrum improve speech recognition model performance?,8179
+2310.18316,how can binary hypervectors be used to model cognitive processes?,215
+2311.03362,what are the best methods to verify the safety of AI in autonomous parking systems?,174
+2310.12866,how can deep learning models predict ovarian cancer treatment effectiveness from images?,4118
+2309.05787,how to design autonomous systems that learn from human feedback and observation?,136
+2312.07753,what is a better way to perform attention on tabular datasets to improve performance?,23042
+2311.03567,how can we make human-in-the-loop systems more equitable for diverse populations?,134
+2311.16204,what are the best computational methods to minimize costs when rebalancing investment funds?,1
+2311.02847,how can large language models help robots manipulate previously unseen objects?,8533
+2309.17288,how can I dynamically generate and coordinate a team of specialized AI agents?,1710
+2311.13725,what are artists' primary concerns regarding the rise of AI-generated content?,2875
+2310.10863,how to plan camera views for multiple drones filming in cluttered spaces?,996
+2310.05751,what are the foundational ethical principles for responsible AI development in the US?,207
+2312.14625,how can malicious actors manipulate navigation systems to increase traffic congestion?,6
+2412.05586,are neuro-symbolic models better than LLMs at solving visual abstract reasoning tests?,153
+2411.01789,can large language models automatically generate assertions from Javadoc comments?,212
+2412.17338,how can contrastive learning improve the interpretability of neural topic models?,7431
+2410.10924,how to accurately measure dependency between variables in complex unstructured data?,421
+2412.0948,what are the key parameters required for machines to acquire and apply knowledge?,675
+2412.17288,how to enable robots to follow natural language instructions using visual feedback?,110
+2412.16425,what is the most robust way to detect and classify cells in pathology images?,9060
+2412.12198,how do humans detect objects differently in parallel versus serial search tasks?,2
+2410.18861,how to implement effective watermarks for open-source large language models?,10
+2410.15048,how can autonomous agents dynamically adapt their roles and capabilities during collaboration?,5
+2412.16925,how can I create a composite index to track shifts in public sentiment over time?,2036
+2410.08911,what is a systematic way to observe and analyze the runtime behavior of code-generating models?,373
+2412.19834,how can I make watermarks in diffusion models resistant to adversarial removal?,3
+2412.17616,how are facial expression analysis techniques being applied to IoT-based healthcare and security?,253
+2412.05587,can a domain-specific knowledge base improve LLM performance for Earth Engine scripting?,2937
+2501.01435,what are the main cybersecurity risks introduced by deploying general-purpose AI as core OS components?,13
+2410.18475,how can knowledge transfer between metabolic graphs improve gene-metabolite link prediction?,1030
+2412.06312,what extensions to planning languages are needed to better represent complex real-world processes?,730
+2411.10464,what deep learning techniques are most effective for real-time disengagement monitoring in digital classrooms?,1
+2412.16788,how to combine contrastive learning and reconstruction to detect anomalies in attributed graphs?,35
+2511.21448,how can we systematically benchmark LLM-based email security systems against phishing?,128
+2512.0553,how to improve multimodal model reasoning by integrating multiple rationales?,1864
+2511.01018,can machine learning models predict repeat severe asthma attacks using electronic medical records?,153
+2511.11252,what benchmark exists to test the reasoning and ethics of autonomous drone flight agents?,2701
+2511.15002,how can sharpness-aware minimization improve the training stability of network resource management agents?,81
+2512.09319,how can we develop data-efficient and physics-aware AI models for resource-constrained industrial environments?,512
+2511.05625,what are the risks and benefits of using AI partnerships in educational classroom dialogues?,107
+2511.04144,how do AI programming assistants influence the way students learn and think about code?,890
+2511.13365,how can we decompose and filter redundant information to prevent data reconstruction in split inference?,591
+2512.1472,how can we systematically evaluate how well AI agents perform on social media tasks?,1746
+2512.07009,what techniques can be used to optimize real-time video analytics pipelines for livestock?,1
+2511.08206,how should LLMs be evaluated on structured electronic health record tasks?,4242
+2511.19457,how can we improve the efficiency of running deep neural networks on edge devices?,8433
+2512.23889,do large language models accurately reflect diverse American public opinions on climate change?,17
+2512.04359,how can entropy signals be used to improve the reasoning performance of language models?,16410
+2510.26384,"what is an efficient way to create small, representative subsets for testing AI models?",15718
+2512.14181,how can we visualize quantum encoder performance to choose better QNN architectures?,2987
+2511.17592,what open-source tools are available for studying LLM-driven evolutionary optimization?,310
+2511.16582,how can we categorize different arguments regarding whether AI can be conscious?,5
+2511.15141,how can we improve RAG for recommendation by focusing on item-level retrieval?,6923
+2605.26754,how can we prevent large language models from being manipulated by poisoned search data?,8
+2605.28098,how do biases in individual agents combine to affect fairness in multi-agent systems?,642
+2605.21974,how do table layouts and schema constraints interact when extracting knowledge graphs?,1384
+2605.07896,why might a chatbot interface be an unsuitable design for complex or high-stakes AI tools?,272
+2606.03161,what infrastructure is needed to enable secure and trusted interaction between autonomous agents?,35
+2605.16043,is a state-based policy better than vision-based for robotic rope manipulation tasks?,4920
+2605.26646,can we use reinforcement learning to automatically optimize multi-agent LLM workflows?,7760
+2605.10804,what AI frameworks can improve mental health screening and support on university campuses?,762
+2606.05792,how accurately can current large language models generate formal verification specifications?,117
+2605.1177,how can I verify that an AI agent's skills match its declared capabilities?,1142
+2606.03252,how can drones navigate unseen environments without pre-defined rules?,230
+2605.27331,how to build a reliable AI assistant for legal competition research?,38
+2605.19147,how can I use prompt rewriting to prevent LLM data poisoning?,22618
+2605.3028,can a single vision-language-action model handle multiple robot embodiments and tasks?,4833
+2605.29068,how can I achieve robust AI safety without the latency of explicit reasoning?,10826
+2605.05951,how to create stable world models for planning over long time horizons?,32002
+2605.09515,how can I prune redundant attention heads to increase transformer efficiency?,6800
+2605.15543,can NLP word embeddings be used for domain-independent game state abstraction?,567
+2605.05402,how can I use existing CCTV to measure the effect of traffic calming measures?,1073
+2605.30854,how to prevent LLM agents from exploiting or colluding in strategic environments?,1117
+2106.1359,how can co-evolutionary training methods improve GAN performance?,2
+2107.05747,can Hebbian networks perform Bayesian inference and minimize cross-entropy?,1163
+2110.00804,how to integrate program structure into transformer-based reasoning models?,687
+2106.05876,which deep learning architectures work best for multi-sensor transport detection?,2131
+2106.06842,how can hypernetworks help improve gradient approximation in RL algorithms?,97
+2109.00882,how to improve coordination between agents in partially observable settings?,95
+2111.00185,what are the convergence rates of policy gradient methods under weak smoothness?,5
+2111.02374,what are the legal risks of using public image datasets for commercial AI products?,3673
+2110.03092,how can I build a single framework to detect OOD and adversarial inputs?,6869
+2110.12399,how can I make neural architecture search more interpretable while satisfying latency constraints?,3593
+2110.1108,what is a good dataset to use for training machine learning models for mouse movement authentication?,378
+2109.06489,how can I capture relationships between variables across different time steps for forecasting?,7032
+2110.00695,how can deep learning models be used to predict future rain fade in satellite communications?,43
+2111.02034,what are the key legal obligations and best practices for building machine learning datasets?,52
+2109.12073,can graph neural networks improve reinforcement learning performance for power system control?,46
+2110.02497,does pretraining on large datasets actually improve performance in downstream reinforcement learning tasks?,46
+2106.03099,how can I provide provable guarantees that a neural network is safe from adversarial attacks?,321
+2108.12805,how can I use masked weight perturbations to improve the robustness and generalization of my models?,9305
+2111.07736,how can I design modular neural networks that learn sequences of tasks without forgetting previous knowledge?,7199
+2108.13093,how does adversarial training affect the frequency sensitivity and feature reliance of reinforcement learning policies?,7997
+2211.08282,what is the relationship between equivariant representations and input augmentations in self-supervised learning?,151
+2211.04076,what are the best kernel-based methods for approximating self-attention with linear complexity?,33
+2208.06975,why do standard graph neural networks struggle with graph coloring and how can they be improved?,11374
+2209.09344,how do different observation and action space choices impact the performance of reinforcement learning for crowds?,6178
+2207.0619,how can I improve the quality of solutions found by neural solvers using beam search?,67
+2211.05567,what is the current state of using deep neural networks to solve partial differential equations?,3384
+2210.08349,how can I decide when to update the world model in model-based reinforcement learning?,10943
+2211.08583,do adaptive optimizers perform better than non-adaptive ones for out-of-distribution tasks?,1242
+2212.04717,how accurate do our models of human behavior need to be to reliably infer human rewards?,5
+2211.08742,how can I audit medical machine learning models for biases related to patient severity?,10393
+2206.11054,can sparse attention mechanisms improve decision-making in multi-agent reinforcement learning?,2045
+2212.03513,how can I objectively evaluate and select the most faithful explanation method for my model?,43
+2207.08137,can game theory be used to guarantee optimal adversarial robustness for neural networks?,2609
+2210.15755,what is a more efficient approach to approximate policy iteration for planning in MDPs?,3270
+2207.03075,what are the best practices and benchmarks for applying federated learning to medical data?,1435
+2211.05946,how to use reinforcement learning to manage energy storage and flexible loads in microgrids?,10
+2211.15839,can neural networks effectively learn to execute planning algorithms in continuous action spaces?,5
+2206.07551,how can I perform domain adaptation when the target domain contains previously unseen classes?,35823
+2206.09991,what loss functions should I use to handle imbalanced data in regression tasks?,2991
+2212.13925,how does inference time affect the prediction quality of deep learning models in real-time systems?,5757
+2311.06917,how can reinforcement learning be used to optimize client selection in federated learning?,14489
+2311.06567,can causal relationships be learned from latent variables without any supervision?,525
+2309.16928,how to train concept bottleneck models to better incorporate user-provided concept corrections?,2270
+2310.10692,can generative models automatically invent diverse and difficult programming problems?,944
+2310.15793,how can learning subspaces of parameters improve the few-shot performance of language models?,6366
+2311.1009,what is an efficient framework for running hardware-accelerated multi-agent reinforcement learning?,510
+2312.15122,how can large-scale reinforcement learning be applied effectively to autonomous driving?,23
+2310.05373,can quantum computing achieve tighter regret bounds for bayesian optimization than classical methods?,617
+2312.15909,how can I learn generalizable task representations for reinforcement learning from limited offline data?,811
+2310.15154,how do large language models represent sentiment internally?,1784
+2310.02605,how can multi-agent reinforcement learning be used to optimize power network topology?,9
+2310.06117,what is a prompting technique that helps LLMs reason through abstraction?,28
+2310.17191,how do language models link entities and attributes when given in-context information?,141
+2310.11678,how can I train reinforcement learning agents for tasks where rewards depend on state history?,1420
+2309.15293,how can we decorrelate data collected from embodied agents in reinforcement learning?,573
+2310.03718,how can we train safe reinforcement learning agents to adapt to different safety constraints zero-shot?,1681
+2312.01472,is there a library to standardize benchmarking for multi-agent reinforcement learning?,3
+2311.17565,how can I mitigate biases when using multi-step updates in goal-conditioned reinforcement learning?,2005
+2310.09222,what are some fast algorithms for learning causal structures in Bayesian networks from data?,509
+2312.05479,how can I reduce the computational overhead of graph transformers while maintaining accuracy?,5124
+2412.12456,how are graph neural networks and large language models being combined in recent research?,2712
+2410.09964,how can lower-dimensional projections improve cell type classification from scRNA-seq data?,45
+2410.23483,how can I perform an adversarial attack on a multi-model system when I only have partial knowledge?,1
+2411.02142,what are the compute-optimal scaling laws for training protein language models?,208
+2411.00666,how can I improve PPO performance by changing the outer-loop gradient optimizer?,142
+2412.08147,how can Bayesian model merging help find good weights for multitask finetuning?,2
+2411.00074,what is a generic method for sampling sequential patterns from continuous data streams?,24
+2411.14507,how can I compress transformers by fusing layers instead of just removing them?,5364
+2411.19285,how can I make differentiable convex optimization layers faster for deep learning?,15775
+2412.11408,how to handle data heterogeneity and improve generalization in federated learning?,835
+2410.22984,how can I model higher-order interactions across time and space in time series?,468
+2412.15373,can Kolmogorov-Arnold networks improve non-linear causal discovery in time series?,226
+2410.10365,how to perform graph contrastive learning without using positive sample pairs?,8939
+2411.06765,what deep learning methods are effective for automated fault diagnosis in nuclear plants?,902
+2412.09843,how can I recover causal mechanisms from observational data using causal orderings?,135
+2411.15951,what are the fundamental limits of identifiability and misspecification in IRL?,1994
+2412.0056,can overfitting be used as a strategy to improve anomaly detection performance?,5050
+2411.02666,how to use large language models to categorize travel modes and sentiment from social media?,853
+2410.10481,how can I customize an LLM for my domain without exposing sensitive training data?,5916
+2412.07224,how can weight orthogonality improve performance in continual reinforcement learning?,1
+2511.10848,how can I adapt general time series foundation models for EEG-specific classification tasks?,142
+2511.13351,how to implement continual learning in multimodal food analysis models?,2449
+2511.01819,how can I make indoor localization models robust to changing room layouts?,21192
+2511.00532,which machine learning models are best for long-term air pollution forecasting?,16
+2512.12688,how do specific prompt engineering techniques change the semantic behavior of language models?,3363
+2511.13612,how can reinforcement learning be used to train LLMs for high-level physics problem solving?,7493
+2511.11593,how can I generate sound logical explanations for predictions made by mean-aggregation GNNs?,144
+2512.13186,how to represent polymer ensembles for machine learning to capture physical properties?,9
+2511.03095,how to detect rare anomalies in high-dimensional data using self-organizing kernels?,413
+2512.13741,how can latent space analysis detect adversarial jailbreak attacks in LLMs?,13797
+2512.2255,what is a unified encoder-decoder architecture for generalized time-series forecasting?,535
+2512.16901,how do historical training data biases impact the fairness of news classification models?,773
+2512.11145,how to improve the visualization and clustering of complex scientific ensemble data?,4237
+2512.2042,can task-specific normalization replace complex modules in multi-task learning?,135
+2511.15432,how do internal layers contribute to predictions in tabular in-context learning models?,36
+2512.01457,how can LLMs perform adaptive inference with zero-overhead introspection?,4428
+2512.09198,how to use machine learning to personalize transcatheter heart valve selection for patients?,1
+2511.15067,how to develop deep learning models for prognostic prediction in colorectal cancer using images?,13319
+2511.06157,how to identify top-performing activity recognition models without full training?,418
+2511.11743,how to maintain accuracy and stability in quantized Mixture-of-Experts models?,9216
+2606.03238,how can we classify and anticipate different types of RLHF reward hacking?,11600
+2605.29467,how to preserve closed-form inference when stacking probabilistic model components?,30
+2605.1294,what are the fundamental expressivity limitations of probabilistic circuits compared to LLMs?,62
+2605.12312,how to design reinforcement learning agents that are robust to environmental delays?,7173
+2606.0013,how can tensor network factorizations be used to compress deep learning models?,1416
+2605.10189,how to align protein design models to functional preferences without losing designability?,2666
+2605.05524,how to discover interpretable causal modules in scientific time series data?,541
+2605.18826,what are the distinct roles of routing and filtering in transformer attention heads?,25149
+2605.13652,how do different low-rank pre-training methods compare beyond validation perplexity?,1991
+2605.13687,how does increasing context length or adding reasoning improve language model performance?,35452
+2605.00082,can the Forward-Forward algorithm be optimized for faster inference in image classification?,2485
+2605.12058,how can we balance gradient concentration and stability in reinforcement learning for LLMs?,12698
+2605.02278,what is a robust deep learning method for imputing missing values in time-series data?,8165
+2605.11347,how can I align diffusion models with rewards without using gradient backpropagation?,101
+2605.16806,how to handle unreliable sensor data in multimodal student collaboration models?,1567
+2605.04418,what is the role of explicit manifold constraints in stabilizing LLM pre-training?,3701
+2605.18864,how to improve exploration in reinforcement learning for reasoning-focused LLMs?,317
+2605.31558,how do transformer attention heads differ in their ability to perform positional vs symbolic tasks?,156
+2605.18224,how can I detect and prevent constant collapse in variational autoencoders?,803
+2605.02943,is there a benchmark environment for training clinical reasoning agents in healthcare?,6357
+2106.03518,how can I make emotion cause extraction models robust against dataset position bias?,5473
+2107.04132,what are the current trends and tools for researching embodied agents in Text Worlds?,95
+2112.05417,how can I rewrite stories for counterfactual scenarios while keeping minimal changes?,491
+2108.07005,how to achieve fast inference in spoken language understanding without losing accuracy?,840
+2105.1388,can I use existing pre-trained models to train larger ones more efficiently?,2809
+2107.04007,does observing AI-generated text improve human creative writing performance?,5150
+2110.02834,can adding relation prediction as a training objective improve knowledge base completion?,8409
+2105.11698,how can I generate questions with controllable difficulty levels based on inference steps?,8
+2111.13611,how can I predict whether a document contains useful relational information for knowledge bases?,3
+2109.0685,how can I perform a comprehensive evaluation of open information extraction systems?,5940
+2106.01354,how can I generate multiple proof graphs for natural language rule-based reasoning?,1605
+2110.08144,is there a modular and iterative approach for multilingual open information extraction?,138
+2106.07275,how to perform grounded response generation in document-based dialog systems?,920
+2109.13089,can I use text mining to automatically generate leaderboards from scholarly publications?,816
+2110.12201,are there specialized language models trained on Spanish legal corpora?,1
+2106.01666,how does chatbot self-disclosure influence user perception and recommendation acceptance?,974
+2109.09825,what data augmentation methods help detect anaphoric zero pronouns in pro-drop languages?,7
+2111.05721,how can I use NLP to automatically identify critical facts and arguments in legal cases?,27
+2110.08551,how can I compress large language models using hierarchical knowledge distillation?,459
+2211.04476,how can I automatically detect and interpret underperforming groups of data in NLP?,7278
+2212.10189,how can I make knowledge base question answering systems robust to unanswerable questions?,1
+2210.13236,how to exhaustively interpret and probe multilingual language models across languages?,26
+2210.09338,how can I pretrain a model to deeply fuse text with knowledge graph information?,183
+2206.11147,what is the reStructured pre-training paradigm for language models?,989
+2212.09278,how can I build a conversational text-to-SQL system using generative pre-trained models?,603
+2208.00638,how can I perform efficient and composable text editing in a latent space?,97
+2210.17517,are there unified benchmarks for testing mathematical reasoning skills in intelligent systems?,1267
+2208.09354,how can I perform end-to-end event extraction from electronic health records?,153
+2210.07519,are large language models capable of making rational decisions like humans?,2076
+2210.07382,how can injecting symbolic actions improve the reasoning performance of transformer agents?,25
+2212.08105,how can I incorporate radicals and pinyin to improve Chinese text classification models?,26
+2210.0634,how to prevent medical report generation models from hallucinating references to prior history?,824
+2207.14393,can synthetic data from language models replace human data for training dialog agents?,85
+2210.07493,how to generate stories that reflect the protagonist's changing psychological states?,1356
+2210.15387,how to use multi-task learning and self-supervised models for speech severity assessment?,73
+2212.08635,how can I improve zero-shot open-domain question answering using self-prompting?,136
+2210.05773,how to design a bilingual dialogue system that handles switching between languages?,31
+2211.1488,how to combine data generation and active learning to improve QA in low-resource settings?,7896
+2210.13312,do modern large language models actually possess social intelligence or theory of mind?,356
+2312.09907,can modern language models effectively perform text simplification for German narrative documents?,11
+2311.09033,what is the best way to evaluate linguistic acceptability across multiple languages?,1543
+2310.16225,how to handle annotation noise in popular named entity recognition benchmarks?,1013
+2310.04407,how can I train language models for text retrieval using policy gradient methods?,3384
+2311.03963,how to build a model that detects metaphors by comparing word expectations and realizations?,160
+2310.06422,how effective are current large language models at detecting propaganda in text?,765
+2309.11508,can large language models reliably autograde short textual answers in educational settings?,480
+2310.16763,is there a simpler alternative to PPO for aligning language models with human feedback?,6346
+2310.14107,do grammar models trained with visual cues transfer well to new domains?,31
+2312.00584,should artificial intelligence be used to automate judges in common law systems?,2
+2311.00262,how to create a reusable dialogue policy planner for LLM-powered agents?,3597
+2309.14379,how can LLMs be used to scale and automate qualitative data analysis in the humanities?,789
+2310.18371,how to decompose complex questions into simpler steps without fine-tuning?,782
+2312.16659,can LLMs help reduce the effort required to write personal identity narratives?,347
+2311.07022,what is a good benchmark for assessing temporal grounding in video-language models?,1417
+2311.07925,how can diffusion models improve representation learning from speech-related EEG signals?,29
+2311.04931,what are the technical details of the open-source GPT4All model ecosystem?,24
+2312.01398,how can NLP be used to detect potentially unfair sentences in commercial contracts?,1135
+2309.13702,how do current dialogue models perform when acting as Game Masters in RPGs?,1
+2311.17892,how to bridge linguistic theory and NLP using quantum-ready semantic circuits?,51
+2412.03331,how to improve sentence embedding models for low-resource languages like Luxembourgish?,156
+2411.145,how to balance accuracy and fairness during the training of large language models?,38335
+2412.0937,how can I perform word sense disambiguation on plain text without predefined spans?,1716
+2412.15277,how to use perplexity to regularize prompt learning in vision-language models?,447
+2412.11385,"why do LLMs frequently overuse certain words like ""delve"" in scientific writing?",332
+2411.14497,how to automate the improvement of instruction tuning data using multi-agent systems?,2058
+2412.17747,can an offline coprocessor improve LLM reasoning by augmenting the key-value cache?,8781
+2411.07845,what are the common ethical concerns discussed in recent NLP research papers?,2
+2412.04342,how to incorporate unstructured document knowledge into retrieval-augmented translation?,2334
+2412.20072,how can large language models extract information from long documents containing both text and tables?,205
+2410.18336,how do you measure the creative potential of large language models in solving complex math problems?,4474
+2410.13413,can language models improve their own outputs by refining their reasoning steps?,20304
+2412.11556,how can I get better sentence embeddings from a decoder-only LLM without additional training?,1835
+2410.23746,how well do state-of-the-art AI detectors perform against realistic human-revised text?,760
+2412.0843,how well do large language models provide personalized mentoring for students of different backgrounds?,1021
+2411.03769,where can I find a multilingual vision-language dataset for emotional image captioning?,46
+2411.02461,how can I control multiple traits like safety and honesty in an LLM without retraining?,517
+2410.15956,how to evaluate and improve the grammatical naturalness of LLM outputs in languages like French or Chinese?,80
+2410.2389,what is a scalable way to build machine translation systems for low-resource languages during crises?,5894
+2411.00029,how to adapt large multi-modal models without losing pre-trained knowledge?,3038
+2511.01359,how can I detect factual inconsistencies as the model is generating text?,356
+2511.01689,how to effectively train a specific personality or persona into an AI assistant?,213
+2511.01305,how can I improve question answering for complex technical standards like 5G?,1803
+2511.1722,how do I measure if a language model is susceptible to social pressure and sycophancy?,175
+2601.09719,is there a more efficient and stable alternative to standard layer normalization for LLMs?,786
+2511.07458,how can I evaluate log summaries effectively without having reference summaries?,2
+2511.08507,how can I build a dataset for Bangla sign language translation in a low-resource setting?,81
+2512.02363,how to build a safe and adaptive question answering system for sensitive service domains?,9
+2511.17405,how to replace multiple-choice benchmarks with open-form questions for more reliable AI evaluation?,790
+2601.00797,how can I use large language models to simulate social personas for qualitative hypothesis generation?,170
+2511.14603,what methods can be used to model the transition from acute kidney injury to chronic disease?,9031
+2511.21737,how can I evaluate the internal semantic consistency of an LLM's latent beliefs?,8201
+2510.26543,what do linear decoding operators in transformer models actually represent about stored facts?,137
+2512.12168,how can I use tree search techniques to improve text generation in diffusion language models?,9920
+2512.07218,how can combining symbolic logic with LLMs improve temporal reasoning accuracy?,4892
+2512.09563,what is an effective framework for detecting fine-grained hate speech in Chinese text?,6
+2602.2337,how can I efficiently segment very long documents into coherent semantic chunks?,558
+2512.03082,how can I reduce choice-supportive bias in large language models during evaluation tasks?,1692
+2601.0972,how to incorporate uncertainty modeling into knowledge graph-based question answering?,197
+2512.1008,are large language models actually performing reasoning or just mimicking patterns?,47
+2605.26893,how can I ensure that an LLM's chain-of-thought reasoning is actually faithful to the source?,1026
+2605.29889,do LLMs fail clinical triage tasks because of knowledge gaps or output formatting?,8
+2605.19723,what are the current state-of-the-art methods and benchmarks for mathematical reasoning in LLMs?,4491
+2605.09253,why do some tokens in LLM distillation resist correction and provide no functional utility?,4484
+2605.2524,is pairwise preference evaluation better than rubric-based scoring for expert-level tasks?,278
+2606.08056,how can I improve the modeling of spatial pointing gestures in sign language processing?,108
+2605.15102,how can I improve contextual tracking in multi-turn dialogue systems without external memory?,1046
+2605.04523,what is the best strategy for using ensembles of LLMs to generate faithful multi-turn responses?,2761
+2605.22963,how can graph neural networks be used to detect hallucinations in language model outputs?,534
+2605.07271,why does pruning layers from a large language model cause sudden performance collapse?,856
+2605.10606,how can I measure how well language model embeddings capture specific authorial styles?,8
+2605.09533,is RAG or fine-tuning more cost-effective for adapting LLMs to enterprise domains?,159
+2605.28669,how to inject word-sense disambiguation capabilities into a pretrained language model?,15
+2605.01831,how do you measure the generalizability of reward models used in RLHF?,10399
+2605.07234,what are the best strategies to reduce KV cache memory usage in long-context inference?,15802
+2605.2073,how can I compress demonstration examples into task vectors to improve inference efficiency?,11543
+2605.28006,what frameworks exist for interpreting the reasoning pathways inside large language models?,589
+2605.23039,how do language models learn what structures are unacceptable without direct negative evidence?,23
+2605.27091,how can I make open-ended question answering more reliable using set-valued predictions?,1557
+2605.09536,how to accelerate diffusion language models without compromising generation quality?,3452
+2108.13344,how can synthetic data generation improve model performance in agricultural computer vision?,10562
+2106.11054,what cognitive frameworks exist to explain features learned in self-supervised image models?,5
+2107.07191,can synthetic images train accurate deep learning models for food instance segmentation?,176
+2111.1323,how to improve the generalizability of federated learning for histopathology image analysis?,30413
+2111.04138,how can sensitivity analysis be used to generate efficient explanations for neural networks?,928
+2110.06443,what methods allow for intuitive control over style and content in image translation?,259
+2111.12873,how can deep networks be designed to maintain equivariance to arbitrary transformations?,23
+2112.12072,how to model hierarchical relationships between text and images in news summarization?,1055
+2112.11242,how can unsupervised deep learning be applied to detect plant diseases in multispectral images?,58
+2105.08655,how can I use semi-supervised learning for damage assessment on aerial drone images?,65
+2106.10731,what is an effective approach for discovering new object classes given a small labeled set?,15863
+2108.08344,where can I find competitive benchmarks for multi-modal video reasoning tasks?,87
+2105.10686,can deep learning be used to automatically identify urinary stone composition during surgery?,29580
+2111.15,how can I make case-based image classifiers more robust to object pose variations?,3511
+2109.01594,how to increase the receptive field of neural networks without making them deeper or more complex?,289
+2110.1232,how can I improve webpage element extraction by combining visual and DOM structure features?,40
+2106.11236,does randomly jittering GPS coordinates sufficiently protect the location of sensitive wildlife camera traps?,1
+2105.09596,what are the best anchor-free object detection architectures to balance feature abstraction and detail?,95
+2107.02156,is it possible to use a single appearance model for multiple different visual tracking tasks?,419
+2107.02655,how can spatial transformer networks help normalize pediatric images for better segmentation?,8907
+2209.15458,what is the best way to encode polygonal geometries into an embedding space for downstream tasks?,11375
+2209.04648,how can I improve crack detection models to handle varying lighting and background noise?,31
+2211.1063,how can I build an explainable fetal ultrasound assessment model that mimics expert decision-making?,853
+2212.00935,how can I combine attention and convolution to extract fine contour details from mural images?,8395
+2212.00352,where can I find a labeled dataset for detecting objects using forward-looking sonar?,4
+2209.11693,how can robots learn to predict 3D scene dynamics from raw video observation?,40
+2209.12746,what is the best paradigm for obtaining latent codes that allow for high-fidelity image editing?,30498
+2212.08731,how can I estimate 3D human poses from multiple views without using labeled 3D data?,13
+2208.00223,what is an effective way to augment LiDAR point clouds to improve 3D object detection?,204
+2212.10537,how well do vision-language models like CLIP handle compositional reasoning and concept binding?,45
+2206.07634,what is a data augmentation method that handles occlusions and reuses existing labeled 3D data?,1
+2207.00067,how much labeled data is actually needed to effectively adapt a segmentation model to a new domain?,36
+2208.07021,can predictive coding theory be used to design a more efficient neural network for predicting future video frames?,411
+2209.12599,how to perform unsupervised cross-modal retrieval when labeled data is scarce or missing?,630
+2209.03466,how can I embed an invisible signature into images generated by a GAN for ownership verification?,21
+2208.00788,can using optical flow features improve the detection of deepfake videos?,1135
+2209.08891,how do homoglyphs in text prompts lead to cultural biases in generated images?,29
+2207.05957,how to handle domain shift in open-set recognition tasks effectively?,32200
+2209.06629,which model architecture performs best for sketch-based image retrieval?,857
+2206.10177,how can attention mechanisms improve the performance and efficiency of spiking neural networks?,19434
+2311.18775,how to design a model that supports interactive any-to-any generation with interleaved inputs?,47
+2310.1467,how to detect and mitigate dataset biases in multiple-choice visual question answering?,5
+2312.01367,can diffusion models be used for face recognition based on textual descriptions?,29843
+2312.02189,how to reduce multi-face artifacts when generating 3D models from 2D diffusion priors?,334
+2312.04913,how can I improve the transferability of adversarial attacks against vision-language models?,1073
+2310.15098,what is an efficient annotation strategy for tumor localization in 3D medical images?,9002
+2309.11858,how to achieve stable image reconstruction for linear computed tomography in different scenarios?,9649
+2309.10783,can large language models perform multimodal video classification using text proxies alone?,5
+2310.13103,how can integrating audio and visual cues with transformers improve deepfake detection accuracy?,10080
+2311.03035,how can I make vision transformers faster while maintaining performance?,43507
+2310.20695,how can I incorporate human body structure into masked image modeling pre-training?,775
+2311.15876,how to use multimodal models for consecutive radiotherapy planning tasks without losing accuracy?,2076
+2312.14481,how can I improve SAM for surgical instrument segmentation using part-level text prompts?,12351
+2312.04746,how to train a multimodal model to reason across gigapixel-scale histopathology images?,2712
+2310.1263,are vision transformer models effective for diagnosing heart disease from ECG images?,4396
+2311.0924,can street view imagery be used to predict infectious disease transmission risks?,296
+2310.04461,how to automate the acquisition schedule for dynamic processes in light microscopy?,44
+2401.02433,how can diffusion models facilitate federated learning for multi-modal data fusion?,515
+2311.11014,how to build a self-supervised content-based image retrieval system for medical lesions?,16
+2311.02782,how well can large visual-linguistic models handle generic anomaly detection?,4553
+2412.16859,how to improve semantic segmentation generalization using latent diffusion and adversarial learning?,1216
+2410.20358,what is a robust method to reconstruct 3D human motion from video despite occlusions?,562
+2412.05275,how can I transfer motion patterns between videos using pre-trained diffusion models?,392
+2412.08771,how to compress visual tokens in MLLMs to handle multi-image or video inputs efficiently?,1530
+2411.04642,how to integrate OCR and layout information into vision-language models?,3221
+2411.18068,how to generate controllable multi-human images while handling complex occlusions?,903
+2411.16721,what is an efficient way to steer vision-language models away from harmful adversarial inputs?,1089
+2412.03347,how to leverage DINO features for temporally consistent subject-driven video editing?,728
+2412.18966,what strategies exist for continual pre-training of text-to-video generation models?,2487
+2412.02142,what are the common architectures and training methods used for personalizing multimodal large language models?,3012
+2412.09389,how can I improve foreground-background consistency in diffusion-based video generation?,2512
+2411.05307,how can multi-level perturbations improve semi-supervised semantic segmentation performance?,1972
+2410.2028,how can masked autoregressive models be combined with diffusion to generate video at scale?,395
+2411.01851,what is an effective feature extraction and matching pipeline for 3D reconstruction?,22
+2412.10151,how can I evaluate the retrieval-augmented generation capabilities of vision-language models?,5093
+2410.12761,how can I make text-to-image models safe without altering their weights or reducing output quality?,10561
+2412.13376,how can I create adversarial perturbations that are effective across multiple viewing angles?,66
+2412.18743,do object-centric models actually improve compositional generalization in visual scenes?,1694
+2412.11381,how can I fine-tune the segment anything model for specialized X-ray CT inspection?,721
+2412.19867,how can I quantize diffusion models using Winograd convolution without retraining on data?,10895
+2512.22536,how can a planning-based agent maintain consistency in long-form video generation?,131
+2511.06406,how can object detectors be made robust to missing modalities in infrared-visible tasks?,2162
+2510.23956,how can I edit specific objects in a scene without changing the rest of the image?,1339
+2512.02743,how can reasoning-aware fusion improve the detection of hate speech in multimedia content?,2783
+2511.07301,how can vision foundation models be used to improve source-free object detection?,23237
+2512.05941,how can zooming be used as a prior to improve element grounding in graphical user interfaces?,7112
+2511.149,how can we improve the clinical reasoning and trustworthiness of vision-language models for skin diagnosis?,27100
+2511.18152,how can latent diffusion models be used to recover fine details in blind image restoration?,17439
+2511.10894,how can I use frozen vision foundation models for efficient probabilistic rainfall forecasting?,157
+2511.19367,how can deep learning models be designed to follow standard clinical guidelines for lung cancer staging?,3077
+2512.08477,how to perform intuitive point-based image editing while preserving texture and semantic context?,2994
+2512.06521,how to build an adaptive AI pipeline for wildlife monitoring that handles diverse landscapes and weather?,10738
+2511.17699,how do large language and vision-language models represent and process numerical information during counting?,43
+2512.2302,how can a model perform 3D visual grounding for unseen or open-world object categories?,1100
+2512.11941,how to improve zero-shot transfer for skeleton-based action recognition using fine-grained semantics?,12
+2511.22048,how to align generative priors with input images for more stable and high-quality super-resolution?,532
+2511.19835,how can we prune attention tokens in video diffusion models without losing generation quality?,5116
+2512.08542,how to model color channel correlations to prevent artifacts in generative image models?,7458
+2512.08243,what hybrid architecture works best for segmenting malignant breast lesions in ultrasound data?,17219
+2512.21641,how to resolve language-based references to objects using multi-frame temporal context in driving scenes?,5
+2606.00094,can modeling the underlying geometry of the data manifold improve image generation quality?,22784
+2605.13586,how to generate physically plausible indoor scenes by decoupling object roles?,4
+2605.20551,how can I balance retrieval speed and accuracy in visual place recognition systems?,24740
+2605.24475,how to build a multi-view classification system that is robust to conflicting data sources?,6544
+2606.08034,how can I test the robustness of vision-language models on multilingual STEM problems?,9060
+2605.22066,how to perform 4D cardiac reconstruction from 2D echocardiography videos?,18
+2606.0762,how can I estimate the reliability of vision transformers against bit-flips efficiently?,175
+2605.22581,what is a robust method for floorplan localization using sparse image collections?,1438
+2606.04365,how can I implement a set-prediction model for characterizing kidney lesions in CT volumes?,1108
+2605.12495,how can I use reinforcement learning to improve multimodal generation without extra pre-training?,3329
+2605.18349,are parameter-free attention modules effective for crowd counting in public transport?,2153
+2605.14113,"how to create an interpretable, privacy-preserving agent for clinical report generation?",589
+2606.02178,how can I detect AI-generated image forgeries by identifying intrinsic statistical anomalies?,213
+2605.20901,what is an effective approach for anticipating short-term object interactions in egocentric videos?,1258
+2605.22715,how can I create motion representations that transfer across different wearable device placements?,598
+2605.01024,how can I improve multimodal emotion recognition when some modalities are unreliable?,5878
+2605.16076,can ensemble deep learning improve the accuracy of plant disease detection on mobile devices?,4490
+2605.20624,how can autoregressive diffusion models accelerate solving inverse problems in video?,7580
+2605.07019,how can vision-language models efficiently process high-resolution text by selectively expanding details?,1260
+2605.16427,which data augmentation methods best improve transferability for echocardiography segmentation?,7

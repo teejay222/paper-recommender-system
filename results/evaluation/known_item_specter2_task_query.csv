@@ -1,0 +1,480 @@
+arxiv_id,query,rank
+2112.07252,improve sleep stage classification using single channel heart rate data,5
+2109.12755,measure if deep learning architectures can internalize abstract mathematical logic,2
+2108.03645,optimize computing resource utilization for concurrent model training jobs,3
+2110.1491,survey computational techniques for identifying respiratory viruses from medical data,1
+2110.14706,benchmark outlier detection algorithms for autonomous navigation safety,145
+2107.00395,incorporate structural semantic information into language models for logographic scripts,18001
+2110.09605,synthesize realistic physical interaction sounds for multimedia applications,20
+2106.05268,implement artificial intelligence algorithms on non-traditional computing platforms using high-dimensional vectors,28
+2105.10317,dynamically discover optimal representation spaces for evolutionary algorithms,446
+2106.09435,train reinforcement learning agents in non-competitive multi-player environments,191
+2107.12979,understand the biological mechanisms of expectation and sensory updating in human cognition,81
+2110.11567,measure classifier performance when perfect manual annotations are completely unavailable,72
+2112.04169,distribute limited supplies equitably among diverse demographic groups over time,5
+2111.04472,categorize different types of environmental variables in software design,8
+2111.07631,review recent developments in game playing AI,1
+2107.13669,improve sentiment analysis fusion performance,9
+2107.01142,optimize end-to-end performance in autonomous vehicles,45
+2106.13052,survey intersection driving simulation and datasets,1
+2109.05125,perform image-text matching for under-resourced languages,21
+2105.07405,develop robust policies for multi-agent systems,169
+2206.13658,model cause-and-effect relationships in geospatial data,45
+2212.10565,compare explainable AI methods for image classification,2
+2209.02066,evaluate trust factors in robot communication,184
+2206.119,generate counterfactuals for black-box models,1292
+2212.01683,predict surgical activity from kinematic data,3
+2210.09753,design interactive robots for clinical settings,2
+2210.14723,improve speech synthesis with limited data,16
+2210.08356,identify root causes of deep learning errors,5
+2211.16468,estimate causal effects in observational data,93
+2207.13192,generate perturbations for music classification,5
+2206.1194,learn goal-oriented policies in reinforcement learning,231
+2209.03785,improve BCI calibration for new users,3
+2207.14682,identify manipulated audio files,24
+2209.02886,share learned behaviors between autonomous agents,4
+2212.09328,train RL policies using quantum computing,2
+2206.14244,improve sample efficiency in robot learning,10313
+2211.04343,design efficient quantum architectures,6
+2211.05182,automate evaluation of counseling techniques,1
+2208.09554,perform one-shot learning with multiple knowledge sources,1
+2208.03454,improve recommendation accuracy using tags,281
+2401.10745,define governance frameworks for future AI,689
+2309.10426,predict interaction outcomes for multiple objects,1
+2310.12931,automate reward engineering for reinforcement learning,45
+2312.09799,optimize video compression efficiency,109
+2312.08847,forecast future process activities,14
+2311.1377,use body movement to generate digital art,2
+2312.08571,improve automatic speech recognition robustness,6
+2310.18316,develop transparent machine learning models,37512
+2311.03362,test AI components in safety-critical driving,15
+2310.12866,predict chemotherapy response from pathology slides,1
+2309.05787,develop multimodal interfaces for robots,118
+2312.07753,improve deep learning for structured data,45
+2311.03567,reduce algorithmic bias in facial verification,27
+2311.16204,automate financial transaction planning,1173
+2311.02847,enable zero-shot learning for robot tasks,374
+2309.17288,automate creation of specialized AI agents,11
+2311.13725,evaluate impact of generative AI on creative communities,40
+2310.10863,coordinate aerial robot views for filming,1
+2310.05751,identify ethical standards for AI deployment,13
+2312.14625,assess vulnerability of navigation systems,9
+2412.05586,compare symbolic and neural reasoning models,5
+2411.01789,create software assertions from documentation,228
+2412.17338,improve coherence in unsupervised topic discovery,1
+2410.10924,evaluate MI estimators on image and text,5
+2412.0948,define cognitive parameters for machine learning,11
+2412.17288,improve embodied agent navigation with limited data,46
+2412.16425,standardize evaluation of cell classification,5
+2412.12198,analyze human search strategies in images,5
+2410.18861,identify AI-generated text in open-source models,305
+2410.15048,design decentralized agent collaboration,416
+2412.16925,quantify public response to pandemic events,1
+2410.08911,conduct empirical software experiments,2
+2412.19834,secure AI-generated content against tampering,387
+2412.17616,implement emotion recognition in smart systems,58
+2412.05587,improve code generation for mapping platforms,218
+2501.01435,evaluate cybersecurity for LLM integrations,14
+2410.18475,automate gene target identification,191
+2412.06312,improve PDDL expressivity for complex problems,509
+2411.10464,monitor student engagement in online learning,1
+2412.16788,identify fraud in attributed networks,2
+2511.21448,evaluate email classification model reliability,3
+2512.0553,improve logical robustness of MLLMs,5095
+2511.01018,identify high-risk asthma patients using EMR,1
+2511.11252,evaluate reasoning in autonomous aerial systems,1
+2511.15002,optimize network resources using MARL,126
+2512.09319,implement efficient intelligence on edge devices,261
+2511.05625,assess impact of AI on educational interactions,1
+2511.04144,support metacognitive processes in programming,1
+2511.13365,protect data in distributed deep learning,26
+2512.1472,evaluate AI agent performance on social media,8
+2512.07009,speed up livestock monitoring pipelines,1
+2511.08206,assess LLM performance on structured clinical data,6
+2511.19457,optimize inference on resource-constrained devices,8
+2512.23889,analyze demographic representation in AI surveys,10
+2512.04359,improve reasoning in large language models,2023
+2510.26384,select representative data subsets for testing,151
+2512.14181,select better encoders for quantum models,45
+2511.17592,experiment with hybrid LLM-evolution strategies,6
+2511.16582,classify philosophical arguments about machine consciousness,1
+2511.15141,improve item-level retrieval for recommendation,1
+2605.26754,protect retrieval-augmented generation systems,9
+2605.28098,analyze bias propagation in interacting agents,1
+2605.21974,extract facts from statistical CSVs,2
+2605.07896,explore non-chatbot AI interaction paradigms,5
+2606.03161,establish trust for agent-to-agent communication,63
+2605.16043,learn bimanual rope manipulation from human data,3
+2605.26646,optimize LLM multi-agent workflows with RL,2
+2605.10804,develop monitoring tools for university well-being,4
+2606.05792,evaluate LLM performance on TLA+ code generation,63
+2605.1177,verify safety of third-party agent skills,5
+2606.03252,build generalist robot navigation systems,160
+2605.27331,automate competition law case analysis,1
+2605.19147,protect training data from backdoor attacks,305
+2605.3028,build unified robotic foundation models,278
+2605.29068,implement low-latency safety moderation,2039
+2605.05951,improve long-horizon latent dynamics,317
+2605.09515,optimize attention head architecture,75
+2605.15543,simplify complex game states for solvers,2087
+2605.05402,evaluate urban design impact on traffic,2
+2605.30854,train agents to avoid collusive behaviors,79
+2106.1359,stabilize generative model training,47
+2107.05747,implement efficient unsupervised on-chip learning,327
+2110.00804,execute programs for reasoning tasks,3
+2106.05876,compare deep learning sensor fusion methods,110
+2106.06842,improve gradient estimation in actor-critic,123
+2109.00882,train cooperative policies in partial observability,199
+2111.00185,analyze stability of reinforcement learning,177
+2111.02374,assess commercial risk of public datasets,4
+2110.03092,detect out-of-distribution and adversarial samples,4
+2110.12399,optimize neural network design under constraints,17
+2110.1108,implement behavioral biometric user verification,45
+2109.06489,improve multivariate time series prediction,70
+2110.00695,predict signal attenuation in satellite links,1
+2111.02034,ensure legal compliance for machine learning datasets,2
+2109.12073,optimize voltage control in distribution grids,3
+2110.02497,improve RL sample efficiency,287
+2106.03099,formally verify neural network safety,616
+2108.12805,improve model generalization and robustness,163
+2111.07736,address catastrophic forgetting in AI,911
+2108.13093,evaluate robustness of reinforcement learning agents,227
+2211.08282,generalize data augmentation in learning models,255
+2211.04076,reduce computational complexity of transformers,350
+2208.06975,solve NP-hard graph problems with deep learning,94
+2209.09344,animate realistic agent crowds,3
+2207.0619,improve neural heuristic search quality,3
+2211.05567,solve partial differential equations with AI,1
+2210.08349,stabilize model learning and policy optimization,15
+2211.08583,improve model performance under domain shift,25
+2212.04717,align AI objectives with human goals,702
+2211.08742,detect algorithmic bias in clinical risk models,3
+2206.11054,improve multi-agent policy efficiency,379
+2212.03513,select the best model explanation technique,70
+2207.08137,improve model defense against adversarial attacks,616
+2210.15755,optimize reinforcement learning sample complexity,3506
+2207.03075,implement privacy-preserving ML in hospitals,545
+2211.05946,optimize energy dispatch in smart grids,40
+2211.15839,apply algorithmic planning to continuous control,1
+2206.07551,perform domain adaptation with unknown classes,1
+2206.09991,improve prediction of rare values in regression,414
+2212.13925,evaluate real-time model inference stability,17
+2311.06917,minimize communication costs in federated learning,362
+2311.06567,discover causal semantic factors without labels,1
+2309.16928,improve model receptiveness to human feedback,167
+2310.10692,automate creation of coding problems,2
+2310.15793,increase robustness of fine-tuned language models,314
+2311.1009,conduct large-scale MARL experiments,408
+2312.15122,apply deep RL to self-driving systems,24
+2310.05373,optimize complex black-box functions,359
+2312.15909,learn task representations with limited data,33
+2310.15154,interpret sentiment representations in LLMs,1
+2310.02605,optimize electrical network switching operations,359
+2310.06117,improve LLM performance on complex tasks,9102
+2310.17191,analyze in-context reasoning mechanisms,1
+2310.11678,train RL agents for tasks with history-dependent rewards,153
+2309.15293,decorrelate sequential data in RL,891
+2310.03718,train agents to adapt to changing safety requirements,478
+2312.01472,standardize evaluation of MARL algorithms,264
+2311.17565,improve learning efficiency with sparse rewards,796
+2310.09222,learn causal structures from data efficiently,5
+2312.05479,reduce computational complexity of graph models,6
+2412.12456,combine graph neural networks with large language models,58
+2410.09964,classify cells from gene expression data,1
+2410.23483,craft attacks against composed AI systems,135
+2411.02142,optimize training for biological foundation models,42
+2411.00666,improve Proximal Policy Optimization performance,3
+2412.08147,merge models to optimize multitask performance,9
+2411.00074,process sequential patterns in data streams,2
+2411.14507,compress large language models efficiently,3187
+2411.19285,implement efficient backpropagation in optimization layers,3
+2412.11408,improve model generalization in federated learning,108
+2410.22984,model complex time series interactions,9
+2412.15373,detect causal relationships in time series,23
+2410.10365,optimize graph representation learning,1051
+2411.06765,automate fault detection in power plants,9
+2412.09843,perform causal inference from observational data,1
+2411.15951,assess reward inference ambiguity,38
+2412.0056,enhance anomaly discrimination in models,1
+2411.02666,analyze social media sentiment for travel modes,1
+2410.10481,customize LLMs without sharing sensitive data,13
+2412.07224,prevent plasticity loss in continual learning,76
+2511.10848,model EEG data using foundation models,8
+2511.13351,prevent catastrophic forgetting in multimodal models,684
+2511.01819,localize malicious jammers in indoor environments,1
+2511.00532,predict urban air quality pollution,8
+2512.12688,analyze how prompts control LLM behavior,5
+2511.13612,solve physics competition problems with AI,3
+2511.11593,provide logical explanations for GNN predictions,12
+2512.13186,capture polymer statistical ensembles in ML,1
+2511.03095,detect rare statistical signals,2
+2512.13741,identify adversarial prompts in real-time,2923
+2512.2255,perform temporal interpolation and imputation,35
+2512.16901,evaluate fairness in news classification models,203
+2512.11145,improve interpretability of scientific data,2050
+2512.2042,balance capacity in multi-task models,3277
+2511.15432,interpret layer importance in tabular models,2
+2512.01457,optimize inference cost and reasoning accuracy,1422
+2512.09198,predict optimal heart valve for surgery,1
+2511.15067,perform risk stratification from histopathology,146
+2511.06157,select HAR model architectures efficiently,91
+2511.11743,ensure stable inference on resource-constrained devices,256
+2606.03238,diagnose and categorize reward hacking,8
+2605.29467,build deep probabilistic factor graphs,49
+2605.1294,compare generative model architectures,252
+2605.12312,improve agent adaptation to delayed feedback,8
+2606.0013,achieve high-ratio weight compression,100
+2605.10189,steer protein generation toward specific functions,69
+2605.05524,extract interpretable latent mechanisms,617
+2605.18826,analyze attention head routing and filtering,1
+2605.13652,assess generalization quality of compressed models,18210
+2605.13687,analyze scaling laws for hierarchical languages,11
+2605.00082,train neural networks without backpropagation,2002
+2605.12058,improve LLM reinforcement learning stability,1413
+2605.02278,fill missing values in time-series data,151
+2605.11347,align generative models with specific rewards,32
+2605.16806,predict student satisfaction in games,48
+2605.04418,stabilize language model training,54
+2605.18864,enhance reasoning mode exploration in RL,217
+2605.31558,analyze positional vs symbolic reasoning,85
+2605.18224,detect and prevent VAE encoder collapse,3
+2605.02943,train generalizable clinical reasoning agents,7
+2106.03518,remove position bias in NLP models,12536
+2107.04132,study embodied agents in text environments,1
+2112.05417,generate logical alternative story endings,40
+2108.07005,reduce inference latency in dialogue systems,31
+2105.1388,train large models using existing PLMs,27
+2107.04007,augment human creativity with text generation,2
+2110.02834,improve knowledge base completion,35
+2105.11698,generate questions at specific difficulty levels,1
+2111.13611,filter documents for knowledge base construction,17
+2109.0685,benchmark open information extraction systems,1
+2106.01354,generate multiple explanations for AI reasoning,2
+2110.08144,extract triple slots from text iteratively,1
+2106.07275,predict grounded agent responses,1558
+2109.13089,construct leaderboards automatically from papers,1
+2110.12201,train language models for legal text,42
+2106.01666,design social chatbots for recommendations,1
+2109.09825,improve pro-drop language parsing,6826
+2111.05721,identify key sentences in legal documents,1
+2110.08551,compress large language models,255
+2211.04476,identify model error patterns automatically,168
+2212.10189,detect unanswerable questions in KBQA,1
+2210.13236,interpret multilingual language model behavior,1410
+2210.09338,fuse language and knowledge graph representations,73
+2206.11147,optimize data storage for model pre-training,126
+2212.09278,translate multi-turn dialogue to SQL,1
+2208.00638,perform multi-attribute text manipulation,313
+2210.17517,evaluate mathematical reasoning in AI,9
+2208.09354,extract attributes from clinical text,9
+2210.07519,evaluate decision-making abilities of language models,57
+2210.07382,augment language models with symbolic tools,2548
+2212.08105,fuse character-level information for Chinese NLP,566
+2210.0634,reduce medical report hallucinations,2
+2207.14393,create synthetic training data for dialogue systems,28
+2210.07493,incorporate psychological states into narrative writing,19
+2210.15387,classify severity of speech impairment,2
+2212.08635,improve question answering without retrieval training,59
+2210.05773,build a mixed-language chatbot for ordering,4
+2211.1488,improve low-resource question answering,47
+2210.13312,measure social reasoning in language models,7
+2312.09907,simplify narrative text using transformers,1
+2311.09033,evaluate grammatical correctness across languages,2
+2310.16225,relabel benchmark datasets to remove noise,414
+2310.04407,train ranking models end-to-end,4
+2311.03963,identify metaphorical language in text,4
+2310.06422,detect manipulative language techniques,12
+2309.11508,validate AI for grading student responses,3
+2310.16763,improve alignment without PPO instability,1800
+2310.14107,assess transferability of grammar models,7
+2312.00584,automate judicial decision-making,1
+2311.00262,build proactive conversational agents,8
+2309.14379,scale social science data research,247
+2310.18371,improve multi-step reasoning in QA,3
+2312.16659,improve personal narrative writing,169
+2311.07022,assess temporal grounding in videos,235
+2311.07925,classify speech from brain signals,111
+2311.04931,democratize access to large language models,68
+2312.01398,identify unfair contractual clauses,4
+2309.13702,model GMs for role-playing games,7
+2311.17892,convert text to semantic circuits,51
+2412.03331,create embeddings for Luxembourgish,2
+2411.145,optimize fairness in language models,1
+2412.0937,perform disambiguation on raw text,62
+2412.15277,reduce overfitting in vision-language models,76
+2412.11385,study language change in scientific text,1
+2411.14497,automate quality assessment for training data,4495
+2412.17747,improve reasoning via cache manipulation,234
+2411.07845,identify ethical concerns in AI papers,1
+2412.04342,enhance translation using external knowledge,10
+2412.20072,process long documents with mixed text and tables,2
+2410.18336,evaluate AI-generated novel math solutions,1
+2410.13413,improve reasoning quality through iterative thought,352
+2412.11556,extract high-quality sentence embeddings,3
+2410.23746,assess reliability of AI-generated text detectors,124
+2412.0843,evaluate LLM performance for personalized student advising,284
+2411.03769,build vision-language models for multiple languages,451
+2411.02461,align models with human preferences without RLHF,1523
+2410.15956,measure linguistic naturalness in LLM outputs,17
+2410.2389,adapt translation systems for emergency situations,1
+2411.00029,improve downstream performance of LMMs,14947
+2511.01359,detect hallucinations during text generation,2169
+2511.01689,shape AI assistant behavior through fine-tuning,572
+2511.01305,build RAG systems for complex technical documents,632
+2511.1722,measure model conformity to false user pressure,2
+2601.09719,improve training stability and throughput in LLMs,2036
+2511.07458,evaluate summary quality without gold standards,32
+2511.08507,create datasets for sign language research,15
+2512.02363,integrate heterogeneous knowledge sources securely,229
+2511.17405,improve robustness of multimodal model tuning,957
+2601.00797,generate qualitative hypotheses using LLMs,26
+2511.14603,track clinical patient evolution using EHR data,28
+2511.21737,assess model safety and internal consistency,209
+2510.26543,interpret relational facts in transformers,30
+2512.12168,optimize token selection for diffusion LLMs,16
+2512.07218,improve temporal reasoning in LLMs,15
+2512.09563,detect implicit hate patterns in social media,563
+2602.2337,segment ultra-long documents into topics,1
+2512.03082,improve objectivity in LLM decision support,19
+2601.0972,build reliable knowledge graph QA,43
+2512.1008,evaluate if LLMs perform genuine abduction,310
+2605.26893,diagnose and enforce reasoning faithfulness,15
+2605.29889,analyze causes of LLM triage failures,19
+2605.19723,review mathematical reasoning in AI,75
+2605.09253,streamline model alignment processes,2139
+2605.2524,assess quality of legal AI outputs,58
+2606.08056,resolve discourse entities in sign language,1
+2605.15102,maintain context across long conversations,17
+2605.04523,generate faithful multi-turn responses,6
+2605.22963,verify factual grounding of LLM outputs,160
+2605.07271,analyze performance drop after model pruning,88
+2605.10606,quantify authorial style in language models,1
+2605.09533,compare domain adaptation methods for enterprise QA,13
+2605.28669,add sense structure to frozen LLMs,1
+2605.01831,benchmark generalizability of reward models,16
+2605.07234,reduce memory overhead for long-context LLMs,23
+2605.2073,improve task vector extraction for LLMs,9
+2605.28006,trace reasoning patterns across model layers,246
+2605.23039,investigate negative knowledge in LLMs,1810
+2605.27091,mitigate hallucinations in open-ended QA,17
+2605.09536,improve accuracy-parallelism trade-off in diffusion models,138
+2108.13344,improve fruit detection model generalization,1
+2106.11054,explain latent image representations,11
+2107.07191,segment food instances using synthetic training,1
+2111.1323,improve generalizability of federated models,282
+2111.04138,compute efficient black-box explanations,16985
+2110.06443,control content preservation in image translation,24
+2111.12873,achieve equivariance to complex image transformations,2
+2112.12072,learn correlations between text and images,817
+2112.11242,detect early disease symptoms automatically,50
+2105.08655,perform semantic segmentation with limited labels,101
+2106.10731,cluster unlabeled data using known classes,47
+2108.08344,evaluate multi-modal video analysis models,5
+2105.10686,automate stone composition identification from medical images,1
+2111.15,build explainable models using case-based reasoning,1505
+2109.01594,improve receptive field size in neural networks,19
+2110.1232,automate extraction of data from e-commerce sites,13
+2106.11236,assess risks of publicly shared ecological data,25
+2105.09596,optimize object detection accuracy and speed,134
+2107.02156,solve various tracking tasks within one framework,3
+2107.02655,segment medical images with high pose variance,83
+2209.15458,represent complex polygons for spatial tasks,6
+2209.04648,automate structural damage analysis in images,18
+2211.1063,evaluate medical image quality using human-readable concepts,30
+2212.00935,extract salient contour lines from ancient artwork,8
+2212.00352,develop object detection models for sonar imagery,9
+2209.11693,predict future 3D motion from past video,1
+2209.12746,improve reconstruction and editing in GANs,105
+2212.08731,estimate 3D poses from multiple RGB cameras,1
+2208.00223,improve performance of 3D deep learning architectures,94
+2212.10537,evaluate conceptual binding in vision-language models,1196
+2206.07634,improve 3D object detection performance,2
+2207.00067,adapt models to new domains without full labels,57
+2208.07021,build efficient predictive networks for video,6
+2209.12599,perform unsupervised retrieval with limited data,4862
+2209.03466,protect IP of generative adversarial networks,9
+2208.00788,detect fake videos using temporal features,4
+2209.08891,identify cultural stereotypes in image generation,66
+2207.05957,improve open-set recognition accuracy,12
+2209.06629,retrieve photos using hand-drawn sketches,1
+2206.10177,enhance spiking neural networks with attention,2
+2311.18775,perform in-context learning with multiple modalities,259
+2310.1467,improve visual question answering robustness,19
+2312.01367,perform face recognition from text descriptions,4
+2312.02189,generate stable 3D models from text,353
+2312.04913,perform transfer attacks on multimodal models,14
+2310.15098,label temporal data for tumor detection,53
+2309.11858,reconstruct ROI images for linear CT systems,11
+2309.10783,classify videos using textual descriptions,7
+2310.13103,detect forgeries using multiple modalities,52
+2311.03035,reduce ViT computational cost,427
+2310.20695,pre-train models for human pose and re-id,3
+2311.15876,automate radiation treatment planning,16
+2312.14481,segment medical tools using foundation models,923
+2312.04746,reason across whole slide images,5
+2310.1263,classify heart disease from medical images,1
+2311.0924,predict infectious disease spread from street view,1
+2310.04461,schedule acquisition for dynamic bio-experiments,1243
+2401.02433,fuse heterogeneous remote sensing data,147
+2311.11014,implement CBIR for medical imaging,32
+2311.02782,detect anomalies across multiple data types,43
+2412.16859,segment images without target domain labels,11
+2410.20358,reconstruct global motion from video,2
+2412.05275,manipulate motion patterns in video diffusion,2
+2412.08771,reduce visual token count in MLLMs,66
+2411.04642,process text-rich images in VL models,1
+2411.18068,synthesize personalized multi-person images,9
+2411.16721,defend against adversarial attacks on VLMs,13
+2412.03347,edit videos using target text or reference images,20
+2412.18966,expand model capacity during pre-training,1249
+2412.02142,compare methods for tailoring multimodal models,95
+2412.09389,improve temporal coherence in diffusion models,2615
+2411.05307,optimize consistency regularization training,3008
+2410.2028,perform scalable high-resolution video synthesis,25
+2411.01851,build a 3D mapping system,29
+2412.10151,evaluate vision models using external knowledge,84
+2410.12761,filter harmful content in generative models,31
+2412.13376,evaluate robustness of 3D recognition systems,6
+2412.18743,assess compositional generalization in vision,10
+2412.11381,adapt foundation models for scientific imaging,1550
+2412.19867,optimize inference speed of foundation models,12115
+2512.22536,manage narrative flow in long-form video,10
+2511.06406,detect objects with missing infrared or visible data,10
+2510.23956,control appearance and geometry of generated objects,2
+2512.02743,fuse multimodal cues for context understanding,650
+2511.07301,adapt detection models without source data,191
+2512.05941,localize elements in screen interfaces,73
+2511.149,develop clinical reasoning models for dermatology,1
+2511.18152,restore degraded images using diffusion priors,15
+2511.10894,predict precipitation using satellite imagery,87
+2511.19367,automate tumor T-staging from CT scans,2
+2512.08477,manipulate images using control points,157
+2512.06521,automate wildlife monitoring from images,1
+2511.17699,investigate numerical reasoning in foundation models,4435
+2512.2302,locate objects in 3D scenes via language,10
+2512.11941,perform zero-shot classification on human motion,26
+2511.22048,stabilize diffusion-based image upscaling,42
+2511.19835,reduce latency in diffusion transformers,3492
+2512.08542,generate high-quality color images,22
+2512.08243,segment malignant lesions in medical images,70
+2512.21641,identify objects based on motion description,187
+2606.00094,improve generative model sampling efficiency,2061
+2605.13586,generate plausible 3D room layouts,6
+2605.20551,optimize retrieval speed and accuracy,13575
+2605.24475,perform reliable sensor fusion under conflict,1290
+2606.08034,evaluate VLM reasoning robustness,2290
+2605.22066,reconstruct 3D heart shape from ultrasound video,1
+2606.0762,assess vision transformer reliability,2
+2605.22581,locate images on architectural plans,7
+2606.04365,predict lesion types and attributes in 3D scans,16
+2605.12495,train multimodal models for better generation,164
+2605.18349,estimate occupancy in public transport,3
+2605.14113,build interpretable medical diagnostic systems,145
+2606.02178,detect synthetic image manipulations,56
+2605.20901,predict future human-object interactions,5
+2605.22715,model human motion from wearable sensors,4
+2605.01024,mitigate modality bias in emotion models,1
+2605.16076,automate crop health monitoring,24
+2605.20624,restore videos using diffusion priors,18
+2605.07019,compress rendered text for VLM input,1
+2605.16427,improve cross-dataset model robustness,1799

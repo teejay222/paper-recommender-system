@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: filebrowser
+  namespace: tahu2574
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: filebrowser
+  template:
+    metadata:
+      labels:
+        app: filebrowser
+    spec:
+      containers:
+      - name: filebrowser
+        image: filebrowser/filebrowser:v2.26.0
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: cluster-disk
+          mountPath: /srv
+      volumes:
+      - name: cluster-disk
+        persistentVolumeClaim:
+          claimName: recommender-storage-pvc
