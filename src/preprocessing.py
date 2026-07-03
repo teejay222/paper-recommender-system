@@ -1,25 +1,12 @@
 #!/usr/bin/env python3
-"""
-src/preprocessing.py
---------------------
-Phase 2: Data Cleaning, Quality Reporting, and Text Normalization.
-Operates directly on data/raw/papers_raw.csv to prepare data for model training.
-
-Key Features:
-  - Eliminates structural cross-year and tracking duplicates by ID and Title.
-  - Sanitizes spacing irregularities to ensure stable Transformer tokenization.
-  - Drops corrupted or missing abstract text frames.
-  - Generates a clear system diagnostic quality report.
-"""
+"""Clean raw paper data before annotation and modeling."""
 
 import logging
 from pathlib import Path
 import pandas as pd
 import ftfy 
 
-# ---------------------------------------------------------------------------
-# Logging Setup
-# ---------------------------------------------------------------------------
+# Logging
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s  [%(levelname)s]  %(message)s",
@@ -27,23 +14,19 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# ---------------------------------------------------------------------------
-# Configuration Constants
-# ---------------------------------------------------------------------------
+# Config
 INPUT_FILE  = Path("data/raw/papers_raw.csv")
 OUTPUT_FILE = Path("data/processed/papers_clean.csv")
 REPORT_FILE = Path("reports/preprocessing_report.txt")
 
-# Minimum token approximation length required for clean SciBERT/SPECTER math embeddings
+# Minimum text length for embedding models.
 MIN_ABSTRACT_LENGTH = 50
 
 CRITICAL_FIELDS = ["title", "abstract", "authors", "category"]
 VALID_CATEGORIES = {"cs.AI", "cs.LG", "cs.CL", "cs.CV"}
 
 
-# ---------------------------------------------------------------------------
-# Functional Cleaning Pipeline Blocks
-# ---------------------------------------------------------------------------
+# Cleaning helpers
 
 def remove_duplicate_arxiv_ids(df: pd.DataFrame) -> tuple[pd.DataFrame, int]:
     before = len(df)
@@ -56,13 +39,13 @@ def remove_duplicate_arxiv_ids(df: pd.DataFrame) -> tuple[pd.DataFrame, int]:
 def remove_duplicate_titles(df: pd.DataFrame) -> tuple[pd.DataFrame, int]:
     before = len(df)
     
-    # 1. Create a temporary lowercase helper column
+    # Use a lowercase helper column.
     df["_temp_title_lower"] = df["title"].astype(str).str.lower()
     
-    # 2. Drop duplicates using the string column name
+    # Drop duplicates.
     df = df.drop_duplicates(subset=["_temp_title_lower"], keep="first")
     
-    # 3. Drop the temporary column so it doesn't end up in your final CSV
+    # Remove the helper column.
     df = df.drop(columns=["_temp_title_lower"])
     
     removed = before - len(df)
@@ -101,19 +84,7 @@ def filter_short_abstracts(df: pd.DataFrame) -> tuple[pd.DataFrame, int]:
 
 
 def normalize_text_fields(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Fixes encoding artifacts (mojibake) and normalizes whitespace
-    in title, abstract, and authors fields.
-
-    Uses ftfy (Fix Text For You) which repairs broken UTF-8 encoding
-    on a per-character basis. This correctly handles cases like:
-      - 'KÃ¶cher' -> 'Köcher'  (mojibake)
-      - 'François' -> 'François'  (already correct, untouched)
-      - Arabic, Chinese names -> untouched
-
-    The manual encode/decode approach breaks on strings that mix
-    already-correct UTF-8 with mojibake in the same value.
-    """
+    """Normalize text fields."""
     for col in ["title", "abstract", "authors"]:
         df[col] = (
             df[col]
@@ -159,9 +130,7 @@ def compute_citation_integrity(df: pd.DataFrame) -> dict:
     }
 
 
-# ---------------------------------------------------------------------------
-# Report Constructor Engine
-# ---------------------------------------------------------------------------
+# Report builder
 
 def build_report(
     rows_before:        int,
@@ -228,9 +197,7 @@ def build_report(
     return "\n".join(lines)
 
 
-# ---------------------------------------------------------------------------
-# Orchestration Execution Block
-# ---------------------------------------------------------------------------
+# Run
 
 def preprocess() -> None:
     logger.info("=" * 60)
@@ -244,7 +211,7 @@ def preprocess() -> None:
     df = pd.read_csv(INPUT_FILE, dtype=str)
     rows_before = len(df)
 
-    # Transformative Operations Pipeline
+    # Clean data
     df, dup_id_removed = remove_duplicate_arxiv_ids(df)
     df, dup_title_removed = remove_duplicate_titles(df)
     df, missing_removed = drop_missing_critical_fields(df)
@@ -257,7 +224,7 @@ def preprocess() -> None:
     df = df.reset_index(drop=True)
     rows_after = len(df)
 
-    # Summary Analytics Calculations
+    # Summary stats
     citation_stats = compute_citation_integrity(df)
     category_dist  = df["category"].value_counts().sort_index()
     year_dist      = df["publication_year"].value_counts()
@@ -275,7 +242,7 @@ def preprocess() -> None:
         citation_stats, category_dist, year_dist, abstract_stats
     )
 
-    # Persist Report Analytics and Balanced Data Assets
+    # Write report and cleaned data
     REPORT_FILE.parent.mkdir(parents=True, exist_ok=True)
     REPORT_FILE.write_text(report_text, encoding="utf-8")
     print("\n" + report_text + "\n")

@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
-"""
-src/experiments.py
-------------------
-Hyperparameter experiments for the recommendation system.
-Spec Section 11: Compare models, top-k values, distance metrics.
-
-FULLY OPTIMISED + RESUME EFFICIENT + ROBUST SELF‑FILTERING
-"""
+"""Run the main proxy retrieval experiments."""
 
 import json
 import logging
@@ -19,9 +12,7 @@ import numpy as np
 import pandas as pd
 import wandb
 
-# ---------------------------------------------------------------------------
 # Logging
-# ---------------------------------------------------------------------------
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s  [%(levelname)s]  %(message)s",
@@ -30,9 +21,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-# ---------------------------------------------------------------------------
-# Configuration
-# ---------------------------------------------------------------------------
+# Config
 
 DATA_FILE    = Path("data/processed/papers_keybert_final.csv")
 RESULTS_DIR  = Path("results/evaluation_results")
@@ -64,9 +53,7 @@ MAX_QUERIES_EVAL = None          # set to 500 for quick test
 BATCH_SIZE       = 500           # for similarity matrix (memory control)
 
 
-# ---------------------------------------------------------------------------
 # Relevance definition (proxy)
-# ---------------------------------------------------------------------------
 
 def parse_tags(tag_string: str) -> set:
     if not isinstance(tag_string, str):
@@ -77,7 +64,7 @@ def parse_tags(tag_string: str) -> set:
 
 
 def is_relevant(query_row: pd.Series, candidate_row: pd.Series) -> bool:
-    """Proxy relevance: same category + at least one shared KeyBERT tag."""
+    """Use category and shared tags as proxy relevance."""
     if query_row["category"] != candidate_row["category"]:
         return False
     q_tags = parse_tags(str(query_row.get("keybert_tags_v2", "")))
@@ -85,9 +72,7 @@ def is_relevant(query_row: pd.Series, candidate_row: pd.Series) -> bool:
     return bool(q_tags and c_tags and (q_tags & c_tags))
 
 
-# ---------------------------------------------------------------------------
 # Similarity computation (vectorised, batch-wise)
-# ---------------------------------------------------------------------------
 
 def compute_similarities_batch(
     query_embeddings: np.ndarray,   # (Q, D)
@@ -109,9 +94,7 @@ def compute_similarities_batch(
         raise ValueError(f"Unknown metric: {metric}")
 
 
-# ---------------------------------------------------------------------------
-# Evaluation metrics (correct NDCG)
-# ---------------------------------------------------------------------------
+# Evaluation metrics
 
 def precision_at_k(relevant_flags: list[bool], k: int) -> float:
     if k == 0:
@@ -133,9 +116,7 @@ def ndcg_at_k(relevant_flags: list[bool], total_relevant: int, k: int) -> float:
     return dcg / idcg if idcg > 0 else 0.0
 
 
-# ---------------------------------------------------------------------------
-# Evaluate a single similarity matrix for all K (with self-match buffer)
-# ---------------------------------------------------------------------------
+# Evaluate one similarity matrix
 
 def evaluate_all_k(
     sim_matrix: np.ndarray,           # (Q, N) similarity scores
@@ -147,10 +128,10 @@ def evaluate_all_k(
     """Returns for each k: {'precision','recall','ndcg'}."""
     num_queries = sim_matrix.shape[0]
     max_k = max(k_values)
-    # FIX 2: request max_k + 1 indices to buffer against self-match skipping
+    # Ask for one extra row so self-matches can be skipped.
     buffer_k = min(max_k + 1, sim_matrix.shape[1])
     top_indices = np.argpartition(sim_matrix, -buffer_k, axis=1)[:, -buffer_k:]
-    # Sort the top buffer_k indices by descending similarity
+    # Sort the buffered candidates.
     row_sorted = np.argsort(-sim_matrix[np.arange(num_queries)[:, None], top_indices], axis=1)
     top_indices_sorted = top_indices[np.arange(num_queries)[:, None], row_sorted]
 
@@ -158,7 +139,7 @@ def evaluate_all_k(
 
     for q_idx, q_arxiv in enumerate(query_ids):
         total_relevant = len(relevance_lookup.get(q_arxiv, set()))
-        # Collect candidates, skipping self-match, until we have max_k valid ones
+        # Skip self-matches while collecting candidates.
         cand_arxivs = []
         for idx in top_indices_sorted[q_idx]:
             cand_arxiv = corpus_ids[idx]
@@ -168,7 +149,7 @@ def evaluate_all_k(
             if len(cand_arxivs) == max_k:
                 break
 
-        # Evaluate for each k
+        # Score each K.
         for k in k_values:
             relevant_flags = [
                 cand in relevance_lookup.get(q_arxiv, set())
@@ -188,9 +169,7 @@ def evaluate_all_k(
     return aggregated
 
 
-# ---------------------------------------------------------------------------
 # Main
-# ---------------------------------------------------------------------------
 
 def run_experiments():
     logger.info("=" * 60)
@@ -202,7 +181,7 @@ def run_experiments():
 
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-    # --- Resume support ---
+    # Resume support
     completed_runs = set()
     existing_results = []
     if RESULTS_CSV.exists():
@@ -212,7 +191,7 @@ def run_experiments():
             completed_runs.add((row["model"], row["metric"], int(row["k"])))
         logger.info(f"Found {len(completed_runs)} already completed runs – will skip")
 
-    # --- Load dataset ---
+    # Load dataset
     df = pd.read_csv(DATA_FILE, dtype=str)
     df["publication_year"] = pd.to_numeric(df["publication_year"], errors="coerce")
     logger.info(f"Total papers: {len(df)}")
@@ -225,7 +204,7 @@ def run_experiments():
         logger.error(f"No query papers for year {QUERY_YEAR}. Check data.")
         return
 
-    # --- Precompute relevance lookup (dynamic categories) ---
+    # Build relevance lookup
     logger.info("Precomputing relevance lookup...")
     corpus_by_category = defaultdict(list)
     for _, row in corpus_df.iterrows():
@@ -250,7 +229,7 @@ def run_experiments():
         relevance_lookup[q_arxiv] = relevant_set
     logger.info("Relevance lookup built.")
 
-    # --- Run experiments per model ---
+    # Run each model
     all_results = list(existing_results)
 
     for model_name in MODELS:
@@ -284,7 +263,7 @@ def run_experiments():
         if len(query_indices) == 0:
             continue
 
-        # Extract raw embeddings
+        # Load embeddings
         corpus_emb_raw = embeddings[corpus_indices]
         query_emb_raw = embeddings[query_indices]
 
@@ -304,7 +283,7 @@ def run_experiments():
         corpus_arxiv_ids = [arxiv_ids[i] for i in corpus_indices]
 
         for metric in DISTANCE_METRICS:
-            # FIX 1: Skip entire metric if all its K runs are already completed
+            # Skip metric blocks that are already done.
             if all((model_name, metric, k) in completed_runs for k in TOP_K_VALUES):
                 logger.info(f"Skipping all runs for {model_name} | {metric} (already done)")
                 continue
@@ -350,7 +329,7 @@ def run_experiments():
                     "runtime_seconds": 0,
                 }
 
-                # W&B logging
+                # W&B log
                 wandb_run = wandb.init(
                     project=WANDB_PROJECT,
                     name=f"{model_name}_{metric}_k{k}",
@@ -381,7 +360,7 @@ def run_experiments():
                 with open(RESULTS_JSON, "w") as f:
                     json.dump(all_results, f, indent=2)
 
-    # --- Final summary ---
+    # Summary
     final_df = pd.DataFrame(all_results)
     if len(final_df) == 0:
         logger.error("No results generated.")

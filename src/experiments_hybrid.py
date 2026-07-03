@@ -1,38 +1,4 @@
-"""
-src/experiments_hybrid.py
--------------------------
-Hybrid SPECTER2 + SciBERT known-item evaluation via LATE FUSION (score
-combination), reusing the exact known-item harness in src/evaluation.py.
-
-Why late fusion (not vector concat / averaging):
-  The two models live in different spaces (SPECTER2 uses the adhoc_query/
-  proximity adapters with CLS pooling; SciBERT uses plain mean pooling), so
-  averaging their dimensions is not meaningful and concatenation mixes scales.
-  Instead we combine the *similarity scores* per query:
-
-      score(paper) = w * cos_specter2(query, paper)
-                   + (1 - w) * cos_scibert(query, paper)
-
-  and sweep w. At w = 1.0 this reproduces the SPECTER2 known-item numbers; at
-  w = 0.0 it reproduces SciBERT. Any 0 < w < 1 is the "hybrid".
-
-  Honest expectation: SciBERT is near-random on this task, so blending it in is
-  likely to only hurt. A flat/decreasing curve as w drops below 1.0 is itself
-  the result — it shows SPECTER2 alone is the right choice.
-
-Reuses from evaluation.py (no duplicated encoder logic):
-  load_query_encoder, embed_queries, K_VALUES, QUERIES_FILE, QUERY_TYPES,
-  MODEL_EMBEDDINGS, RESULTS_DIR
-
-Output:
-  results/evaluation/known_item_hybrid_sweep.csv
-    columns: weight_specter2, query_type, n_queries,
-             hit@5/10/20, precision@5/10/20, ndcg@5/10/20, mrr,
-             median_rank, mean_rank
-
-Run from the PROJECT ROOT (so the relative model/data paths resolve):
-    python src/experiments_hybrid.py
-"""
+"""Blend SPECTER2 and SciBERT scores for known-item tests."""
 
 import logging
 from pathlib import Path
@@ -65,11 +31,7 @@ def _load_norm(emb_path, ids_path):
 
 
 def load_aligned_corpora():
-    """Load both corpora and align them to a shared arxiv_id order.
-
-    Returns (corpus_s, corpus_b, id_to_pos) where row i of each matrix is the
-    same paper, and id_to_pos maps arxiv_id -> that shared row index.
-    """
+    """Load aligned corpora."""
     s_emb, s_ids = _load_norm(MODEL_EMBEDDINGS["specter2"]["emb"],
                               MODEL_EMBEDDINGS["specter2"]["ids"])
     b_emb, b_ids = _load_norm(MODEL_EMBEDDINGS["scibert"]["emb"],

@@ -1,14 +1,4 @@
-"""
-src/experiments_alpha_sweep.py
---------------------------------
-Hyperparameter sweep: Multiplicative Category Boost (Alpha) with Per-Category Diagnostics.
-
-Implements a hybrid retrieval strategy between full-corpus search
-and category-restricted search using a multiplicative boost factor.
-
-Formula:
-    final_score = cosine_similarity * (1 + alpha * same_category_flag)
-"""
+"""Sweep the category-boost weight."""
 
 import json
 import logging
@@ -20,9 +10,7 @@ import numpy as np
 import pandas as pd
 import wandb
 
-# ---------------------------------------------------------------------------
 # Logging
-# ---------------------------------------------------------------------------
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s  [%(levelname)s]  %(message)s",
@@ -31,9 +19,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-# ---------------------------------------------------------------------------
-# Configuration
-# ---------------------------------------------------------------------------
+# Config
 DATA_FILE    = Path("data/processed/papers_keybert_final.csv")
 RESULTS_DIR  = Path("results/evaluation_results")
 RESULTS_CSV  = RESULTS_DIR / "experiments_smalleralpha_sweep.csv"
@@ -42,7 +28,7 @@ RESULTS_JSON = RESULTS_DIR / "experiments_smalleralpha_sweep.json"
 EMBEDDINGS_FILE = Path("models/embeddings/specter2_embeddings.npy")
 ARXIV_IDS_FILE  = Path("models/embeddings/specter2_arxiv_ids.npy")
 
-# Granular alpha sweep values to locate the exact mathematical peak
+# Fine-grained alpha values.
 ALPHA_VALUES    = [0.00, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10]
 TOP_K_VALUES    = [5, 10, 20]
 CORPUS_MAX_YEAR = 2025
@@ -53,9 +39,7 @@ CATEGORIES      = ["cs.AI", "cs.LG", "cs.CL", "cs.CV"]
 CANDIDATE_BUFFER = max(TOP_K_VALUES) + 50
 
 
-# ---------------------------------------------------------------------------
 # Helpers
-# ---------------------------------------------------------------------------
 def parse_tags(tag_string: str) -> set:
     if not isinstance(tag_string, str):
         return set()
@@ -84,9 +68,7 @@ def ndcg_at_k(relevant_flags: list, total_relevant: int, k: int) -> float:
     return dcg / idcg if idcg > 0 else 0.0
 
 
-# ---------------------------------------------------------------------------
-# Main Execution Loop
-# ---------------------------------------------------------------------------
+# Main loop
 def run_alpha_sweep() -> None:
     logger.info("=" * 60)
     logger.info("Alpha Sweep: Multiplicative Category Boost (Optimized)")
@@ -96,7 +78,7 @@ def run_alpha_sweep() -> None:
 
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-    # --- Robust Resume Support (Row-Count Validation) ---
+    # Resume from saved rows
     completed_alphas = set()
     existing_results = []
     
@@ -122,7 +104,7 @@ def run_alpha_sweep() -> None:
         existing_results = [r for r in existing_results if float(r["alpha"]) in completed_alphas]
         logger.info("Verified completed alphas to safely skip: %s", completed_alphas)
 
-    # --- Load datasets ---
+    # Load datasets
     logger.info("Loading dataset: %s", DATA_FILE)
     df = pd.read_csv(DATA_FILE, dtype=str)
     df["publication_year"] = pd.to_numeric(df["publication_year"], errors="coerce")
@@ -130,13 +112,13 @@ def run_alpha_sweep() -> None:
     corpus_df = df[df["publication_year"] <= CORPUS_MAX_YEAR].copy().reset_index(drop=True)
     query_df  = df[df["publication_year"] == QUERY_YEAR].copy().reset_index(drop=True)
 
-    # --- Load and Map Embeddings ---
+    # Load and Map Embeddings
     logger.info("Loading SPECTER2 embeddings...")
     embeddings    = np.load(EMBEDDINGS_FILE).astype(np.float32)
     arxiv_ids     = np.load(ARXIV_IDS_FILE)
     emb_id_to_idx = {str(aid): i for i, aid in enumerate(arxiv_ids)}
 
-    # --- Secure & Aligned Corpus Extraction ---
+    # Secure & Aligned Corpus Extraction
     logger.info("Building verified corpus records mapping...")
     corpus_records = []
     for _, row in corpus_df.iterrows():
@@ -158,7 +140,7 @@ def run_alpha_sweep() -> None:
     corpus_emb_norm = corpus_emb_matrix / np.clip(norms, 1e-10, None)
     logger.info("Aligned Corpus Matrix Built: %s", corpus_emb_norm.shape)
 
-    # --- Secure & Aligned Query Extraction ---
+    # Secure & Aligned Query Extraction
     logger.info("Building verified query records mapping...")
     query_records = []
     for _, q_row in query_df.iterrows():
@@ -181,11 +163,11 @@ def run_alpha_sweep() -> None:
     q_emb_norm = q_emb_matrix / np.clip(q_norms, 1e-10, None)
     logger.info("Aligned Query Matrix Built: %s", q_emb_norm.shape)
 
-    # --- Precompute Base Cosine Similarity ---
+    # Precompute Base Cosine Similarity
     logger.info("Precomputing un-boosted baseline cosine matrix...")
     base_sim_matrix = q_emb_norm @ corpus_emb_norm.T
 
-    # --- Precompute Relevance Lookup Ground-Truth ---
+    # Precompute Relevance Lookup Ground-Truth
     logger.info("Precomputing relevance dictionaries...")
     corpus_by_cat = defaultdict(list)
     for r in corpus_records:
@@ -206,10 +188,10 @@ def run_alpha_sweep() -> None:
             if c_id != q_arxiv and c_tags and (q_tags & c_tags)
         }
 
-    # --- Precompute Category Boolean Array Masks ---
+    # Precompute Category Boolean Array Masks
     category_masks = {cat: (corpus_cats_arr == cat).astype(np.float32) for cat in CATEGORIES}
 
-    # --- Alpha Sweep Loop ---
+    # Alpha Sweep Loop
     all_results = list(existing_results)
     max_k = max(TOP_K_VALUES)
 
@@ -263,7 +245,7 @@ def run_alpha_sweep() -> None:
                 scores[q_cat][k]["r"].append(recall_at_k(flags, total_rel, k))
                 scores[q_cat][k]["n"].append(ndcg_at_k(flags, total_rel, k))
 
-        # --- Consolidation and Multi-Level Metric Logging ---
+        # Consolidation and Multi-Level Metric Logging
         alpha_rows = []
         wandb_payload = {"alpha": alpha}
 
@@ -351,7 +333,7 @@ def run_alpha_sweep() -> None:
         with open(RESULTS_JSON, "w") as f:
             json.dump(all_results, f, indent=2)
 
-    # --- Print Terminal Summaries ---
+    # Print Terminal Summaries
     final_df = pd.DataFrame(all_results)
     print("\n" + "=" * 75)
     print("GLOBAL PERFORMANCE TRENDS")

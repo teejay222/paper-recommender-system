@@ -1,32 +1,4 @@
-"""
-src/experiments_per_category.py
----------------------------------
-Option D: Per-Category NDCG Breakdown.
-
-Reports Precision@K, Recall@K, NDCG@K separately for each category:
-  cs.AI, cs.LG, cs.CL, cs.CV
-
-This reveals which domains benefit most from SPECTER2 embeddings.
-
-Setup:
-  - Model     : SPECTER2 only
-  - Metric    : Cosine only
-  - Top-K     : 5, 10, 20
-  - Retrieval : Full corpus (papers <= 2025)
-  - Queries   : 2026 papers
-  - Relevance : Same category + at least 1 shared keybert tag
-
-Fixes applied vs first version:
-  1. Relevance precomputed ONCE outside category loop (not rebuilt per category)
-  2. query_lookup dict replaces slow .loc scan inside loop
-  3. corpus_by_cat precomputed once to avoid O(Q x C) full scan per category
-  4. buffer = max_k + 50 to guarantee enough candidates after self-match removal
-  5. One W&B run per category+K combination (12 runs total)
-
-Output (does NOT overwrite existing files):
-  results/evaluation_results/experiments_per_category.csv
-  results/evaluation_results/experiments_per_category.json
-"""
+"""Break down proxy retrieval metrics by category."""
 
 import json
 import logging
@@ -38,9 +10,7 @@ import numpy as np
 import pandas as pd
 import wandb
 
-# ---------------------------------------------------------------------------
 # Logging
-# ---------------------------------------------------------------------------
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s  [%(levelname)s]  %(message)s",
@@ -49,9 +19,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-# ---------------------------------------------------------------------------
-# Configuration
-# ---------------------------------------------------------------------------
+# Config
 
 DATA_FILE    = Path("data/processed/papers_keybert_final.csv")
 RESULTS_DIR  = Path("results/evaluation_results")
@@ -76,12 +44,10 @@ CATEGORY_LABELS = {
 }
 
 
-# ---------------------------------------------------------------------------
 # Helpers
-# ---------------------------------------------------------------------------
 
 def parse_tags(tag_string: str) -> set:
-    """Parses semicolon-separated tag string into a set."""
+    """Parse saved tag strings."""
     if not isinstance(tag_string, str):
         return set()
     if tag_string.strip().lower() in ("", "nan", "none"):
@@ -110,9 +76,7 @@ def ndcg_at_k(relevant_flags: list, total_relevant: int, k: int) -> float:
     return dcg / idcg if idcg > 0 else 0.0
 
 
-# ---------------------------------------------------------------------------
 # Main
-# ---------------------------------------------------------------------------
 
 def run_per_category_experiment() -> None:
     logger.info("=" * 60)
@@ -123,7 +87,7 @@ def run_per_category_experiment() -> None:
 
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-    # --- Resume support ---
+    # Resume support
     completed_keys  = set()
     existing_results = []
 
@@ -137,7 +101,7 @@ def run_per_category_experiment() -> None:
             len(completed_keys), completed_keys
         )
 
-    # --- Load dataset ---
+    # Load dataset
     logger.info("Loading dataset: %s", DATA_FILE)
     df = pd.read_csv(DATA_FILE, dtype=str)
     df["publication_year"] = pd.to_numeric(df["publication_year"], errors="coerce")
@@ -154,14 +118,14 @@ def run_per_category_experiment() -> None:
         logger.error("No query papers found for year %d.", QUERY_YEAR)
         return
 
-    # --- Load SPECTER2 embeddings ---
+    # Load SPECTER2 embeddings
     logger.info("Loading SPECTER2 embeddings...")
     embeddings    = np.load(EMBEDDINGS_FILE).astype(np.float32)
     arxiv_ids     = np.load(ARXIV_IDS_FILE)
     emb_id_to_idx = {str(aid): i for i, aid in enumerate(arxiv_ids)}
     logger.info("Embeddings: %s", embeddings.shape)
 
-    # --- Build full corpus embedding matrix (normalized for cosine) ---
+    # Build full corpus embedding matrix (normalized for cosine)
     # Built once, reused for all categories
     logger.info("Building full corpus embedding matrix...")
     corpus_ids  = []
@@ -181,7 +145,7 @@ def run_per_category_experiment() -> None:
 
     logger.info("Full corpus matrix built: %s", corpus_emb_norm.shape)
 
-    # --- FIX 1: Precompute corpus grouped by category ONCE ---
+    # Precompute corpus grouped by category ONCE
     # This avoids scanning all 41k corpus papers for every query
     # Each entry: (arxiv_id, parsed_tags_set)
     logger.info("Pre-grouping corpus by category and parsing tags...")
@@ -195,12 +159,12 @@ def run_per_category_experiment() -> None:
     for cat in CATEGORIES:
         logger.info("  %s: %d corpus papers", cat, len(corpus_by_cat[cat]))
 
-    # --- FIX 2: Precompute ALL relevance lookups ONCE outside category loop ---
+    # Precompute ALL relevance lookups ONCE outside category loop
     # Instead of rebuilding per category, compute everything in one pass
     logger.info("Precomputing relevance lookup for all query papers...")
     relevance_lookup = {}
 
-    # FIX 3: query_lookup dict replaces slow .loc scan
+    # query_lookup dict replaces slow .loc scan
     query_lookup = {
         str(row["arxiv_id"]): row
         for _, row in query_df.iterrows()
@@ -228,11 +192,11 @@ def run_per_category_experiment() -> None:
         total_with_relevant, len(query_df)
     )
 
-    # --- Evaluate per category ---
+    # Evaluate categories
     all_results = list(existing_results)
     max_k       = max(TOP_K_VALUES)
 
-    # FIX 4: buffer = max_k + 50 guarantees enough candidates after self-match removal
+    # buffer = max_k + 50 guarantees enough candidates after self-match removal
     CANDIDATE_BUFFER = max_k + 50
 
     for cat in CATEGORIES:
@@ -302,7 +266,7 @@ def run_per_category_experiment() -> None:
                 scores[k]["recalls"].append(recall_at_k(flags, total_rel, k))
                 scores[k]["ndcgs"].append(ndcg_at_k(flags, total_rel, k))
 
-        # FIX 5: One W&B run per category+K combination (12 runs total)
+        # Use one W&B run per category and K.
         for k in TOP_K_VALUES:
             run_key = (cat, k)
 
@@ -369,12 +333,12 @@ def run_per_category_experiment() -> None:
                 result["num_queries"],
             )
 
-            # Save after every single result — never lose progress
+            # Save after each result.
             pd.DataFrame(all_results).to_csv(RESULTS_CSV, index=False)
             with open(RESULTS_JSON, "w") as f:
                 json.dump(all_results, f, indent=2)
 
-    # --- Final summary table ---
+    # Final summary table
     final_df = pd.DataFrame(all_results)
     if final_df.empty:
         logger.warning("No results to display.")

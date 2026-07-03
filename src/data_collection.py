@@ -1,14 +1,5 @@
 #!/usr/bin/env python3
-"""
-src/data_collection_yearly.py
------------------------------
-Collects a high-quality, targeted volume of papers for a single year.
-Uses an inclusive yet safe multi-category scanner across all secondary listings,
-and fixes pagination offsets by tracking raw API payload item counts.
-
-Outputs:
-  - data/raw/papers_YYYY.csv
-"""
+"""Collect yearly arXiv papers and citation counts."""
 
 import os
 import time
@@ -20,35 +11,33 @@ from datetime import datetime
 import requests
 from dotenv import load_dotenv
 
-# ===========================================================================
-# CONFIGURATION - ADJUST PER RUN
-# ===========================================================================
-TARGET_YEAR = 2026           # Target calendar year for this isolated batch
-TARGET_PAPERS = 8333         # Production batch volume constraint
+# Run settings
+TARGET_YEAR = 2026           # batch year
+TARGET_PAPERS = 8333         # target rows
 
-# Loaded from .env — never hard-code secrets.
+# Read secrets from .env.
 load_dotenv()
 SEMANTIC_SCHOLAR_API_KEY = os.getenv("SEMANTIC_SCHOLAR_API_KEY")
 
-# Bounded Computer Science target fields
+# CS categories
 ARXIV_CATEGORIES = ["cs.AI", "cs.LG", "cs.CL", "cs.CV"]
 
-# API Endpoints & Transport Rules
+# API settings
 ARXIV_BASE_URL   = "https://export.arxiv.org/api/query"
-ARXIV_BATCH_SIZE = 100          # Stable pagination block size
-ARXIV_DELAY      = 3.0          # 3-second delay to protect against IP bans
+ARXIV_BATCH_SIZE = 100          # page size
+ARXIV_DELAY      = 3.0          # API pause
 
 SS_BATCH_URL     = "https://api.semanticscholar.org/graph/v1/paper/batch"
 SS_FIELDS        = "citationCount,referenceCount"
 SS_BATCH_SIZE    = 500
 SS_BATCH_DELAY   = 1.0
 
-# File System Workspace Definitions
+# Paths
 OUTPUT_DIR      = os.path.join("data", "raw")
 OUTPUT_FILE     = os.path.join(OUTPUT_DIR, f"papers_{TARGET_YEAR}.csv")
 CHECKPOINT_FILE = os.path.join(OUTPUT_DIR, f"collection_state_{TARGET_YEAR}.json")
 
-# Document schema matching core specifications
+# Paper schema
 CSV_HEADERS = [
     "arxiv_id",
     "title",
@@ -67,9 +56,7 @@ ARXIV_NAMESPACE = {
     "arxiv": "http://arxiv.org/schemas/atom"
 }
 
-# ===========================================================================
-# LOGGING SYSTEM
-# ===========================================================================
+# Logging
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s  [%(levelname)s]  %(message)s",
@@ -77,9 +64,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# ===========================================================================
-# FILE I/O OPERATIONS & CHECKPOINT MANAGEMENT
-# ===========================================================================
+# Files and checkpoint
 def init_storage():
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     if not os.path.exists(OUTPUT_FILE):
@@ -112,9 +97,7 @@ def save_checkpoint(category_index, start_index, total_collected):
     with open(CHECKPOINT_FILE, "w", encoding="utf-8") as f:
         json.dump(state, f, indent=4)
 
-# ===========================================================================
-# ARXIV CORE CONTEXT RETRIEVER
-# ===========================================================================
+# arXiv fetch
 def build_arxiv_query(category, start_index):
     date_from = f"{TARGET_YEAR}01010000"
     date_to   = f"{TARGET_YEAR}12312359"
@@ -127,10 +110,7 @@ def build_arxiv_query(category, start_index):
     }
 
 def parse_arxiv_xml(xml_text):
-    """
-    Parses entry feeds using an intersection search across ALL attached categories.
-    Returns parsed paper models alongside the true, unfiltered payload record count.
-    """
+    """Parse arxiv xml."""
     papers = []
     try:
         root = ET.fromstring(xml_text)
@@ -142,23 +122,23 @@ def parse_arxiv_xml(xml_text):
     raw_count   = len(all_entries)
 
     for entry in all_entries:
-        # Extract metadata identifiers
+        # Paper ids
         raw_id   = entry.findtext("atom:id", default="", namespaces=ARXIV_NAMESPACE)
         arxiv_id = raw_id.split("/abs/")[-1].strip()
         if "v" in arxiv_id:
             arxiv_id = arxiv_id.rsplit("v", 1)[0]
 
-        # MULTI-CATEGORY SAFE SCANNER: Extract all secondary classification mappings
+        # Read every category on the paper.
         cat_elements = entry.findall("atom:category", ARXIV_NAMESPACE)
         all_categories = [c.get("term") for c in cat_elements if c.get("term") is not None]
         
-        # Isolate direct cross-listed intersection matches
+        # Keep direct cross-list matches.
         matching_targets = [c for c in all_categories if c in ARXIV_CATEGORIES]
 
         if not matching_targets:
             continue  # Safe bypass: Drops pure math/physics items with no CS relationships
 
-        # Anchor document safely under the first matching CS target field
+        # Use the first matching CS field.
         assigned_category = matching_targets[0]
 
         title    = entry.findtext("atom:title", default="", namespaces=ARXIV_NAMESPACE)
@@ -190,9 +170,7 @@ def fetch_arxiv_batch(category, start_index):
     resp.raise_for_status()
     return parse_arxiv_xml(resp.text)
 
-# ===========================================================================
-# SEMANTIC SCHOLAR BULK METRICS METRIC ENRICHER
-# ===========================================================================
+# Semantic Scholar metrics
 def enrich_batch_metrics(papers):
     if not papers:
         return papers
@@ -218,9 +196,7 @@ def enrich_batch_metrics(papers):
         
     return papers
 
-# ===========================================================================
-# ORCHESTRATION PIPELINE
-# ===========================================================================
+# Main run
 def run_pipeline():
     init_storage()
     state = load_checkpoint()
@@ -253,7 +229,7 @@ def run_pipeline():
             time.sleep(30)
             continue
 
-        # CRITICAL RECOVERY LOGIC: Move to next category ONLY if the API returns 0 total items
+        # Move on only when this category is empty.
         if raw_count == 0:
             logger.info("Channel Exhausted | Category %s catalog complete. Switching loop focus.", category)
             category_index += 1
@@ -264,7 +240,7 @@ def run_pipeline():
             save_checkpoint(category_index, start_index, total_collected)
             continue
 
-        # If the batch list is empty but raw_count > 0, advance the cursor past the cross-listed gap
+        # Advance past empty cross-list gaps.
         if not batch:
             logger.info("Padding Window | Skipping batch containing only unaligned cross-listings (+%d offsets)", raw_count)
             start_index += raw_count
@@ -272,25 +248,25 @@ def run_pipeline():
             time.sleep(ARXIV_DELAY)
             continue
 
-        # Cap entries to prevent target overshoot
+        # Stop at the target count.
         remaining = TARGET_PAPERS - total_collected
         batch = batch[:remaining]
 
-        # Enqueue live citation profiles via bulk POST
+        # Fetch citation data in bulk.
         batch = enrich_batch_metrics(batch)
 
-        # Flush data down to CSV file system
+        # Write the CSV checkpoint.
         append_records_to_csv(batch)
         total_collected += len(batch)
         
-        # Advance pagination using the absolute entry response length
+        # Advance by the feed size.
         start_index += raw_count
         save_checkpoint(category_index, start_index, total_collected)
 
         logger.info("Extraction Metric Tracker | Progress Status: %d / %d records persisted", total_collected, TARGET_PAPERS)
         time.sleep(ARXIV_DELAY)
 
-    # Clean up checkpoint on perfect job completion
+    # Remove the checkpoint after a full run.
     if total_collected >= TARGET_PAPERS and os.path.exists(CHECKPOINT_FILE):
         os.remove(CHECKPOINT_FILE)
 

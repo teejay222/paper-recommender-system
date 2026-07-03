@@ -1,29 +1,4 @@
-"""
-src/experiments_category_restricted.py
----------------------------------------
-Option C: Category-Restricted Retrieval Experiment.
-
-Difference from experiments.py (full corpus):
-  - For each query paper, the candidate pool is restricted to papers
-    from the SAME category only instead of the entire corpus.
-  - This mirrors how researchers actually search — a CV researcher
-    looks within CV papers, not across all of CS.
-  - Expected result: higher Precision, Recall, NDCG because ~75% of
-    obvious non-relevant papers (different category) are removed.
-
-Setup:
-  - Model  : SPECTER2 only (winner from full-corpus experiment)
-  - Metric : Cosine only
-  - Top-K  : 5, 10, 20
-  - Split  : corpus = papers <= 2025, queries = papers from 2026
-  - Relevance: same category + at least 1 shared keybert tag
-
-Output:
-  results/evaluation_results/experiments_category_restricted.csv
-  results/evaluation_results/experiments_category_restricted.json
-
-W&B: each run logged with prefix "restricted_"
-"""
+"""Run retrieval inside each paper category."""
 
 import json
 import logging
@@ -36,9 +11,7 @@ import numpy as np
 import pandas as pd
 import wandb
 
-# ---------------------------------------------------------------------------
 # Logging
-# ---------------------------------------------------------------------------
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s  [%(levelname)s]  %(message)s",
@@ -47,9 +20,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-# ---------------------------------------------------------------------------
-# Configuration
-# ---------------------------------------------------------------------------
+# Config
 
 DATA_FILE   = Path("data/processed/papers_keybert_final.csv")
 RESULTS_DIR = Path("results/evaluation_results")
@@ -64,16 +35,14 @@ CORPUS_MAX_YEAR = 2025
 QUERY_YEAR      = 2026
 WANDB_PROJECT   = "paper-recommender-system"
 
-# Categories from the spec
+# Spec categories
 CATEGORIES = ["cs.AI", "cs.LG", "cs.CL", "cs.CV"]
 
 
-# ---------------------------------------------------------------------------
-# Relevance (same as experiments.py — only retrieval pool changes)
-# ---------------------------------------------------------------------------
+# Relevance rule
 
 def parse_tags(tag_string: str) -> set:
-    """Parses semicolon-separated tag string into a set."""
+    """Parse saved tag strings."""
     if not isinstance(tag_string, str):
         return set()
     if tag_string.strip().lower() in ("", "nan", "none"):
@@ -81,9 +50,7 @@ def parse_tags(tag_string: str) -> set:
     return {t.strip() for t in tag_string.split(";") if t.strip()}
 
 
-# ---------------------------------------------------------------------------
 # Metrics
-# ---------------------------------------------------------------------------
 
 def precision_at_k(relevant_flags: list, k: int) -> float:
     """Precision@K = relevant in top-K / K"""
@@ -100,10 +67,7 @@ def recall_at_k(relevant_flags: list, total_relevant: int, k: int) -> float:
 
 
 def ndcg_at_k(relevant_flags: list, total_relevant: int, k: int) -> float:
-    """
-    NDCG@K with correct IDCG.
-    IDCG uses min(total_relevant, k) — not just relevant found in top-K.
-    """
+    """Ndcg at k."""
     top_k = relevant_flags[:k]
     dcg   = sum(
         1.0 / math.log2(i + 2)
@@ -114,22 +78,10 @@ def ndcg_at_k(relevant_flags: list, total_relevant: int, k: int) -> float:
     return dcg / idcg if idcg > 0 else 0.0
 
 
-# ---------------------------------------------------------------------------
 # Main
-# ---------------------------------------------------------------------------
 
 def run_category_restricted_experiment() -> None:
-    """
-    Runs the category-restricted retrieval experiment.
-
-    For each query paper:
-      1. Restrict candidate pool to same-category corpus papers only
-      2. Compute cosine similarity within that pool
-      3. Rank and evaluate at K = 5, 10, 20
-
-    This removes cross-category noise and tests how well the system
-    works when the user is searching within their own field.
-    """
+    """Run category restricted experiment."""
     logger.info("=" * 60)
     logger.info("Category-Restricted Retrieval Experiment")
     logger.info("Model : SPECTER2 | Metric: Cosine | K: %s", TOP_K_VALUES)
@@ -138,7 +90,7 @@ def run_category_restricted_experiment() -> None:
 
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-    # --- Resume support ---
+    # Resume support
     completed_k = set()
     existing_results = []
 
@@ -153,7 +105,7 @@ def run_category_restricted_experiment() -> None:
         logger.info("All K values already completed. Nothing to run.")
         return
 
-    # --- Load data ---
+    # Load data
     logger.info("Loading dataset: %s", DATA_FILE)
     df = pd.read_csv(DATA_FILE, dtype=str)
     df["publication_year"] = pd.to_numeric(df["publication_year"], errors="coerce")
@@ -168,18 +120,18 @@ def run_category_restricted_experiment() -> None:
         logger.error("No query papers found for year %d.", QUERY_YEAR)
         return
 
-    # --- Load embeddings ---
+    # Load embeddings
     logger.info("Loading SPECTER2 embeddings...")
     embeddings = np.load(EMBEDDINGS_FILE).astype(np.float32)
     arxiv_ids  = np.load(ARXIV_IDS_FILE)
     emb_id_to_idx = {str(aid): i for i, aid in enumerate(arxiv_ids)}
     logger.info("Embeddings loaded: %s", embeddings.shape)
 
-    # --- Build category-level corpus index ---
+    # Build category index
     # For each category, store:
-    #   - list of arxiv_ids in that category (corpus only)
-    #   - their embeddings stacked as one matrix
-    #   - their DataFrame rows for relevance checking
+    # - list of arxiv_ids in that category (corpus only)
+    # - their embeddings stacked as one matrix
+    # - their DataFrame rows for relevance checking
     logger.info("Building per-category corpus index...")
 
     category_corpus = {}   # category -> {"arxiv_ids", "embeddings", "rows"}
@@ -218,7 +170,7 @@ def run_category_restricted_experiment() -> None:
 
         logger.info("  %s: %d corpus papers indexed", cat, len(cat_ids))
 
-    # --- Precompute relevance lookup ---
+    # Build relevance lookup
     # For each query paper: set of corpus arxiv_ids that are relevant
     # (same category + at least 1 shared tag)
     logger.info("Precomputing relevance lookup...")
@@ -251,7 +203,7 @@ def run_category_restricted_experiment() -> None:
         total_with_relevant, len(query_df)
     )
 
-    # --- Evaluate per category ---
+    # Evaluate categories
     # Collect scores per K across all queries
     scores_per_k = {k: {"precisions": [], "recalls": [], "ndcgs": []} for k in remaining_k}
 
@@ -291,7 +243,7 @@ def run_category_restricted_experiment() -> None:
         q_emb_norm   = q_emb_matrix / q_norms
 
         # Compute similarity matrix: (num_queries, num_corpus)
-        sim_matrix = q_emb_norm @ corpus_norm.T   # cosine similarity
+        sim_matrix = q_emb_norm @ corpus_norm.T   # Cosine scores
 
         max_k = max(remaining_k)
 
@@ -322,7 +274,7 @@ def run_category_restricted_experiment() -> None:
                 scores_per_k[k]["recalls"].append(recall_at_k(flags, total_rel, k))
                 scores_per_k[k]["ndcgs"].append(ndcg_at_k(flags, total_rel, k))
 
-    # --- Aggregate and save results ---
+    # Save results
     all_results = list(existing_results)
 
     for k in remaining_k:
@@ -347,7 +299,7 @@ def run_category_restricted_experiment() -> None:
             "num_queries":    len(p),
         }
 
-        # W&B logging
+        # W&B log
         wandb_run = wandb.init(
             project=WANDB_PROJECT,
             name=f"restricted_specter2_cosine_k{k}",
@@ -380,7 +332,7 @@ def run_category_restricted_experiment() -> None:
         with open(RESULTS_JSON, "w") as f:
             json.dump(all_results, f, indent=2)
 
-    # --- Print summary ---
+    # Print summary
     final_df = pd.DataFrame(all_results)
     print("\n" + "=" * 60)
     print("CATEGORY-RESTRICTED RESULTS")

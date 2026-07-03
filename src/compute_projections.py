@@ -1,25 +1,4 @@
-"""
-src/compute_projections.py — precompute 2-D embedding projections for the
-Analytics tab.
-
-t-SNE over 50k x 768 vectors is far too slow to run inside Streamlit, so this
-script computes the projections ONCE (run it where the embeddings live, i.e.
-the cluster) and writes small CSVs the app can load instantly.
-
-For each model it produces, on a stratified sample of the corpus:
-  - PCA(2) coordinates           -> pca_x, pca_y
-  - t-SNE(2) coordinates         -> tsne_x, tsne_y   (PCA(50) -> t-SNE, standard)
-  - a silhouette separation score (how well the 4 categories separate in the
-    full embedding space, cosine metric) -> results/figures/embedding_separation.json
-
-Embeddings are L2-normalised first, so the geometry matches the cosine space the
-recommender actually ranks in.
-
-Run from the PROJECT ROOT:
-    python src/compute_projections.py
-
-Requires: numpy, pandas, scikit-learn.
-"""
+"""Build saved projections used by the app."""
 
 from __future__ import annotations
 
@@ -37,7 +16,7 @@ from sklearn.preprocessing import normalize
 logging.basicConfig(level=logging.INFO, format="%(asctime)s  %(message)s")
 logger = logging.getLogger(__name__)
 
-# --- Config (edit paths here if your layout differs) -----------------------
+# Config (edit paths here if your layout differs)
 DATA_FILE       = Path("data/processed/papers_keybert_final.csv")
 EMBEDDINGS_DIR  = Path("models/embeddings")
 OUTPUT_DIR      = Path("results/figures")
@@ -46,7 +25,7 @@ MODELS          = ["specter2", "scibert"]
 SAMPLE_SIZE     = 6000     # stratified sample used for the scatter + silhouette
 RANDOM_STATE    = 42
 PCA_PRETSNE_DIM = 50       # reduce to this before t-SNE (standard practice)
-SIM_PAIRS       = 40000    # random pairs sampled for the similarity histogram
+SIM_PAIRS       = 40000    # sampled pairs
 SIM_PER_GROUP   = 5000     # cap per same/different group (keeps the two balanced)
 
 
@@ -74,11 +53,7 @@ def _stratified_sample(ids: np.ndarray, categories: np.ndarray,
 
 def _similarity_pairs(emb_norm: np.ndarray, categories: np.ndarray, model: str,
                       n_pairs: int, per_group: int, seed: int) -> pd.DataFrame:
-    """Cosine similarity for random same-category vs different-category pairs.
-
-    emb_norm must already be L2-normalised, so a dot product IS the cosine.
-    Returns a long-format frame: model, comparison, cosine.
-    """
+    """Similarity pairs."""
     rng = np.random.default_rng(seed)
     i = rng.integers(0, len(emb_norm), n_pairs)
     j = rng.integers(0, len(emb_norm), n_pairs)

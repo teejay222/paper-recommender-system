@@ -1,17 +1,5 @@
 #!/usr/bin/env python3
-"""
-src/keyword_extraction_v2.py
------------------------------
-Phase 3B (v2): KeyBERT tag extraction using Title + Abstract as input.
-
-Differences from keyword_extraction.py (v1):
-  - Input text: Title + Abstract combined (v1 used abstract only)
-  - TOP_N: 8 candidates extracted, best 5 kept (v1 used TOP_N=4)
-  - Score threshold: 0.20 (v1 used 0.35)
-
-Input:  data/processed/papers_clean.csv
-Output: data/processed/papers_keybert_v2.csv
-"""
+"""Extract KeyBERT tags from title and abstract."""
 
 import logging
 from pathlib import Path

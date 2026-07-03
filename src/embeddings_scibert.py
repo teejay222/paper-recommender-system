@@ -1,33 +1,4 @@
-"""
-src/embeddings_scibert.py
---------------------------
-Generates SciBERT embeddings for all papers.
-Used for comparison against SPECTER2 embeddings (spec Section 11).
-Designed to run on a CUDA GPU (university cluster).
-Falls back to CPU automatically if CUDA is not available.
-
-Model:
-  allenai/scibert_scivocab_uncased
-  Standard transformers — no extra library needed.
-  Output: 768-dimensional float32 vectors
-
-Pooling difference vs SPECTER2:
-  SPECTER2 uses CLS token pooling (index 0 of last hidden state).
-  SciBERT uses MEAN pooling (average of all token hidden states,
-  excluding padding tokens). This is the standard approach for
-  SciBERT as it was not trained with a specific CLS objective
-  for sentence-level similarity.
-
-Input:
-  data/processed/papers_keybert_v2.csv
-
-Output:
-  models/embeddings/scibert_embeddings.npy  — shape (N, 768)
-  models/embeddings/scibert_arxiv_ids.npy   — shape (N,) arxiv_ids in same row order
-
-Usage:
-  python src/embeddings_scibert.py
-"""
+"""Create SciBERT embeddings for the paper corpus."""
 
 import logging
 import time
@@ -38,9 +9,7 @@ import pandas as pd
 import torch
 from transformers import AutoModel, AutoTokenizer
 
-# ---------------------------------------------------------------------------
-# Logging setup
-# ---------------------------------------------------------------------------
+# Logging
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s  [%(levelname)s]  %(message)s",
@@ -49,9 +18,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-# ---------------------------------------------------------------------------
-# Configuration
-# ---------------------------------------------------------------------------
+# Config
 
 INPUT_FILE      = Path("data/processed/papers_keybert_v2.csv")
 OUTPUT_DIR      = Path("models/embeddings")
@@ -61,22 +28,18 @@ ARXIV_IDS_FILE  = OUTPUT_DIR / "scibert_arxiv_ids.npy"
 MODEL_NAME = "allenai/scibert_scivocab_uncased"
 
 # Same batch size guidance as SPECTER2:
-#   32  — safe for 8GB VRAM
-#   64  — safe for 16GB VRAM
-#   16  — safe for CPU
+# 32 — safe for 8GB VRAM
+# 64 — safe for 16GB VRAM
+# 16 — safe for CPU
 BATCH_SIZE = 32
 
 MAX_LENGTH = 512
 
 
-# ---------------------------------------------------------------------------
-# Device setup
-# ---------------------------------------------------------------------------
+# Device
 
 def get_device() -> torch.device:
-    """
-    Returns CUDA device if available, otherwise CPU.
-    """
+    """Pick CUDA when available, otherwise CPU."""
     if torch.cuda.is_available():
         device = torch.device("cuda")
         gpu_name = torch.cuda.get_device_name(0)
@@ -88,21 +51,11 @@ def get_device() -> torch.device:
     return device
 
 
-# ---------------------------------------------------------------------------
-# Input preparation
+# Inputs
 # (identical to SPECTER2 script — same input format)
-# ---------------------------------------------------------------------------
 
 def load_papers(filepath: Path) -> pd.DataFrame:
-    """
-    Loads the CSV and validates required columns exist.
-
-    Args:
-        filepath: Path to papers_keybert_v2.csv
-
-    Returns:
-        DataFrame with at minimum arxiv_id, title, abstract columns.
-    """
+    """Load the paper CSV and check required columns."""
     df = pd.read_csv(filepath, dtype=str)
     logger.info("Loaded %d papers from %s", len(df), filepath)
 
@@ -118,56 +71,30 @@ def load_papers(filepath: Path) -> pd.DataFrame:
 
 
 def build_input_texts(df: pd.DataFrame, sep_token: str) -> list[str]:
-    """
-    Concatenates title and abstract using the tokenizer's separator token.
-
-    Args:
-        df:        DataFrame with title and abstract columns
-        sep_token: The tokenizer's separator token string
-
-    Returns:
-        List of formatted input strings, one per paper.
-    """
+    """Build model input strings from title and abstract."""
     return [
         f"{row['title']}{sep_token}{row['abstract']}"
         for _, row in df.iterrows()
     ]
 
 
-# ---------------------------------------------------------------------------
 # Mean pooling
-# ---------------------------------------------------------------------------
 
 def mean_pool(last_hidden_state: torch.Tensor, attention_mask: torch.Tensor) -> torch.Tensor:
-    """
-    Applies mean pooling to the last hidden state, excluding padding tokens.
-
-    This is the standard pooling method for SciBERT sentence embeddings.
-    Padding tokens (attention_mask == 0) are excluded from the average
-    so they don't dilute the representation.
-
-    Args:
-        last_hidden_state: Shape (batch_size, seq_len, hidden_size)
-        attention_mask:    Shape (batch_size, seq_len) — 1 for real, 0 for padding
-
-    Returns:
-        Tensor of shape (batch_size, hidden_size)
-    """
-    # Expand attention mask to match hidden state dimensions
+    """Mean pool."""
+    # Expand the attention mask.
     mask_expanded = attention_mask.unsqueeze(-1).expand(last_hidden_state.size()).float()
 
-    # Zero out padding token representations
+    # Mask padding tokens.
     sum_hidden = torch.sum(last_hidden_state * mask_expanded, dim=1)
 
-    # Sum of non-padding tokens per item in batch (clamp to avoid div by zero)
+    # Count non-padding tokens.
     sum_mask = torch.clamp(mask_expanded.sum(dim=1), min=1e-9)
 
     return sum_hidden / sum_mask
 
 
-# ---------------------------------------------------------------------------
-# Embedding generation
-# ---------------------------------------------------------------------------
+# Embeddings
 
 def generate_embeddings(
     texts:     list[str],
@@ -175,20 +102,7 @@ def generate_embeddings(
     model:     AutoModel,
     device:    torch.device,
 ) -> np.ndarray:
-    """
-    Generates SciBERT embeddings for all input texts using batched inference.
-
-    Pooling: mean pooling of last hidden state (excluding padding tokens).
-
-    Args:
-        texts:     List of "title [SEP] abstract" strings
-        tokenizer: SciBERT tokenizer
-        model:     SciBERT model
-        device:    torch.device (cuda or cpu)
-
-    Returns:
-        NumPy array of shape (len(texts), 768) in float32.
-    """
+    """Run batched embedding inference."""
     total          = len(texts)
     all_embeddings = []
 
@@ -241,19 +155,11 @@ def generate_embeddings(
     return embeddings
 
 
-# ---------------------------------------------------------------------------
-# Verification
+# Checks
 # (identical logic to SPECTER2 script)
-# ---------------------------------------------------------------------------
 
 def verify_embeddings(embeddings: np.ndarray, arxiv_ids: np.ndarray) -> None:
-    """
-    Runs sanity checks on the generated embeddings before saving.
-
-    Args:
-        embeddings: Float32 array of shape (N, 768)
-        arxiv_ids:  String array of shape (N,)
-    """
+    """Check the saved embedding arrays before writing them."""
     logger.info("Running verification checks...")
 
     assert embeddings.ndim == 2, f"Expected 2D array, got {embeddings.ndim}D"
@@ -289,19 +195,10 @@ def verify_embeddings(embeddings: np.ndarray, arxiv_ids: np.ndarray) -> None:
     logger.info("  All verification checks passed.")
 
 
-# ---------------------------------------------------------------------------
 # Main
-# ---------------------------------------------------------------------------
 
 def generate_scibert_embeddings() -> None:
-    """
-    Full pipeline:
-      1. Load papers
-      2. Load SciBERT model
-      3. Generate embeddings in batches using mean pooling
-      4. Verify embeddings
-      5. Save embeddings and arxiv_ids to models/embeddings/
-    """
+    """Generate scibert embeddings."""
     logger.info("=" * 60)
     logger.info("SciBERT Embedding Generation")
     logger.info("Model : %s", MODEL_NAME)

@@ -1,42 +1,4 @@
-"""
-src/evaluation.py
------------------
-Known-item retrieval evaluation, comparing SPECTER2 vs SciBERT.
-
-What this measures
-------------------
-Each row of Queries.xlsx is a paper plus several queries generated *from* that
-paper (keyword / task / problem / natural). So for every query there is exactly
-ONE known relevant document: its source paper. We embed the query, search the
-whole corpus, and record the RANK of the source paper. From those ranks:
-
-    Hit Rate@K  : fraction of queries whose source paper is in the top K
-                  (= Recall@K here, since there is exactly one relevant doc)
-    Precision@K : Hit@K / K  (capped at 1/K with one relevant doc)
-    NDCG@K      : rank-weighted hit, 1/log2(rank+1) when found in top K
-    MRR         : mean of 1 / rank-of-source-paper
-
-Why the ground truth is sound (not circular): the label ("paper P is the target
-for query Q") comes from how the query was generated, independent of the
-embedding model and the cosine ranking.
-
-Models compared
----------------
-    specter2 : query encoded with the ADHOC_QUERY adapter (the documented tool
-               for short query -> document search), CLS pooling, compared to the
-               proximity corpus embeddings.
-    scibert  : plain SciBERT encoder (NO query adapter exists), mean pooling,
-               compared to the mean-pooled SciBERT corpus embeddings.
-
-Note: SciBERT is not designed for query->document retrieval, so a gap in its
-favour of SPECTER2 is itself a result (SPECTER2's query-specific design helps).
-
-Run order:
-    Start with QUERY_TYPES = ["keyword_query"] for a smoke test, then all four.
-
-Install requirement:
-    pip install openpyxl
-"""
+"""Run known-item retrieval checks for both models."""
 
 import logging
 from pathlib import Path
@@ -44,7 +6,6 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-# ---------------------------------------------------------------------------
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s  [%(levelname)s]  %(message)s",
@@ -53,9 +14,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-# ===========================================================================
-# CONFIG  — adjust paths here if yours differ
-# ===========================================================================
+# CONFIG — adjust paths here if yours differ
 
 # Compare both models on the known-item eval. Use ["specter2"] alone if needed.
 MODELS = ["specter2", "scibert"]
@@ -80,27 +39,17 @@ K_VALUES    = [5, 10, 20]     # Hit/Precision/NDCG cut-offs
 BATCH_SIZE  = 32              # query-embedding batch size
 RESULTS_DIR = Path("results/evaluation")
 
-# --- Weights & Biases (its own project, separate from the proxy experiments) ---
+# Weights & Biases (its own project, separate from the proxy experiments)
 # No API key in code — relies on `wandb login`. Set USE_WANDB = False to skip.
 USE_WANDB     = True
 WANDB_PROJECT = "paper-recommender-known-item"
 WANDB_GROUP   = "known_item_eval"
 
 
-# ===========================================================================
 # Query encoders
-# ===========================================================================
 
 def load_query_encoder(model_name):
-    """
-    Loads the query encoder for the given model.
-    Returns (tokenizer, model, device, pooling) where pooling is 'cls' or 'mean'.
-
-    specter2 : base + adhoc_query adapter (CLS pooling) — the documented
-               query->document setup; corpus uses the proximity adapter.
-    scibert  : plain SciBERT encoder (mean pooling) — no query adapter exists,
-               so query and corpus are encoded the same way.
-    """
+    """Load the query encoder for one model."""
     import torch
 
     if model_name == "specter2":
@@ -133,10 +82,7 @@ def load_query_encoder(model_name):
 
 
 def embed_queries(texts, tokenizer, model, device, pooling, batch_size=BATCH_SIZE):
-    """
-    Embeds short query strings with the given pooling ('cls' or 'mean').
-    Returns L2-normalized embeddings (len(texts), 768) so cosine == dot product.
-    """
+    """Embed query strings and normalize them."""
     import torch
 
     out = []
@@ -162,16 +108,11 @@ def embed_queries(texts, tokenizer, model, device, pooling, batch_size=BATCH_SIZ
     return emb / norms
 
 
-# ===========================================================================
 # Evaluation
-# ===========================================================================
 
 def evaluate_query_type(model_name, query_type, df, corpus_norm, id_to_pos,
                         tokenizer, model, device, pooling):
-    """
-    Known-item retrieval for one (model, query type). Returns (summary, per_query_df).
-    Rank of the source paper = (#papers scoring strictly higher) + 1.
-    """
+    """Evaluate query type."""
     logger.info("-" * 70)
     logger.info("[%s] evaluating query type: %s", model_name, query_type)
 

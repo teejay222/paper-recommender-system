@@ -1,17 +1,4 @@
-"""
-src/analytics.py — analytics computations for the Streamlit "Analytics" tab.
-
-This is pure data logic (pandas / collections) with NO Streamlit dependency, so
-it can be unit-tested on its own. The app file (app/app.py) only wraps these
-functions with caching and renders the results — mirroring how src/recommender.py
-holds the recommender logic while app.py renders it.
-
-Public functions:
-    parse_tags(s)            -> list[str]    tolerant KeyBERT-tag parser
-    compute_analytics(df)    -> dict         all corpus analytics frames
-    read_projections(dir, m) -> DataFrame|None   precomputed 2-D projections
-    read_separation(dir)     -> dict|None        silhouette separation scores
-"""
+"""Data prep for the Analytics tab."""
 
 from __future__ import annotations
 
@@ -31,7 +18,7 @@ TAG_TREND_RATIO = 0.002
 
 
 def parse_tags(tags_str: str) -> list:
-    """Tolerantly parses the keybert tags string (list-repr or delimited)."""
+    """Parse saved tag strings."""
     s = (tags_str or "").strip()
     if not s:
         return []
@@ -47,14 +34,7 @@ def parse_tags(tags_str: str) -> list:
 
 
 def compute_analytics(df: pd.DataFrame) -> dict:
-    """Computes every analytics frame from the corpus dataframe.
-
-    Expects columns: title, category, publication_year, citation_count,
-    arxiv_id, keybert_tags_v2.
-
-    Returns a dict of small (already-aggregated) frames plus a headline-stats
-    dict — everything the Analytics tab needs, ready to chart.
-    """
+    """Build the frames used by the analytics tab."""
     years = sorted(int(y) for y in df["publication_year"].dropna().unique())
 
     headline = {

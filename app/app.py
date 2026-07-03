@@ -1,17 +1,4 @@
-"""
-app/app.py — Streamlit frontend for the Academic Paper Recommendation System.
-
-Tabs: Browse (corpus explorer), Recommendations (semantic similarity + category
-boost, with year/category filters), Analytics (corpus + embedding-space views),
-and Evaluation (known-item retrieval + proxy experiments). Project Info is the
-remaining placeholder.
-
-Pure data logic lives in app/analytics.py and app/evaluation.py; this file only
-caches and renders.
-
-Run from the PROJECT ROOT (so the relative data/model paths resolve):
-    streamlit run app/app.py
-"""
+"""Streamlit UI for browsing papers and recommendations."""
 
 import math
 import re
@@ -25,7 +12,7 @@ import streamlit as st
 
 alt.data_transformers.disable_max_rows()
 
-# Make `src` importable when launched as `streamlit run app/app.py` from root.
+# Allow app.py to import src when run from the project root.
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
@@ -41,9 +28,7 @@ from evaluation import (
 )
 
 
-# ---------------------------------------------------------------------------
 # Page setup
-# ---------------------------------------------------------------------------
 
 st.set_page_config(page_title="Academic Paper Recommender", layout="wide")
 
@@ -52,14 +37,12 @@ MODEL_CHOICES = {
     "SciBERT (comparison)": "scibert",
 }
 MODE_CHOICES = {
-    "Title — find papers similar to a known paper": "title",
-    "Free query — search by keywords or a question": "keywords",
+    "Title - find papers similar to a known paper": "title",
+    "Free query - search by keywords or a question": "keywords",
 }
 
 
-# ---------------------------------------------------------------------------
-# Cached loaders (load each model once per session, not on every interaction)
-# ---------------------------------------------------------------------------
+# Cached loaders
 
 @st.cache_resource(show_spinner=False)
 def get_recommender(model_value: str) -> PaperRecommender:
@@ -69,11 +52,7 @@ def get_recommender(model_value: str) -> PaperRecommender:
 
 @st.cache_data(show_spinner="Loading corpus…")
 def load_corpus() -> pd.DataFrame:
-    """Loads the columns the browse tab needs (cached once per session).
-
-    Does NOT load embeddings — browsing is a plain metadata view, independent
-    of the recommender. arxiv_id is read as str to avoid float truncation.
-    """
+    """Load the corpus columns used by the app."""
     cols = [
         "arxiv_id", "title", "authors", "category",
         "publication_year", "citation_count", "abstract", "keybert_tags_v2",
@@ -83,43 +62,36 @@ def load_corpus() -> pd.DataFrame:
 
 FIGURES_DIR = Path("results/figures")
 
-# Fixed, high-contrast palette so the four categories are easy to tell apart
-# everywhere (especially the PCA / t-SNE maps). Explicit domain->range keeps each
-# category the same colour across every chart, regardless of row order.
+# Fixed palette for the four categories.
+# Keep colours stable across charts.
 CATEGORY_DOMAIN = ["cs.AI", "cs.CL", "cs.CV", "cs.LG"]
 CATEGORY_COLORS = ["#E63946", "#1D7DF2", "#2EB82E", "#FF8C00"]  # red, blue, green, orange
 CAT_SCALE = alt.Scale(domain=CATEGORY_DOMAIN, range=CATEGORY_COLORS)
 
-# Two-class scale (vivid, clearly distinct).
+# Two-class scale.
 COMPARISON_SCALE = alt.Scale(domain=["Same category", "Different category"],
                              range=["#2EB82E", "#E63946"])          # green vs red
 
-# Vibrant single-series bar colours (anything but the dull default blue).
-COLOR_PAPERS  = "#1FB6C1"   # teal
-COLOR_TAGS    = "#8E5BD6"   # purple
-COLOR_CIT     = "#EE6C4D"   # coral
+# Single-series bar colours.
+COLOR_PAPERS  = "#177C08"   # green
+COLOR_TAGS    = "#2158AB"   # blue
+COLOR_CIT     = "#C13A19"   # rust
 
 EVAL_DIR = Path("results/evaluation")
 
-# Model + query-type display labels and a two-model colour scale for the
-# Evaluation tab.
+# Model labels and colours.
 MODEL_LABELS = {"specter2": "SPECTER2", "scibert": "SciBERT"}
 QTYPE_LABELS = {
     "keyword_query": "Keyword", "task_query": "Task",
     "problem_query": "Problem", "natural_query": "Natural",
 }
 MODEL_SCALE = alt.Scale(domain=["SPECTER2", "SciBERT"],
-                        range=["#1D7DF2", "#FF8C00"])   # blue vs orange
+                        range=["#E3B145", "#076E30"])   # gold vs green
 
 
 @st.cache_data(show_spinner=False)
 def get_filter_options() -> tuple[list, list]:
-    """Distinct categories and years for the filter dropdowns.
-
-    Reads only the two needed columns from the CSV (cheap, cached once) so the
-    filters can populate without loading the full recommender/embeddings.
-    Returns (categories sorted A->Z, years sorted newest first as strings).
-    """
+    """Load filter values."""
     import pandas as pd
     df = pd.read_csv(DATA_FILE, usecols=["category", "publication_year"])
     cats = sorted(df["category"].dropna().astype(str).unique().tolist())
@@ -129,9 +101,7 @@ def get_filter_options() -> tuple[list, list]:
     return cats, [str(y) for y in years]
 
 
-# ---------------------------------------------------------------------------
-# Small helpers
-# ---------------------------------------------------------------------------
+# Helpers
 
 def matching_keywords(query: str, tags: list) -> list:
     """Tags that share a word with the query (context only, not the ranker)."""
@@ -143,9 +113,7 @@ def matching_keywords(query: str, tags: list) -> list:
     return out
 
 
-# ---------------------------------------------------------------------------
-# Analytics data (thin cached wrappers over src/analytics.py)
-# ---------------------------------------------------------------------------
+# Analytics loaders
 
 @st.cache_data(show_spinner="Computing analytics…")
 def analytics_data() -> dict:
@@ -195,9 +163,7 @@ def load_hybrid_sweep():
     return read_hybrid_sweep(EVAL_DIR)
 
 
-# ---------------------------------------------------------------------------
 # Rendering
-# ---------------------------------------------------------------------------
 
 def render_result(position: int, paper: dict, query: str, mode: str) -> None:
     """Renders one recommendation as a bordered card with an explanation."""
@@ -223,11 +189,11 @@ def render_result(position: int, paper: dict, query: str, mode: str) -> None:
             )
             if paper["boosted"]:
                 st.markdown(
-                    f"- **Category boost applied** — shares the query paper's "
+                    f"- **Category boost applied** - shares the query paper's "
                     f"category (*{paper['category']}*)."
                 )
             else:
-                st.markdown("- **No category boost** — free-query mode has no category to match.")
+                st.markdown("- **No category boost** - free-query mode has no category to match.")
 
             tags = parse_tags(paper.get("tags", ""))
             matched = matching_keywords(query, tags)
@@ -245,8 +211,7 @@ def render_result(position: int, paper: dict, query: str, mode: str) -> None:
 
 
 def render_matched_box(matched: dict) -> None:
-    """Compact 'you searched for this' box, shown in the right column in title
-    mode so the user can confirm the fuzzy match alongside the recommendations."""
+    """Render matched box."""
     with st.container(border=True):
         st.markdown("**Your search matched**")
         st.markdown(f"**{matched['title']}**")
@@ -260,14 +225,12 @@ def render_matched_box(matched: dict) -> None:
         )
 
 
-# ---------------------------------------------------------------------------
 # Tabs
-# ---------------------------------------------------------------------------
 
 def recommendations_tab() -> None:
     st.subheader("Recommendations")
     st.write(
-        "Find related papers — either from a known paper title, or from a "
+        "Find related papers - either from a known paper title, or from a "
         "free-text query. SPECTER2 is the primary model; SciBERT is included "
         "for comparison."
     )
@@ -308,7 +271,7 @@ def recommendations_tab() -> None:
                     if mode == "title":
                         matched = recommender.match_title(query.strip())
                         if matched is None:
-                            # No title clears the bar — don't fake a match.
+                            # No title clears the bar - don't fake a match.
                             # Fall back to a free-text search on the title text.
                             fallback = True
                     else:
@@ -342,7 +305,7 @@ def recommendations_tab() -> None:
     meta = st.session_state.get("rec_meta")
 
     if meta and not results:
-        # A search ran but nothing came back — almost always over-strict filters.
+        # A search ran but nothing came back - almost always over-strict filters.
         active = []
         if meta.get("category"):
             active.append(f"category = {meta['category']}")
@@ -372,7 +335,7 @@ def recommendations_tab() -> None:
         if meta.get("matched"):
             # Title mode with a confirmed match: recommendations on the left,
             # the matched paper in a box on the right.
-            st.success(f"Top {len(results)} similar papers — {meta['model_label']}")
+            st.success(f"Top {len(results)} similar papers - {meta['model_label']}")
             st.caption(caption)
             main_col, side_col = st.columns([3, 1.3])
             with side_col:
@@ -383,12 +346,12 @@ def recommendations_tab() -> None:
         else:
             if meta.get("fallback"):
                 st.warning(
-                    "We don't have that exact paper in the corpus — showing papers "
+                    "We don't have that exact paper in the corpus - showing papers "
                     "related to your search instead."
                 )
-                st.success(f"Top {len(results)} related papers — {meta['model_label']}")
+                st.success(f"Top {len(results)} related papers - {meta['model_label']}")
             else:
-                st.success(f"Top {len(results)} results — {meta['model_label']}")
+                st.success(f"Top {len(results)} results - {meta['model_label']}")
             st.caption(caption)
             for i, paper in enumerate(results, start=1):
                 render_result(i, paper, meta["query"], meta["mode"])
@@ -415,7 +378,7 @@ def browse_tab() -> None:
     st.subheader("Browse the corpus")
     df = load_corpus()
     st.write(
-        f"Explore the {len(df):,} papers in the dataset — filter and sort, no "
+        f"Explore the {len(df):,} papers in the dataset - filter and sort, no "
         "query needed. This is a plain metadata view; for similarity-based "
         "results use the Recommendations tab."
     )
@@ -484,12 +447,10 @@ def render_embedding_section() -> None:
 
     if proj is None:
         st.info(
-            "Embedding projections haven't been generated yet. On the machine "
-            "that holds the embeddings (the cluster), run from the project root:\n\n"
+            "No projection files found yet. Run this from the project root on the "
+            "machine that has the embeddings:\n\n"
             "```\npython src/compute_projections.py\n```\n\n"
-            "That writes `results/figures/projections_*.csv` and "
-            "`embedding_separation.json`; this section then renders the PCA and "
-            "t-SNE maps automatically."
+            "The app will pick up the saved PCA/t-SNE files after that."
         )
         return
 
@@ -497,7 +458,7 @@ def render_embedding_section() -> None:
     xcol, ycol = ("tsne_x", "tsne_y") if proj_label == "t-SNE" else ("pca_x", "pca_y")
 
     st.caption(
-        f"{len(proj):,}-paper stratified sample, coloured by category. "
+        f"{len(proj):,} sampled papers, coloured by category. "
         "Hover for titles; drag to zoom."
     )
     chart = (
@@ -516,26 +477,22 @@ def render_embedding_section() -> None:
         c = st.columns(2)
         s_spec, s_sci = sep.get("specter2"), sep.get("scibert")
         c[0].metric("SPECTER2 category separation",
-                    f"{s_spec:.3f}" if pd.notna(s_spec) else "—")
+                    f"{s_spec:.3f}" if pd.notna(s_spec) else "-")
         c[1].metric("SciBERT category separation",
-                    f"{s_sci:.3f}" if pd.notna(s_sci) else "—")
+                    f"{s_sci:.3f}" if pd.notna(s_sci) else "-")
         st.caption(
-            "Silhouette score of the four categories in embedding space (range "
-            "−1 to 1). Both models score near zero — the categories do **not** form "
-            "cleanly separated clusters, which is expected given how much these "
-            "fields overlap. SPECTER2 edges ahead of SciBERT, but neither separates "
-            "by primary category; that isn't what the recommender relies on."
+            "Silhouette score for the four categories (range -1 to 1). The scores "
+            "sit close to zero, so the colours mix instead of forming clean groups. "
+            "That is expected for cross-listed CS papers."
         )
 
     sim = load_similarity()
     if sim is not None:
         st.markdown("**Same- vs different-category similarity**")
         st.caption(
-            "Cosine similarity for random same- vs different-category pairs. The "
-            "two distributions nearly overlap — SPECTER2 shows a slight gap "
-            "(same-category pairs marginally higher), SciBERT essentially none — "
-            "consistent with the near-zero silhouette: primary category is not a "
-            "strong axis of separation in this corpus."
+            "Random paper pairs from the same category and from different categories "
+            "look very similar. SPECTER2 has a small same-category bump; SciBERT is "
+            "almost flat."
         )
         st.altair_chart(
             alt.Chart(sim).mark_area(opacity=0.45, interpolate="step").encode(
@@ -547,17 +504,16 @@ def render_embedding_section() -> None:
             use_container_width=True)
     else:
         st.caption(
-            "Tip: the latest `compute_projections.py` also writes a "
-            "`similarity_pairs.csv`; re-run it to add the same-vs-different "
-            "category similarity histogram here."
+            "Run `compute_projections.py` again if you want the same-vs-different "
+            "category similarity plot here."
         )
 
 
 def analytics_tab() -> None:
     st.subheader("Analytics")
     st.write(
-        "What the curated corpus looks like and how the embedding models organise "
-        "it. Every figure here is computed from the dataset itself."
+        "A quick look at the corpus, the citation spread, topic tags, and the "
+        "embedding maps used by the app."
     )
     d = analytics_data()
     h = d["headline"]
@@ -577,7 +533,7 @@ def analytics_tab() -> None:
     st.markdown("#### Corpus composition")
     col = st.columns(2)
     with col[0]:
-        st.caption("Papers per year — balanced by design.")
+        st.caption("Paper counts by year are kept fairly even.")
         st.altair_chart(
             alt.Chart(d["per_year"]).mark_bar(color=COLOR_PAPERS).encode(
                 x=alt.X("publication_year:O", title="Year"),
@@ -585,7 +541,7 @@ def analytics_tab() -> None:
                 tooltip=["publication_year", "papers"],
             ), use_container_width=True)
     with col[1]:
-        st.caption("Category mix — cs.AI dominates (a known imbalance).")
+        st.caption("cs.AI is the largest slice, so category results need that context.")
         st.altair_chart(
             alt.Chart(d["per_cat"]).mark_bar().encode(
                 x=alt.X("papers:Q", title="Papers"),
@@ -598,7 +554,7 @@ def analytics_tab() -> None:
     st.markdown("#### Citation landscape")
     col = st.columns(2)
     with col[0]:
-        st.caption("Citation distribution — long-tailed; many recent papers uncited.")
+        st.caption("Citations are uneven: most papers have few, a small group has many.")
         st.altair_chart(
             alt.Chart(d["cit_buckets"]).mark_bar(color=COLOR_CIT).encode(
                 x=alt.X("bucket:N", sort=["0", "1-5", "6-20", "21-100", "100+"],
@@ -607,7 +563,7 @@ def analytics_tab() -> None:
                 tooltip=["bucket", "papers"],
             ), use_container_width=True)
     with col[1]:
-        st.caption("Most-cited papers in the corpus.")
+        st.caption("Highest-cited papers in this dataset.")
         st.dataframe(
             d["top_cited"][["title", "category", "publication_year",
                             "citation_count", "arxiv_url"]],
@@ -621,8 +577,7 @@ def analytics_tab() -> None:
 
     col = st.columns(2)
     with col[0]:
-        st.caption("Mean citations by category — pulled up by a few mega-cited "
-                   "papers, so read it as a rough signal, not a typical value.")
+        st.caption("Mean citations by category. A few highly cited papers can pull these up.")
         st.altair_chart(
             alt.Chart(d["cit_by_cat"]).mark_bar().encode(
                 x=alt.X("category:N", sort="-y", title=None),
@@ -631,8 +586,7 @@ def analytics_tab() -> None:
                 tooltip=["category:N", "mean:Q"],
             ), use_container_width=True)
     with col[1]:
-        st.caption("Mean citations by year — recent papers haven't had time to "
-                   "accumulate citations (a citation-lag effect, not lower quality).")
+        st.caption("Mean citations by year. Newer papers naturally have less time to collect citations.")
         st.altair_chart(
             alt.Chart(d["cit_by_year"]).mark_bar(color=COLOR_CIT).encode(
                 x=alt.X("publication_year:O", title="Year"),
@@ -642,7 +596,7 @@ def analytics_tab() -> None:
 
     st.divider()
     st.markdown("#### Topics & trends")
-    st.caption(f"Most common KeyBERT keywords across {h['papers']:,} papers.")
+    st.caption(f"Most common KeyBERT tags across {h['papers']:,} papers.")
     st.altair_chart(
         alt.Chart(d["top_tags"]).mark_bar(color=COLOR_TAGS).encode(
             x=alt.X("count:Q", title="Papers"),
@@ -650,12 +604,12 @@ def analytics_tab() -> None:
             tooltip=["tag", "count"],
         ), use_container_width=True)
 
-    trend = st.radio("Show keywords that are…", ["Rising", "Declining"],
+    trend = st.radio("Keyword trend", ["Rising", "Declining"],
                      horizontal=True, key="topic_trend")
     frame = d["rising"] if trend == "Rising" else d["falling"]
     st.caption(
         f"{'Fastest-rising' if trend == 'Rising' else 'Fastest-declining'} "
-        f"keywords by yearly count ({d['years'][0]}→{d['years'][-1]})."
+        f"tags by yearly count ({d['years'][0]} to {d['years'][-1]})."
     )
     st.altair_chart(
         alt.Chart(frame).mark_line(point=True).encode(
@@ -669,12 +623,9 @@ def analytics_tab() -> None:
     st.divider()
     st.markdown("#### Embedding space")
     st.write(
-        "How the two models lay the corpus out in 2-D. A caveat up front: the four "
-        "arXiv categories overlap heavily and papers are often cross-listed, so "
-        "expect the colours to mix rather than form clean clusters. The embeddings "
-        "organise papers by fine-grained topic, not cleanly by primary category — "
-        "the recommender's real strength is instance-level retrieval (see the "
-        "Evaluation tab), not category clustering."
+        "A 2-D view of each embedding model. The colours will overlap because many "
+        "papers sit between categories; the maps are better for spotting local "
+        "neighbourhoods than for drawing hard category borders."
     )
     render_embedding_section()
 
@@ -682,33 +633,30 @@ def analytics_tab() -> None:
 def evaluation_tab() -> None:
     st.subheader("Evaluation")
     st.write(
-        "Two evaluations of the recommender, reading the files the eval scripts "
-        "write: a **known-item** retrieval test, and the earlier **proxy** "
-        "experiments used to pick the configuration. Nothing here is hardcoded — "
-        "missing files show how to generate them."
+        "The main retrieval check and the earlier tuning runs. The page reads the "
+        "saved evaluation files, so missing sections usually mean the matching "
+        "script has not been run yet."
     )
 
-    # ---- Known-item retrieval (both models) ----
-    st.markdown("#### Known-item retrieval — SPECTER2 vs SciBERT")
+    # Known-item retrieval
+    st.markdown("#### Known-item retrieval - SPECTER2 vs SciBERT")
     ki = load_known_item()
     if ki is None:
         st.info(
-            "Not generated yet. Run from the project root (where the embeddings "
-            "are available):\n\n```\npython src/evaluation.py\n```\n\n"
-            "It writes `results/evaluation/known_item_summary.csv`."
+            "No known-item results found yet. From the project root, run:\n\n"
+            "```\npython src/evaluation.py\n```\n\n"
+            "That writes `results/evaluation/known_item_summary.csv`."
         )
     else:
         st.caption(
-            "Each query's source paper is the one known-relevant document "
-            "(provenance-based ground truth, independent of the embeddings). With "
-            "one relevant item per query, Recall@K is simply whether that paper "
-            "lands in the top K — deliberately conservative."
+            "Each query was written from a source paper, and that source paper is "
+            "the target item. Recall@K asks whether it appears in the top K."
         )
 
         overall = overall_metrics(ki)
         delta = model_delta(overall)
 
-        # Headline — how far the primary model leads the baseline.
+        # Main model vs baseline.
         if delta:
             names = {"mrr": "MRR", "recall@10": "Recall@10"}
             cards = st.columns(len(delta))
@@ -717,8 +665,8 @@ def evaluation_tab() -> None:
                 c.metric(f"SPECTER2 {names.get(key, key)}",
                          f"{dv['primary']:.3f}", lead)
 
-        # Section 1 — overall metrics, averaged across all query formulations.
-        st.markdown("**Overall metrics** — averaged across all four query formulations")
+        # Overall metrics.
+        st.markdown("**Overall metrics** - average across the four query styles")
         ov_disp = overall.rename(columns={
             "model": "Model", "mrr": "MRR", "recall@5": "Recall@5",
             "recall@10": "Recall@10", "recall@20": "Recall@20", "ndcg@10": "NDCG@10",
@@ -726,13 +674,12 @@ def evaluation_tab() -> None:
         ov_disp["Model"] = ov_disp["Model"].map(MODEL_LABELS).fillna(ov_disp["Model"])
         st.dataframe(ov_disp.round(3), hide_index=True, use_container_width=True)
 
-        # Section 2 — Recall@K curve (only K = 5/10/20 were computed).
+        # Recall@K curve.
         rc = recall_curve(ki)
         if not rc.empty:
             rc = rc.copy()
             rc["Model"] = rc["model"].map(MODEL_LABELS).fillna(rc["model"])
-            st.caption("**Recall@K** — share of queries whose source paper is in "
-                       "the top K (cutoffs 5/10/20; K = 1 and 50 were not computed).")
+            st.caption("**Recall@K** - how often the source paper appears in the top 5, 10, or 20.")
             st.altair_chart(
                 alt.Chart(rc).mark_line(point=True).encode(
                     x=alt.X("k:O", title="K"),
@@ -741,7 +688,7 @@ def evaluation_tab() -> None:
                     tooltip=["Model:N", "k:O", "recall:Q"],
                 ), use_container_width=True)
 
-        # By query type — the per-formulation breakdown.
+        # Breakdown by query type.
         opts = {"Recall@10": "hit@10", "Recall@5": "hit@5",
                 "NDCG@10": "ndcg@10", "MRR": "mrr"}
         opts = {k: v for k, v in opts.items() if v in ki.columns}
@@ -764,8 +711,8 @@ def evaluation_tab() -> None:
                     tooltip=["Query type:N", "Model:N", "value:Q"],
                 ), use_container_width=True)
 
-        # Section 5 — failure / quality analysis from the per-query ranks.
-        st.markdown("**Where it does best and worst** — by the source paper's rank")
+        # Per-query rank examples.
+        st.markdown("**Best and worst cases** - based on the source paper's rank")
         sel = st.columns(2)
         with sel[0]:
             fm = st.selectbox("Model", list(MODEL_LABELS.keys()),
@@ -787,11 +734,8 @@ def evaluation_tab() -> None:
                     st.markdown(f"**{row['label']}** · rank **{int(row['rank'])}**")
                     st.caption(row["query"])
             st.caption(
-                "Each rank is where that query's own source paper landed in the "
-                "full ranking — concrete best/median/worst cases for the selected "
-                "model and query type. Across formulations, natural-language "
-                "queries resolve best and the more abstractive task/problem "
-                "phrasings worst, matching the chart above."
+                "These examples show where the source paper landed for the selected "
+                "model and query type: a good case, a middle case, and a weak case."
             )
 
         with st.expander("Full results table (all metrics, per query type)"):
@@ -799,15 +743,15 @@ def evaluation_tab() -> None:
                                       "hit@20": "recall@20"})
             st.dataframe(full, hide_index=True, use_container_width=True)
 
-    # ---- Hybrid late-fusion experiment (optional file) ----
+    # Hybrid sweep
     hyb = load_hybrid_sweep()
     if hyb is not None and not hyb.empty:
         st.divider()
-        st.markdown("#### Hybrid — SPECTER2 + SciBERT (late fusion)")
+        st.markdown("#### Hybrid - SPECTER2 + SciBERT (late fusion)")
         best = hybrid_best(hyb)
         if best:
-            txt = (f"Best blend at **w = {best['weight']:.2f}** "
-                   f"(~{best['weight'] * 100:.0f}% SPECTER2): overall MRR "
+            txt = (f"Best blend: **w = {best['weight']:.2f}** "
+                   f"(about {best['weight'] * 100:.0f}% SPECTER2), overall MRR "
                    f"{best['mrr']:.3f}")
             if best["baseline"] is not None:
                 txt += (f" vs {best['baseline']:.3f} at SPECTER2-only "
@@ -832,23 +776,17 @@ def evaluation_tab() -> None:
             strokeDash=[4, 4], color="#888", size=1).encode(x="Weight on SPECTER2:Q")
         st.altair_chart(line_chart + rule, use_container_width=True)
         st.caption(
-            "Late fusion: each paper scored w·cos(SPECTER2) + (1−w)·cos(SciBERT); "
-            "w = 1.0 is SPECTER2 only, 0.0 is SciBERT only (dashed line = best "
-            "overall blend). A 90/10 blend slightly helps the natural and problem "
-            "queries and is roughly flat on the others; below ~80% SPECTER2 the "
-            "weak model drags results down sharply."
+            "Scores are blended from SPECTER2 and SciBERT. The dashed line marks "
+            "the best average weight; moving too far toward SciBERT hurts the run."
         )
 
-    # ---- Proxy experiments (configuration selection) ----
+    # Proxy experiments
     st.divider()
-    st.markdown("#### Proxy experiments — configuration selection")
+    st.markdown("#### Proxy experiments - configuration selection")
     st.caption(
-        "Earlier experiments on an automatic proxy ground truth: a 2026 temporal "
-        "hold-out where a retrieved paper counts as relevant if it shares the "
-        "query paper's category AND at least one keyword. These scores are on that "
-        "proxy definition and are **not** comparable to the known-item numbers "
-        "above — they were used to choose the recommender's configuration. "
-        "Exported from Weights & Biases."
+        "These older tuning runs use a simple proxy label: same category and at "
+        "least one shared keyword. They helped choose settings, but they should "
+        "not be compared directly with the known-item results above."
     )
 
     first = load_proxy("first")
@@ -859,13 +797,12 @@ def evaluation_tab() -> None:
     if all(x is None for x in (first, sweep, cat_exp, restr)):
         st.info("No proxy-experiment exports found in `results/wandb_exports/`.")
     else:
-        # Embedding model & distance metric.
+        # Model and metric.
         if first is not None and {"model", "metric", "k", "ndcg_at_k"} <= set(first.columns):
             f10 = first[first["k"] == 10].copy()
             f10["Model"] = f10["model"].map(MODEL_LABELS).fillna(f10["model"])
             f10["Distance"] = f10["metric"].str.capitalize()
-            st.caption("**Embedding model & distance** — SPECTER2 clearly beats "
-                       "SciBERT; cosine and Euclidean are practically tied (NDCG@10).")
+            st.caption("**Embedding model & distance** - SPECTER2 performs better here; the two distance choices are close.")
             st.altair_chart(
                 alt.Chart(f10).mark_bar().encode(
                     x=alt.X("Model:N", title=None),
@@ -875,14 +812,12 @@ def evaluation_tab() -> None:
                     tooltip=["Model:N", "Distance:N", "ndcg_at_k:Q"],
                 ), use_container_width=True)
 
-        # Category-boost α sweep.
+        # Category-boost sweep.
         if sweep is not None and {"category", "k", "alpha", "ndcg_at_k"} <= set(sweep.columns):
             g = (sweep[(sweep["category"] == "global") & (sweep["k"] == 10)]
                  [["alpha", "ndcg_at_k"]].sort_values("alpha"))
             if not g.empty:
-                st.caption("**Category-boost strength (α)** — NDCG@10 climbs then "
-                           "plateaus; the knee is around α = 0.03 (dashed line), the "
-                           "value the recommender uses.")
+                st.caption("**Category-boost strength** - the curve flattens around 0.03, which is the value used in the app.")
                 line = alt.Chart(g).mark_line(point=True, color=COLOR_PAPERS).encode(
                     x=alt.X("alpha:Q", title="Category-boost α"),
                     y=alt.Y("ndcg_at_k:Q", title="NDCG@10"),
@@ -892,11 +827,11 @@ def evaluation_tab() -> None:
                 st.altair_chart(line + rule, use_container_width=True)
 
         cc = st.columns(2)
-        # Per-category difficulty.
+        # Per-category results.
         if cat_exp is not None and {"category", "k", "ndcg_at_k"} <= set(cat_exp.columns):
             with cc[0]:
                 c10 = cat_exp[cat_exp["k"] == 10]
-                st.caption("**By category** — some fields are easier than others.")
+                st.caption("**By category** - retrieval is easier in some fields than others.")
                 st.altair_chart(
                     alt.Chart(c10).mark_bar().encode(
                         x=alt.X("category:N", sort="-y", title=None),
@@ -904,7 +839,7 @@ def evaluation_tab() -> None:
                         color=alt.Color("category:N", scale=CAT_SCALE, legend=None),
                         tooltip=["category:N", "ndcg_at_k:Q"],
                     ), use_container_width=True)
-        # Boost vs restrict vs neither.
+        # Boost, restrict, or baseline.
         if sweep is not None and restr is not None:
             try:
                 g2 = sweep[(sweep["category"] == "global") & (sweep["k"] == 10)]
@@ -916,10 +851,9 @@ def evaluation_tab() -> None:
                     "ndcg": [nob, boost, r10],
                 })
                 with cc[1]:
-                    st.caption("**Boost vs restrict** — a soft α-boost ≈ hard "
-                               "category-restriction, both well above no boost.")
+                    st.caption("**Boost vs restrict** - both category-aware settings beat the no-boost version.")
                     st.altair_chart(
-                        alt.Chart(comp).mark_bar(color="#8E5BD6").encode(
+                        alt.Chart(comp).mark_bar(color="#D1C64E").encode(
                             x=alt.X("Setting:N", sort=None, title=None),
                             y=alt.Y("ndcg:Q", title="NDCG@10"),
                             tooltip=["Setting:N", "ndcg:Q"],
@@ -928,22 +862,14 @@ def evaluation_tab() -> None:
                 pass
 
     st.divider()
-    with st.expander("How these evaluations work (methodology & caveats)"):
+    with st.expander("How these evaluations work (methodology & limitations)"):
         st.markdown(
-            "- **Known-item retrieval.** Every query was generated from a specific "
-            "source paper, so that paper is treated as the one relevant document. "
-            "Objective and independent of the embeddings, but conservative: a "
-            "genuinely relevant *other* paper ranked above the source counts "
-            "against the score.\n"
-            "- **Proxy experiments.** A 2026 temporal hold-out with an automatic "
-            "relevance rule (same category AND a shared keyword). Cheap and fully "
-            "reproducible, but only an approximation of true relevance — hence used "
-            "for *configuration choices* (model, distance, boost), with the "
-            "known-item test as the cleaner check. Proxy and known-item NDCG are "
-            "not directly comparable.\n"
-            "- **Hyperparameter selection.** The title-mode category boost "
-            "(α = 0.03) is the knee of the sweep above; α is the value set in "
-            "`recommender.py`."
+            "- **Known-item retrieval.** Each query points back to one source paper. "
+            "The score checks whether that paper is recovered near the top.\n"
+            "- **Proxy experiments.** These use the rule: same category plus a "
+            "shared keyword. It is useful for tuning, but it is only a rough label.\n"
+            "- **Category boost.** The app uses 0.03 because that is where the "
+            "sweep stops gaining much."
         )
 
 
@@ -955,7 +881,7 @@ def project_info_tab() -> None:
     h = analytics_data()["headline"]
     n_tags = analytics_data()["n_unique_tags"]
 
-    # 1 — Overview / objective.
+    # Overview / objective.
     st.markdown("#### Overview")
     st.write(
         "An end-to-end data-science workflow that builds a content-based "
@@ -966,7 +892,7 @@ def project_info_tab() -> None:
         "course work packages, summarised in the table further down."
     )
 
-    # 2 — Dataset (live numbers).
+    # Dataset (live numbers).
     st.markdown("#### Dataset")
     d = st.columns(4)
     d[0].metric("Papers", f"{h['papers']:,}")
@@ -981,42 +907,42 @@ def project_info_tab() -> None:
         f"{h['mean_citations']} (heavily skewed by a few very highly-cited papers)."
     )
 
-    # 3 — Pipeline.
+    # Flow.
     st.markdown("#### Pipeline")
     st.markdown(
-        "1. **Collection** — paper metadata scraped from the arXiv API "
+        "1. **Collection** - paper metadata scraped from the arXiv API "
         "(`data_collection.py`).\n"
-        "2. **Enrichment** — citation and reference counts from Semantic Scholar "
+        "2. **Enrichment** - citation and reference counts from Semantic Scholar "
         "(`semantic_scholar_enrichment.py`).\n"
-        "3. **Quality & cleaning** — missing-value, duplicate and citation/"
+        "3. **Quality & cleaning** - missing-value, duplicate and citation/"
         "reference checks, then text cleaning (`data_validation.py`, "
         "`preprocessing.py`).\n"
-        "4. **Annotation** — automated domain labels and dictionary tags "
+        "4. **Annotation** - automated domain labels and dictionary tags "
         "(`annotation.py`).\n"
-        "5. **Keywords** — KeyBERT key-phrases per paper "
+        "5. **Keywords** - KeyBERT key-phrases per paper "
         "(`keyword_extraction_v2.py`).\n"
-        "6. **Embeddings** — SPECTER2 and SciBERT vectors, generated on an A100 "
+        "6. **Embeddings** - SPECTER2 and SciBERT vectors, generated on an A100 "
         "GPU pod on the Kubernetes cluster (`embeddings_specter2.py`, "
         "`embeddings_scibert.py`).\n"
-        "7. **Recommend** — rank by cosine similarity with a category boost "
+        "7. **Recommend** - rank by cosine similarity with a category boost "
         "(`recommender.py`).\n"
-        "8. **Evaluate & track** — known-item and proxy experiments, logged to "
+        "8. **Evaluate & track** - known-item and proxy experiments, logged to "
         "Weights & Biases (`evaluation.py`, `experiments*.py`)."
     )
 
-    # 4 — Models.
+    # Models.
     st.markdown("#### Models")
     st.write(
         "Two frozen, off-the-shelf scientific text encoders (no fine-tuning), "
         "each turning a paper's title + abstract into a 768-dimensional vector:"
     )
     st.markdown(
-        "- **SPECTER2** — the primary model; document-level embeddings trained "
+        "- **SPECTER2** - the primary model; document-level embeddings trained "
         "with citation context, suited to paper-level similarity.\n"
-        "- **SciBERT** — a scientific-domain BERT, used as the baseline."
+        "- **SciBERT** - a scientific-domain BERT, used as the baseline."
     )
 
-    # 5 — Recommender.
+    # Recommender.
     st.markdown("#### Recommender")
     st.write(
         "Recommendations are the nearest neighbours by cosine similarity in the "
@@ -1026,10 +952,10 @@ def project_info_tab() -> None:
         "chosen from the sweep shown in the Evaluation tab."
     )
 
-    # 6 — Evaluation summary (pointer, not a duplicate).
+    # Evaluation summary (pointer, not a duplicate).
     st.markdown("#### Evaluation")
     st.write(
-        "Two complementary methods — see the **Evaluation** tab for the numbers: "
+        "Two complementary methods - see the **Evaluation** tab for the numbers: "
         "a **known-item** retrieval test (each query's source paper is the one "
         "relevant document, scored with Precision / Recall / NDCG@K) and a "
         "**proxy** temporal hold-out used for configuration choices. The brief "
@@ -1037,8 +963,8 @@ def project_info_tab() -> None:
         "and waived in favour of these two task-level methods."
     )
 
-    # 7 — Work-package coverage + deviations.
-    st.markdown("#### Work packages & deviations")
+    # Work-package coverage
+    st.markdown("#### Work packages")
     wp = pd.DataFrame(
         [
             ["Data Scraping", "", "Done", "arXiv API + Semantic Scholar enrichment"],
@@ -1050,29 +976,29 @@ def project_info_tab() -> None:
             ["Hyperparameter Tuning", "", "Done", "Category-boost α sweep (knee at 0.03)"],
             ["Recommender System", "Yes", "Done", "Cosine similarity + category boost"],
             ["Performance Evaluation", "Yes", "Done", "Known-item + proxy (Precision / Recall / NDCG@K)"],
-            ["Perturbation Analysis", "", "Not attempted", "—"],
+            ["Perturbation Analysis", "", "Not attempted", "-"],
             ["Frontend Application", "", "Done", "Streamlit app (five tabs)"],
         ],
         columns=["Work package", "Mandatory", "Status", "How it was done"],
     )
     st.dataframe(wp, hide_index=True, use_container_width=True)
-    st.markdown(
-        "**Deviations from the original brief**\n"
-        "- **SciDocs evaluation** — discussed and waived; replaced by two "
-        "task-level methods (known-item + proxy).\n"
-        "- **Data annotation** — performed automatically (domain labels + "
-        "dictionary tags), not via Label Studio.\n"
-        "- **OpenReview** — explored (`openreview_processing.py`) then dropped; "
-        "the corpus is arXiv + Semantic Scholar only.\n"
-        "- **Citation-based ground truth** — explored "
-        "(`data/evaluation/citation_ground_truth.json`) but not used for the "
-        "headline evaluation.\n"
-        "- **Search tab → Browse** — the planned search view became a full "
-        "corpus browser that needs no query.\n"
-        "- **Perturbation analysis** — not attempted (optional package)."
-    )
+    # st.markdown(#
+        # "**Deviations from the original brief**\n"
+        # "- **SciDocs evaluation** - discussed and waived; replaced by two "
+        # "task-level methods (known-item + proxy).\n"
+        # "- **Data annotation** - performed automatically (domain labels + "
+        # "dictionary tags), not via Label Studio.\n"
+        # "- **OpenReview** - explored (`openreview_processing.py`) then dropped; "
+        # "the corpus is arXiv + Semantic Scholar only.\n"
+        # "- **Citation-based ground truth** - explored "
+        # "(`data/evaluation/citation_ground_truth.json`) but not used for the "
+        # "headline evaluation.\n"
+        # "- **Search tab → Browse** - the planned search view became a full "
+        # "corpus browser that needs no query.\n"
+        # "- **Perturbation analysis** - not attempted (optional package)."
+    # )#
 
-    # 8 — Tech stack & repository.
+    # Tech stack & repository.
     st.markdown("#### Tech stack & repository")
     st.write(
         "Python · pandas · sentence-transformers / adapters (SPECTER2) · "

@@ -1,38 +1,4 @@
-"""
-src/annotation.py
------------------
-Phase 3: Automated annotation.
-Operates on data/processed/papers_cleaned.csv.
-
-What this file does:
-  1. Maps each arXiv category code to a human-readable label
-       cs.AI -> Artificial Intelligence
-       cs.LG -> Machine Learning
-       cs.CL -> Natural Language Processing
-       cs.CV -> Computer Vision
-
-  2. Extracts keyword-based secondary tags from each paper's abstract
-     using a local dictionary — each category has its own keyword list.
-     Tags are matched by scanning the abstract for keyword presence.
-     A paper gets only the tags whose keywords appear in its abstract.
-
-  3. Saves annotated data to data/processed/papers_annotated.csv
-
-What this file does NOT do:
-  - No manual labeling
-  - No Label Studio
-  - No supervised training labels
-  - Labels are used for: visualization, frontend filtering,
-    evaluation topic consistency, and analytics only (per spec Section 7)
-
-Output:
-  data/processed/papers_annotated.csv
-
-New columns added:
-  - domain_label  : Human-readable category name (str)
-  - tags          : Semicolon-separated keyword tags from abstract (str)
-  - tag_count     : Number of tags matched (int)
-"""
+"""Label papers with broad domains and keyword tags."""
 
 import logging
 import re
@@ -40,9 +6,7 @@ from pathlib import Path
 
 import pandas as pd
 
-# ---------------------------------------------------------------------------
-# Logging setup
-# ---------------------------------------------------------------------------
+# Logging
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s  [%(levelname)s]  %(message)s",
@@ -51,19 +15,15 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-# ---------------------------------------------------------------------------
 # Constants
-# ---------------------------------------------------------------------------
 
 INPUT_FILE  = Path("data/processed/papers_clean.csv")
 OUTPUT_FILE = Path("data/processed/papers_annotated.csv")
 REPORT_FILE = Path("reports/annotation_report.txt")
 
 
-# ---------------------------------------------------------------------------
-# Category -> human-readable label mapping
-# Directly from spec Section 7
-# ---------------------------------------------------------------------------
+# Category labels
+# Spec section 7
 
 CATEGORY_LABEL_MAP = {
     "cs.AI": "Artificial Intelligence",
@@ -73,25 +33,21 @@ CATEGORY_LABEL_MAP = {
 }
 
 
-# ---------------------------------------------------------------------------
-# Local keyword dictionary
-# Each category has its own keyword list.
-# Keywords are matched against the lowercase abstract text.
-# A tag is assigned if the keyword appears anywhere in the abstract.
-#
-# Design decisions:
-#   - Multi-word phrases are included (e.g. "reinforcement learning")
-#     and are matched before single words to avoid partial overlaps
-#   - Keywords are lowercase — matching is done on lowercased abstract
-#   - Each keyword maps to a clean tag name (what gets stored in the CSV)
-#   - Tags reflect research sub-topics within each category, useful for
-#     filtering, clustering, and analytics in the frontend
-# ---------------------------------------------------------------------------
+# Keyword list
+# One list per category.
+# Match against lowercase abstracts.
+# Add the tag when the phrase appears.
+# Notes:
+# - Multi-word phrases are included (e.g. "reinforcement learning")
+# This keeps short terms from winning too early.
+# - Keywords are lowercase — matching is done on lowercased abstract
+# - Each keyword maps to a clean tag name (what gets stored in the CSV)
+# - Tags reflect research sub-topics within each category, useful for
 
 CATEGORY_KEYWORDS = {
 
     "cs.AI": {
-        # keyword to search in abstract : tag name to assign
+        # keyword in abstract : stored tag
         "large language model":       "large-language-models",
         "knowledge graph":            "knowledge-graphs",
         "reasoning":                  "reasoning",
@@ -185,40 +141,15 @@ CATEGORY_KEYWORDS = {
 }
 
 
-# ---------------------------------------------------------------------------
-# Annotation functions
-# ---------------------------------------------------------------------------
+# Annotation
 
 def assign_domain_label(category: str) -> str:
-    """
-    Maps an arXiv category code to a human-readable domain label.
-
-    Args:
-        category: arXiv category code e.g. "cs.CL"
-
-    Returns:
-        Human-readable label e.g. "Natural Language Processing"
-        Returns empty string if category is not in the map.
-    """
+    """Assign domain label."""
     return CATEGORY_LABEL_MAP.get(category, "")
 
 
 def extract_tags(abstract: str, category: str) -> str:
-    """
-    Extracts keyword-based tags from a paper's abstract using the
-    local keyword dictionary for the paper's category.
-
-    Matching is case-insensitive. Multi-word phrases are checked
-    before single words to avoid partial match issues.
-
-    Args:
-        abstract: Full abstract text of the paper
-        category: arXiv category code e.g. "cs.LG"
-
-    Returns:
-        Semicolon-separated tag string e.g. "transformers;deep-learning"
-        Returns empty string if no keywords match or category unknown.
-    """
+    """Find dictionary tags in an abstract."""
     if not isinstance(abstract, str) or not abstract.strip():
         return ""
 
@@ -228,17 +159,15 @@ def extract_tags(abstract: str, category: str) -> str:
 
     abstract_lower = abstract.lower()
 
-    # Sort keywords by length descending so multi-word phrases are
-    # checked before shorter single words
+    # Check longer phrases first.
     sorted_keywords = sorted(keyword_map.keys(), key=len, reverse=True)
 
     matched_tags = []
     seen_tags    = set()   # prevent duplicate tags from synonym keywords
 
     for keyword in sorted_keywords:
-        # Use word boundary matching to prevent substring false positives.
-        # Example without this: "bert" would match inside "deliberate" or
-        # "libertarian". With \b, only the exact word/phrase is matched.
+        # Use word boundaries to avoid substring matches.
+        # "bert" should not match inside another word.
         pattern = r"\b" + re.escape(keyword) + r"\b"
         if re.search(pattern, abstract_lower, re.IGNORECASE):
             tag = keyword_map[keyword]
@@ -250,15 +179,7 @@ def extract_tags(abstract: str, category: str) -> str:
 
 
 def annotate(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Adds domain_label, tags, and tag_count columns to the DataFrame.
-
-    Args:
-        df: Cleaned papers DataFrame from papers_cleaned.csv
-
-    Returns:
-        Annotated DataFrame with three new columns added.
-    """
+    """Annotate."""
     logger.info("Assigning domain labels...")
     df["domain_label"] = df["category"].apply(assign_domain_label)
 
@@ -275,26 +196,10 @@ def annotate(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-# ---------------------------------------------------------------------------
-# Quality report
-# ---------------------------------------------------------------------------
+# Report
 
 def build_annotation_report(df: pd.DataFrame) -> str:
-    """
-    Builds a text report summarizing the annotation results.
-
-    Reports:
-      - Domain label distribution
-      - Tag coverage (how many papers got at least one tag)
-      - Top tags per category
-      - Papers with zero tags (may indicate abstract quality issues)
-
-    Args:
-        df: Fully annotated DataFrame
-
-    Returns:
-        Report as a multi-line string.
-    """
+    """Build annotation report."""
     lines = []
     total = len(df)
 
@@ -303,14 +208,14 @@ def build_annotation_report(df: pd.DataFrame) -> str:
     lines.append(f"Generated: {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')}")
     lines.append("=" * 60)
 
-    # --- Domain label distribution ---
+    # Domain label distribution
     lines.append("\n--- Domain Label Distribution ---")
     label_counts = df["domain_label"].value_counts().sort_index()
     for label, count in label_counts.items():
         pct = count / total * 100
         lines.append(f"  {label:<35} {count:>6,}  ({pct:.2f}%)")
 
-    # --- Tag coverage ---
+    # Tag coverage
     lines.append("\n--- Tag Coverage ---")
     papers_with_tags    = (df["tag_count"] > 0).sum()
     papers_without_tags = (df["tag_count"] == 0).sum()
@@ -319,14 +224,14 @@ def build_annotation_report(df: pd.DataFrame) -> str:
     lines.append(f"  Average tags per paper     : {df['tag_count'].mean():.2f}")
     lines.append(f"  Max tags on one paper      : {df['tag_count'].max()}")
 
-    # --- Top tags per category ---
+    # Top tags per category
     lines.append("\n--- Top 10 Tags Per Category ---")
     for category, label in CATEGORY_LABEL_MAP.items():
         cat_df = df[df["category"] == category]
         if cat_df.empty:
             continue
 
-        # Flatten all tags across papers in this category into one list
+        # Flatten tags for this category.
         all_tags = []
         for tag_str in cat_df["tags"]:
             if tag_str:
@@ -342,7 +247,7 @@ def build_annotation_report(df: pd.DataFrame) -> str:
             pct = count / len(cat_df) * 100
             lines.append(f"    {tag:<40} {count:>5,}  ({pct:.1f}% of category papers)")
 
-    # --- Papers with zero tags per category ---
+    # Papers with zero tags per category
     lines.append("\n--- Zero-Tag Papers Per Category ---")
     for category, label in CATEGORY_LABEL_MAP.items():
         cat_df    = df[df["category"] == category]
@@ -357,38 +262,31 @@ def build_annotation_report(df: pd.DataFrame) -> str:
     return "\n".join(lines)
 
 
-# ---------------------------------------------------------------------------
 # Main
-# ---------------------------------------------------------------------------
 
 def run_annotation() -> None:
-    """
-    Runs the full annotation pipeline.
-
-    Loads cleaned data, assigns domain labels, extracts keyword tags,
-    saves annotated dataset and quality report.
-    """
+    """Run annotation."""
     logger.info("=" * 60)
     logger.info("Annotation started")
     logger.info("Input : %s", INPUT_FILE)
     logger.info("Output: %s", OUTPUT_FILE)
     logger.info("=" * 60)
 
-    # --- Load ---
+    # Load
     logger.info("Loading cleaned data...")
     df = pd.read_csv(INPUT_FILE)
     logger.info("Loaded %d papers", len(df))
 
-    # --- Annotate ---
+    # Annotate
     df = annotate(df)
 
-    # --- Report ---
+    # Report
     report_text = build_annotation_report(df)
     REPORT_FILE.parent.mkdir(parents=True, exist_ok=True)
     REPORT_FILE.write_text(report_text, encoding="utf-8")
     print("\n" + report_text + "\n")
 
-    # --- Save ---
+    # Save
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(OUTPUT_FILE, index=False)
 

@@ -1,33 +1,4 @@
-"""
-src/embeddings_specter2.py
---------------------------
-Generates SPECTER2 embeddings for all papers.
-Designed to run on a CUDA GPU (university cluster).
-Falls back to CPU automatically if CUDA is not available.
-
-Model:
-  Base  : allenai/specter2_base
-  Adapter: allenai/specter2 (proximity/retrieval adapter)
-  Output: 768-dimensional float32 vectors
-
-Input:
-  data/processed/papers_keybert_v2.csv
-
-Output:
-  models/embeddings/specter2_embeddings.npy  — shape (N, 768)
-  models/embeddings/specter2_arxiv_ids.npy   — shape (N,) arxiv_ids in same row order
-
-Why two output files:
-  The .npy row index must map back to a paper.
-  specter2_arxiv_ids.npy[i] is the arxiv_id for specter2_embeddings.npy[i].
-  These two files must always stay in sync.
-
-Install requirement (run once before this script):
-  pip install -U adapters
-
-Usage:
-  python src/embeddings_specter2.py
-"""
+"""Create SPECTER2 embeddings for the paper corpus."""
 
 import logging
 import time
@@ -39,9 +10,7 @@ import torch
 from adapters import AutoAdapterModel
 from transformers import AutoTokenizer
 
-# ---------------------------------------------------------------------------
-# Logging setup
-# ---------------------------------------------------------------------------
+# Logging
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s  [%(levelname)s]  %(message)s",
@@ -50,23 +19,21 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-# ---------------------------------------------------------------------------
-# Configuration
-# ---------------------------------------------------------------------------
+# Config
 
 INPUT_FILE   = Path("data/processed/papers_keybert_v2.csv")
 OUTPUT_DIR   = Path("models/embeddings")
 EMBEDDINGS_FILE = OUTPUT_DIR / "specter2_embeddings.npy"
 ARXIV_IDS_FILE  = OUTPUT_DIR / "specter2_arxiv_ids.npy"
 
-# Model identifiers
+# Model ids
 BASE_MODEL_NAME = "allenai/specter2_base"
 ADAPTER_NAME    = "allenai/specter2"        # proximity/retrieval adapter
 
 # Batch size:
-#   32  — safe for 8GB VRAM
-#   64  — safe for 16GB VRAM
-#   16  — safe for CPU
+# 32 — safe for 8GB VRAM
+# 64 — safe for 16GB VRAM
+# 16 — safe for CPU
 # Change this if you get CUDA out-of-memory errors
 BATCH_SIZE = 32
 
@@ -74,15 +41,10 @@ BATCH_SIZE = 32
 MAX_LENGTH = 512
 
 
-# ---------------------------------------------------------------------------
-# Device setup
-# ---------------------------------------------------------------------------
+# Device
 
 def get_device() -> torch.device:
-    """
-    Returns CUDA device if available, otherwise CPU.
-    Logs which device is being used so cluster logs are clear.
-    """
+    """Pick CUDA when available, otherwise CPU."""
     if torch.cuda.is_available():
         device = torch.device("cuda")
         gpu_name = torch.cuda.get_device_name(0)
@@ -94,23 +56,10 @@ def get_device() -> torch.device:
     return device
 
 
-# ---------------------------------------------------------------------------
-# Input preparation
-# ---------------------------------------------------------------------------
+# Inputs
 
 def load_papers(filepath: Path) -> pd.DataFrame:
-    """
-    Loads the CSV and validates required columns exist.
-
-    Only title and abstract are used for embeddings.
-    All other columns (tags, citation counts etc.) are ignored here.
-
-    Args:
-        filepath: Path to papers_keybert_v2.csv
-
-    Returns:
-        DataFrame with at minimum arxiv_id, title, abstract columns.
-    """
+    """Load the paper CSV and check required columns."""
     df = pd.read_csv(filepath, dtype=str)
     logger.info("Loaded %d papers from %s", len(df), filepath)
 
@@ -128,31 +77,14 @@ def load_papers(filepath: Path) -> pd.DataFrame:
 
 
 def build_input_texts(df: pd.DataFrame, sep_token: str) -> list[str]:
-    """
-    Concatenates title and abstract using the model's separator token.
-
-    SPECTER2 was trained on inputs formatted as:
-        title [SEP] abstract
-    where [SEP] is the tokenizer's actual separator token.
-    Using the correct separator is important — it is what the model
-    was trained to expect as the boundary between title and abstract.
-
-    Args:
-        df:        DataFrame with title and abstract columns
-        sep_token: The tokenizer's separator token string (e.g. "[SEP]")
-
-    Returns:
-        List of formatted input strings, one per paper.
-    """
+    """Build model input strings from title and abstract."""
     return [
         f"{row['title']}{sep_token}{row['abstract']}"
         for _, row in df.iterrows()
     ]
 
 
-# ---------------------------------------------------------------------------
-# Embedding generation
-# ---------------------------------------------------------------------------
+# Embeddings
 
 def generate_embeddings(
     texts:     list[str],
@@ -160,22 +92,7 @@ def generate_embeddings(
     model:     AutoAdapterModel,
     device:    torch.device,
 ) -> np.ndarray:
-    """
-    Generates SPECTER2 embeddings for all input texts using batched inference.
-
-    Pooling strategy: CLS token (index 0 of last hidden state).
-    This is the correct pooling method for SPECTER2 — it was trained
-    using CLS token representations.
-
-    Args:
-        texts:     List of "title [SEP] abstract" strings
-        tokenizer: SPECTER2 tokenizer
-        model:     SPECTER2 model with proximity adapter loaded
-        device:    torch.device (cuda or cpu)
-
-    Returns:
-        NumPy array of shape (len(texts), 768) in float32.
-    """
+    """Run batched embedding inference."""
     total      = len(texts)
     all_embeddings = []
 
@@ -188,7 +105,7 @@ def generate_embeddings(
             batch_end   = min(batch_start + BATCH_SIZE, total)
             batch_texts = texts[batch_start:batch_end]
 
-            # Tokenize the batch
+            # Tokenize batch.
             inputs = tokenizer(
                 batch_texts,
                 padding=True,
@@ -197,21 +114,21 @@ def generate_embeddings(
                 return_tensors="pt",
             )
 
-            # Move inputs to GPU/CPU
+            # Move tensors to the device.
             inputs = {k: v.to(device) for k, v in inputs.items()}
 
-            # Forward pass
+            # Run the model.
             outputs = model(**inputs)
 
-            # CLS token pooling: take the first token of the last hidden state
+            # CLS pooling.
             # Shape: (batch_size, 768)
             batch_embeddings = outputs.last_hidden_state[:, 0, :]
 
-            # Move back to CPU and convert to numpy before storing
-            # Keeping tensors on GPU across all batches would exhaust VRAM
+            # Move results back to CPU.
+            # Do not keep every batch on the GPU.
             all_embeddings.append(batch_embeddings.cpu().numpy())
 
-            # Progress logging every 1000 papers
+            # Log progress every 1000 papers.
             if batch_end % 1000 == 0 or batch_end == total:
                 elapsed  = time.time() - start_time
                 rate     = batch_end / elapsed
@@ -221,7 +138,7 @@ def generate_embeddings(
                     batch_end, total, rate, remaining / 60
                 )
 
-    # Stack all batch results into one array
+    # Stack batch outputs.
     embeddings = np.vstack(all_embeddings).astype(np.float32)
 
     total_time = time.time() - start_time
@@ -233,51 +150,36 @@ def generate_embeddings(
     return embeddings
 
 
-# ---------------------------------------------------------------------------
-# Verification
-# ---------------------------------------------------------------------------
+# Checks
 
 def verify_embeddings(embeddings: np.ndarray, arxiv_ids: np.ndarray) -> None:
-    """
-    Runs sanity checks on the generated embeddings before saving.
-
-    Checks:
-      - Shape is (N, 768)
-      - No NaN values
-      - No all-zero vectors (would indicate failed forward pass)
-      - arxiv_ids length matches embedding count
-      - Spot-checks cosine similarity between first 3 papers
-
-    Args:
-        embeddings: Float32 array of shape (N, 768)
-        arxiv_ids:  String array of shape (N,)
-    """
+    """Check the saved embedding arrays before writing them."""
     logger.info("Running verification checks...")
 
-    # Shape check
+    # Shape
     assert embeddings.ndim == 2, f"Expected 2D array, got {embeddings.ndim}D"
     assert embeddings.shape[1] == 768, f"Expected 768 dims, got {embeddings.shape[1]}"
     logger.info("  Shape check passed: %s", embeddings.shape)
 
-    # NaN check
+    # NaNs
     nan_count = np.isnan(embeddings).sum()
     assert nan_count == 0, f"Found {nan_count} NaN values in embeddings"
     logger.info("  NaN check passed: 0 NaN values")
 
-    # Zero vector check
+    # Zero vectors
     zero_vectors = np.all(embeddings == 0, axis=1).sum()
     assert zero_vectors == 0, f"Found {zero_vectors} all-zero embedding vectors"
     logger.info("  Zero vector check passed: 0 zero vectors")
 
-    # Length sync check
+    # Length check
     assert len(embeddings) == len(arxiv_ids), (
         f"Embedding count ({len(embeddings)}) != arxiv_id count ({len(arxiv_ids)})"
     )
     logger.info("  ID sync check passed: %d embeddings match %d arxiv_ids",
                 len(embeddings), len(arxiv_ids))
 
-    # Spot-check cosine similarity between first 3 papers
-    # Normalized dot product = cosine similarity
+    # Small cosine check.
+    # Normalized dot product is cosine.
     def cosine_sim(a: np.ndarray, b: np.ndarray) -> float:
         return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)))
 
@@ -294,19 +196,10 @@ def verify_embeddings(embeddings: np.ndarray, arxiv_ids: np.ndarray) -> None:
     logger.info("  All verification checks passed.")
 
 
-# ---------------------------------------------------------------------------
 # Main
-# ---------------------------------------------------------------------------
 
 def generate_specter2_embeddings() -> None:
-    """
-    Full pipeline:
-      1. Load papers
-      2. Load SPECTER2 model + proximity adapter
-      3. Generate embeddings in batches
-      4. Verify embeddings
-      5. Save embeddings and arxiv_ids to models/embeddings/
-    """
+    """Generate specter2 embeddings."""
     logger.info("=" * 60)
     logger.info("SPECTER2 Embedding Generation")
     logger.info("Input : %s", INPUT_FILE)
@@ -314,13 +207,13 @@ def generate_specter2_embeddings() -> None:
     logger.info("Batch size: %d", BATCH_SIZE)
     logger.info("=" * 60)
 
-    # --- Device ---
+    # Device
     device = get_device()
 
-    # --- Load papers ---
+    # Load papers
     df = load_papers(INPUT_FILE)
 
-    # --- Load model and adapter ---
+    # Load model and adapter
     logger.info("Loading tokenizer: %s", BASE_MODEL_NAME)
     tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL_NAME)
 
@@ -338,22 +231,22 @@ def generate_specter2_embeddings() -> None:
     model.to(device)
     logger.info("Model loaded and moved to %s", device)
 
-    # --- Build input texts ---
+    # Build input texts
     logger.info("Building title [SEP] abstract inputs...")
     texts = build_input_texts(df, tokenizer.sep_token)
     logger.info("Input texts ready. Example: %s", texts[0][:120])
 
-    # --- Generate embeddings ---
+    # Generate embeddings
     logger.info("Starting embedding generation for %d papers...", len(texts))
     embeddings = generate_embeddings(texts, tokenizer, model, device)
 
-    # --- Prepare arxiv_ids array ---
+    # Prepare arxiv_ids array
     arxiv_ids = df["arxiv_id"].values.astype(str)
 
-    # --- Verify ---
+    # Verify
     verify_embeddings(embeddings, arxiv_ids)
 
-    # --- Save ---
+    # Save
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     np.save(EMBEDDINGS_FILE, embeddings)
