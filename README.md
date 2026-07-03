@@ -1,235 +1,259 @@
 # Academic Paper Recommendation System
 
-A content-based recommender for arXiv computer-science papers that compares two
-scientific text-embedding models — **SPECTER2** and **SciBERT** — and serves
-recommendations through an interactive Streamlit dashboard.
+A recommendation system for arXiv computer science papers. You can search using a
+paper you already know or simply describe what you're looking for, and the system
+recommends the most similar papers. Behind it are two scientific embedding models,
+SPECTER2 and SciBERT, and the whole thing is served through a Streamlit dashboard.
 
-The project covers the full pipeline: data collection from the arXiv and
-Semantic Scholar APIs, cleaning and automated annotation, embedding generation,
-a cosine-similarity recommender with a validated category boost, retrieval
-evaluation, and a multi-tab web frontend. It was built as a master's thesis
-project.
+It runs end to end: pulling paper metadata from arXiv and Semantic Scholar,
+cleaning and tagging it, generating embeddings, ranking by similarity, checking
+how well it retrieves, and putting it all behind a web UI.
 
-> **Note on data:** the corpus, embedding matrices, and most generated results
-> are large and are **not** committed to the repository (see `.gitignore`). The
-> pipeline below regenerates them. Embedding generation needs a CUDA GPU.
+Note: The dataset, embedding files, and most generated results are too large to
+include in the repository (see `.gitignore`). The pipeline below regenerates
+everything. A CUDA GPU is required only for generating embeddings; once they are
+created, the dashboard runs on CPU.
 
----
+## Highlights
 
-## Features
+- Built a dataset of 49,992 arXiv papers enriched with Semantic Scholar metadata
+- Compared SPECTER2 and SciBERT for scientific paper recommendation
+- Implemented title-based and free-text retrieval
+- Evaluated the system using known-item retrieval, temporal split experiments, and hybrid retrieval
+- Interactive Streamlit dashboard for searching, browsing, analytics, and evaluation
+- Docker and Kubernetes support
 
-- **Two embedding models, head-to-head** — SPECTER2 (`allenai/specter2_base` with
-  the proximity adapter, CLS pooling) and SciBERT (`allenai/scibert_scivocab_uncased`,
-  mean pooling), both producing 768-dim vectors over `title [SEP] abstract`.
-- **Two query modes** — *title* (fuzzy-match a known paper and recommend similar
-  work using its precomputed embedding) and *keywords* (embed free-text on the
-  fly; SPECTER2 uses its `adhoc_query` adapter).
-- **Validated ranking** — cosine similarity with a multiplicative same-category
-  boost, `final = cosine × (1 + α · same_category)`, with `α = 0.03` chosen from
-  an alpha sweep.
-- **Honest evaluation** — known-item retrieval (MRR, Recall@K, NDCG@K), a
-  temporal-split proxy experiment, and a SPECTER2+SciBERT late-fusion experiment,
-  all tracked in Weights & Biases.
-- **Interactive dashboard** — five Streamlit tabs: Browse, Recommendations,
-  Analytics, Evaluation, and Project Info.
+## What it does
 
----
+Two ways to search:
 
-## The corpus
+- **By title** – type a paper title, it fuzzy-matches the closest one in the
+  dataset and recommends similar work using that paper's embedding.
+- **Free text** – type keywords or a plain question and it embeds that on the
+  fly. For SPECTER2 this uses its `adhoc_query` adapter, which is built for
+  exactly this kind of query.
 
-After collection and cleaning the dataset contains **49,992 papers** across four
-arXiv categories, balanced across six years (2021–2026, ~8,333 papers/year).
+Two models to compare:
+
+- **SPECTER2** (`allenai/specter2_base` with the proximity adapter, CLS pooling).
+  Used as the primary recommendation model.
+- **SciBERT** (`allenai/scibert_scivocab_uncased`, mean pooling). Kept as a
+  baseline to compare against.
+
+Both turn a paper's `title` + `abstract` into a 768-dimensional vector.
+
+Ranking is cosine similarity, with a small same-category boost in title mode:
+
+```
+final = cosine × (1 + α × same_category),  α = 0.03
+```
+
+I picked 0.03 from a sweep (see Results). Category, tags and citation count show
+up in the results but they don't change the ranking.
+
+The dashboard has five tabs:
+
+- **Browse** – page through the whole dataset, filter and sort, no query needed.
+- **Recommendations** – the actual title / free-text search.
+- **Analytics** – dataset breakdown, citation spread, keyword trends, and 2-D
+  maps of the embedding space.
+- **Evaluation** – the retrieval numbers and the tuning experiments.
+- **Project Info** – a plain-English summary of the whole thing.
+
+## The dataset
+
+After collection and preprocessing, the final dataset contains **49,992 papers**
+across four arXiv categories, spread evenly over six years (2021 to 2026, roughly
+8,333 papers a year).
 
 | Category | Papers | Share |
 |----------|-------:|------:|
-| cs.AI — Artificial Intelligence | 22,876 | 45.8% |
-| cs.LG — Machine Learning | 12,205 | 24.4% |
-| cs.CV — Computer Vision | 7,840 | 15.7% |
-| cs.CL — Natural Language Processing | 7,071 | 14.1% |
+| cs.AI – Artificial Intelligence | 22,876 | 45.8% |
+| cs.LG – Machine Learning | 12,205 | 24.4% |
+| cs.CV – Computer Vision | 7,840 | 15.7% |
+| cs.CL – Natural Language Processing | 7,071 | 14.1% |
 
-Cleaning retained 99.99% of collected rows (6 duplicate titles removed). 58.3%
-of papers have at least one citation and 79.7% have reference counts, fetched
-from Semantic Scholar. Full numbers are in `reports/preprocessing_report.txt`.
+Cleaning kept 99.99% of what I collected (only 6 duplicate titles were dropped).
+58.3% of papers have at least one citation and 79.7% have a reference count, both
+pulled from Semantic Scholar. Full numbers are in
+`reports/preprocessing_report.txt`.
 
----
+## How the pipeline works
 
-## How it works
+1. **Collect** (`src/data_collection.py`, `merge_raw_files.py`) – pull paper
+   metadata from the arXiv API one year at a time, and enrich each paper with
+   citation and reference counts from Semantic Scholar. Then merge the yearly
+   CSVs into one file.
+2. **Validate and clean** (`src/data_validation.py`, `preprocessing.py`) – a
+   quality report on the raw pull, then de-duplication, encoding fixes (ftfy),
+   whitespace cleanup, and dropping anything with the wrong category or a
+   too-short abstract.
+3. **Annotate** (`src/annotation.py`, `keyword_extraction_v2.py`) – each category
+   gets a readable label, a keyword dictionary tags sub-topics, and KeyBERT pulls
+   up to five key phrases per paper from its title and abstract. All automatic,
+   no manual labelling. The tags feed the filtering, the analytics charts, and
+   the proxy relevance used in the experiments.
+4. **Embeddings** (`src/embeddings_specter2.py`, `embeddings_scibert.py`) –
+   generate the two sets of 768-dim vectors on a GPU and save them as `.npy`
+   files lined up with the arXiv IDs.
+5. **Recommend** (`src/recommender.py`) – normalise the embeddings once so cosine
+   is just a dot product, apply the category boost in title mode, and support
+   filtering by category and year.
+6. **Evaluate** (`src/evaluation.py`, `experiments*.py`) – known-item retrieval
+   plus a few tuning experiments, tracked in Weights & Biases.
 
-**1. Data collection** (`src/data_collection.py`, `merge_raw_files.py`) — pulls
-paper metadata from the arXiv API and enriches it with citation/reference counts
-from the Semantic Scholar API, one CSV per year, then merges them.
-
-**2. Validation & cleaning** (`src/data_validation.py`, `preprocessing.py`) —
-quality report on the raw data, then de-duplication, encoding repair (ftfy),
-whitespace normalization, and category/abstract-length filtering.
-
-**3. Annotation** (`src/annotation.py`, `keyword_extraction_v2.py`) — *automated*
-labelling: each category is mapped to a human-readable domain label, a keyword
-dictionary tags sub-topics, and KeyBERT extracts up to five keyphrases per paper
-from its title + abstract. (No manual labelling / Label Studio is used; the tags
-drive filtering, analytics, and proxy-relevance only.)
-
-**4. Embeddings** (`src/embeddings_specter2.py`, `embeddings_scibert.py`) —
-generates the two 768-dim embedding sets on a GPU and saves them as `.npy`
-matrices aligned to arXiv IDs.
-
-**5. Recommendation** (`src/recommender.py`) — pre-normalizes embeddings so
-cosine similarity is a dot product, applies the validated category boost in
-title mode, and supports category/year filtering. Category, tags, and citation
-count are returned as display metadata only — they don't affect ranking.
-
-**6. Evaluation & experiments** (`src/evaluation.py`, `experiments*.py`) — see
-below.
-
-For deeper detail see `docs/architecture.md` and `docs/methodology.md`.
-
----
+The app loads `data/processed/papers_keybert_final.csv` (the tagged dataset the
+recommender reads) and the embedding files under `models/embeddings/`.
 
 ## Results
 
-**Known-item retrieval** is the primary evaluation: each query in `Queries.xlsx`
-was generated *from* a specific source paper, so there is exactly one relevant
-document, and the metric is the rank at which the source paper is retrieved from
-the full ~50k corpus. Four query phrasings (keyword / task / problem / natural)
-of 479 queries each were tested. With one relevant document per query, Recall@K
-equals Hit@K.
+The main check is **known-item retrieval**. Every query in `Queries.xlsx` was
+written from one specific source paper, so there's exactly one correct answer per
+query, and the question is simply: how high up does that source paper come back
+when you search the full ~50k dataset? I tested four phrasings of each query
+(keyword, task, problem, natural), 479 queries per phrasing. With a single
+relevant paper per query, Recall@K is the same as Hit@K.
 
-Averaged across the four query types:
+Averaged over the four phrasings:
 
 | Model | MRR | Recall@5 | Recall@10 | Recall@20 | NDCG@10 |
 |-------|----:|---------:|----------:|----------:|--------:|
 | **SPECTER2** | **0.329** | 0.422 | **0.493** | 0.577 | 0.360 |
 | SciBERT | 0.022 | 0.032 | 0.049 | 0.067 | 0.026 |
 
-SPECTER2 outperforms SciBERT by roughly an order of magnitude on this task,
-which is expected: SPECTER2 is trained on a citation objective for document-level
-similarity, whereas SciBERT is a general scientific language model. SPECTER2 is
-strongest on natural-language queries (Recall@10 ≈ 0.70, MRR ≈ 0.53).
+SPECTER2 outperforms SciBERT by a wide margin, which is what you'd expect.
+SPECTER2 is trained on citation signals for document-level similarity, while
+SciBERT is a general scientific language model that wasn't built for this task.
+SPECTER2 does best on natural-language queries (Recall@10 around 0.70, MRR around
+0.53) and worst on short problem-style queries.
 
-(Precision@K is not highlighted because, with a single relevant document, it is
-capped at 1/K and isn't an informative comparison metric here.)
+I left Precision@K out of the summary because with one relevant paper it maxes out
+at 1/K, so it isn't a useful comparison metric here.
 
-The dashboard's **Evaluation** tab reproduces these numbers from the result files
-and also shows the proxy experiment (temporal split: corpus ≤ 2025, queries from
-2026; proxy relevance = same category + a shared KeyBERT tag) and a SPECTER2 +
-SciBERT late-fusion sweep.
+The **Evaluation** tab rebuilds these numbers from the saved result files and also
+shows two extra things:
 
----
+- A **proxy experiment** (dataset up to 2025, queries from 2026, a hit counted as
+  same category plus a shared KeyBERT tag), used mainly for tuning.
+- A **SPECTER2 + SciBERT blend**. It barely improves on SPECTER2 alone, so I kept
+  the app on SPECTER2 only.
+
+On the category boost: I swept α from 0 up to 0.5. Almost all the gain lands by
+about 0.03 (global NDCG@10 on the proxy metric goes from 0.120 with no boost to
+0.165, and it's basically flat past 0.03), so that's the value I used. That gain
+is on the proxy metric, not the known-item numbers above.
 
 ## Project structure
 
 ```
 paper-recommender-system/
 ├── app/
-│   ├── app.py                 # Streamlit dashboard (entry point)
-│   ├── analytics.py           # Analytics-tab data logic (no Streamlit dep)
-│   └── evaluation.py          # Evaluation-tab data loaders
+│   ├── app.py                 # Streamlit dashboard (run this)
+│   ├── analytics.py           # data prep for the Analytics tab
+│   └── evaluation.py          # loaders for the Evaluation tab
 ├── src/
-│   ├── data_collection.py     # arXiv + Semantic Scholar -> data/raw/papers_YYYY.csv
-│   ├── merge_raw_files.py     # merge yearly files -> papers_raw.csv
-│   ├── data_validation.py     # raw-data quality report
-│   ├── preprocessing.py       # clean / dedupe / normalize -> papers_clean.csv
-│   ├── annotation.py          # domain labels + keyword-dictionary tags
-│   ├── keyword_extraction_v2.py   # KeyBERT keyphrases (title + abstract)
-│   ├── embeddings_specter2.py # SPECTER2 embeddings (.npy)
-│   ├── embeddings_scibert.py  # SciBERT embeddings (.npy)
-│   ├── compute_projections.py # PCA / t-SNE + silhouette for the Analytics tab
-│   ├── recommender.py         # core recommender (imported by the app)
-│   ├── evaluation.py          # known-item retrieval evaluation
-│   ├── experiments.py         # model × distance × k proxy grid
-│   ├── experiments_with_alpha.py        # category-boost (alpha) sweep
-│   ├── experiments_per_category.py      # per-category breakdown
-│   ├── experiments_category_restricted.py  # within-category retrieval
-│   └── experiments_hybrid.py  # SPECTER2 + SciBERT late-fusion
-├── docs/                      # architecture.md, methodology.md, deployment.md
+│   ├── data_collection.py         # arXiv + Semantic Scholar -> data/raw/papers_YYYY.csv
+│   ├── merge_raw_files.py         # merge the yearly files
+│   ├── data_validation.py         # raw-data quality report
+│   ├── preprocessing.py           # clean / dedupe / normalise -> papers_clean.csv
+│   ├── annotation.py              # domain labels + dictionary tags
+│   ├── keyword_extraction_v2.py   # KeyBERT key phrases
+│   ├── embeddings_specter2.py     # SPECTER2 embeddings (.npy)
+│   ├── embeddings_scibert.py      # SciBERT embeddings (.npy)
+│   ├── compute_projections.py     # PCA / t-SNE + silhouette for the Analytics tab
+│   ├── recommender.py             # the recommender the app imports
+│   ├── evaluation.py              # known-item retrieval
+│   └── experiments*.py            # proxy experiments, alpha sweep, per-category, hybrid
+├── docs/                      # architecture / methodology / deployment notes
 ├── reports/                   # data-validation / preprocessing / annotation reports
 ├── notebooks/                 # exploratory_analysis.ipynb
-├── Queries.xlsx               # evaluation queries (known-item ground truth)
+├── Queries.xlsx               # evaluation queries (the known-item ground truth)
 ├── Dockerfile, docker-compose.yml
-├── *.yaml                     # Kubernetes manifests for the GPU cluster
+├── *.yaml                     # Kubernetes manifests for the GPU pod
 ├── requirements.txt
 └── README.md
 
 # generated locally, not in git: data/  models/  results/  wandb/
 ```
 
----
+### Generated data files
+
+As it runs, the pipeline writes a few files under `data/processed/`:
+
+- `papers_clean.csv` – after cleaning
+- `papers_annotated.csv` – after the dictionary-tag annotation
+- `papers_keybert_v2.csv` – after KeyBERT tagging
+- `papers_keybert_final.csv` – the tagged dataset the app and experiments load
+
+Embeddings go to `models/embeddings/` (`specter2_embeddings.npy`,
+`scibert_embeddings.npy`, and the matching arxiv_id files). Evaluation output
+lands in `results/evaluation/`, projection and figure data in `results/figures/`,
+and the Weights & Biases exports in `results/wandb_exports/`.
 
 ## Setup
 
-Requires **Python 3.13**. A CUDA GPU is needed to (re)generate embeddings; the
-dashboard itself runs on CPU once the embeddings exist.
+Built and tested on **Python 3.12**. You need a CUDA GPU to regenerate the
+embeddings; the dashboard runs on CPU once they exist.
 
 ```bash
 git clone https://github.com/teejay222/paper-recommender-system.git
 cd paper-recommender-system
 
 python -m venv .venv
-# Windows:  .venv\Scripts\activate
+# Windows:      .venv\Scripts\activate
 # macOS/Linux:  source .venv/bin/activate
 
 pip install -r requirements.txt
 ```
 
-Create a `.env` file in the project root for the Semantic Scholar API key (used
-only by the data-collection step):
+Data collection needs a Semantic Scholar API key. Put it in a `.env` file in the
+project root:
 
 ```
 SEMANTIC_SCHOLAR_API_KEY=your_key_here
 ```
 
----
+## Running it
 
-## Usage
-
-### Run the dashboard
+Dashboard:
 
 ```bash
-streamlit run app/app.py        # run from the project root; serves on :8501
+streamlit run app/app.py        # from the project root, serves on :8501
 ```
 
-Or with Docker:
+Docker:
 
 ```bash
 docker compose up --build       # serves on :8501
 ```
 
-The app expects `data/processed/papers_keybert_final.csv` and the embedding
-matrices under `models/embeddings/` to be present (regenerate them with the
-pipeline below).
+The app expects `data/processed/papers_keybert_final.csv` and the embedding files
+under `models/embeddings/`. If they aren't there yet, regenerate them below.
 
-### Regenerate the data pipeline
+### Regenerating everything
 
-Run from the project root, in order. Steps 1–4 build the corpus; embeddings
-(step 5) require a GPU.
+Run from the project root, in order. Steps 1–4 build the dataset; embeddings
+(step 5) need a GPU. I generated the embeddings on an A100 pod on a Kubernetes
+cluster (the `*.yaml` manifests are for that).
 
 ```bash
-python src/data_collection.py        # 1. collect (set TARGET_YEAR per run)
-python src/merge_raw_files.py        #    merge yearly CSVs
-python src/data_validation.py        # 2. raw-data quality report
-python src/preprocessing.py          # 3. clean -> papers_clean.csv
-python src/annotation.py             # 4. automated annotation
-python src/keyword_extraction_v2.py  #    KeyBERT tags -> papers_keybert_v2.csv
-python src/embeddings_specter2.py    # 5. SPECTER2 embeddings  (GPU)
-python src/embeddings_scibert.py     #    SciBERT embeddings   (GPU)
-python src/compute_projections.py    # 6. projections for Analytics
-python src/evaluation.py             # 7. known-item evaluation
-python src/experiments.py            #    proxy experiments (logs to W&B)
+python src/data_collection.py        # set TARGET_YEAR per run
+python src/merge_raw_files.py
+python src/data_validation.py
+python src/preprocessing.py
+python src/annotation.py
+python src/keyword_extraction_v2.py
+python src/embeddings_specter2.py    # GPU
+python src/embeddings_scibert.py     # GPU
+python src/compute_projections.py
+python src/evaluation.py
+python src/experiments.py            # logs to W&B
 ```
-
-The app reads `data/processed/papers_keybert_final.csv`, the finalized corpus
-derived from `papers_keybert_v2.csv`.
-
----
 
 ## Tech stack
 
-Python 3.13 · PyTorch · Hugging Face Transformers + Adapters · SPECTER2 · SciBERT
-· KeyBERT · scikit-learn · pandas / NumPy · Streamlit · Plotly / Altair ·
-Weights & Biases · Docker / Kubernetes.
-
----
+Python • PyTorch • Hugging Face Transformers • Adapters • SPECTER2 • SciBERT • KeyBERT • scikit-learn • pandas • NumPy • Streamlit • Plotly • Altair • Docker • Kubernetes • Weights & Biases
 
 ## License
 
-Released under the MIT License — see [`LICENSE`](LICENSE).
+MIT. See [`LICENSE`](LICENSE).
